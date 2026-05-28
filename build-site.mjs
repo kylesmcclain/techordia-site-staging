@@ -15,7 +15,7 @@ import {
 } from "./site-data.mjs";
 
 const outDir = process.cwd();
-const assetVersion = "20260528-staging-jones-inspired-6";
+const assetVersion = "20260528-staging-jones-inspired-7";
 const generatedDirs = [
   "about",
   "approach",
@@ -139,7 +139,6 @@ const visualNodes = {
       <canvas class="network-canvas" data-network-canvas width="760" height="640" aria-label="Animated Techordia service network"></canvas>
       <div class="visual-label visual-label-left">Alameda</div>
       <div class="visual-label visual-label-right">Bay Area SMBs</div>
-      ${renderReviewWidget()}
     </div>`,
   services: `
     <div class="visual visual-services" data-visual="services">
@@ -228,6 +227,21 @@ const renderServiceCards = (root, compact = false) => `
       .join("")}
   </div>`;
 
+const renderServiceGateways = (root) => `
+  <div class="gateway-grid">
+    ${servicePages
+      .map(
+        (service) => `
+        <a class="gateway-card" href="${href(root, service.path)}">
+          <span>${esc(service.fit)}</span>
+          <h3>${esc(service.title)}</h3>
+          <p>${esc(service.summary)}</p>
+          <strong>${esc(service.cta)}</strong>
+        </a>`
+      )
+      .join("")}
+  </div>`;
+
 const renderPricing = () => `
   <section class="section pricing-section">
     <div class="section-copy">
@@ -259,6 +273,27 @@ const renderBrandValues = () => `
         )
         .join("")}
     </div>
+  </section>`;
+
+const renderHomeReview = () => `
+  <section class="section home-review-row">
+    <div class="section-copy">
+      <span class="section-label">Reputation</span>
+      <h2>See public feedback before you start.</h2>
+      <p>This spot is ready for verified Google Business Profile details. Until the rating and review count are confirmed, the staging site keeps the claim neutral.</p>
+    </div>
+    ${renderReviewWidget()}
+  </section>`;
+
+const renderHomeVoiceStrip = (root) => `
+  <section class="voice-strip" aria-label="Techordia support style">
+    <div>
+      <span>Real people</span>
+      <span>White-glove IT</span>
+      <span>Fast support</span>
+      <span>Not robotic</span>
+    </div>
+    ${renderButton(root, "Meet Techordia", "about/", "secondary")}
   </section>`;
 
 const renderFaqs = (items = faqs) => `
@@ -298,33 +333,16 @@ const renderFinalCta = (root) => `
 const renderHome = (root) => `
   ${renderHero(root, pages.home, { home: true, secondaryLabel: "See How We Help", secondaryTarget: "services/" })}
   ${renderProof()}
-  <section class="section split-section">
+  ${renderHomeReview()}
+  <section class="section home-service-section">
     <div class="section-copy">
       <span class="section-label">Services</span>
       <h2>Four ways to get IT under control.</h2>
       <p>Start with the support lane that matches your team. Techordia can own the whole environment, work beside internal IT, improve security, or deliver a focused project.</p>
     </div>
-    ${renderServiceCards(root, true)}
+    ${renderServiceGateways(root)}
   </section>
-  ${renderBrandValues()}
-  ${renderPricing()}
-  <section class="section review-section">
-    <div class="section-copy">
-      <span class="section-label">Reviews</span>
-      <h2>A review widget without a fake claim.</h2>
-      <p>The staging site includes the Jones-style social proof placement. Verified Google Business Profile details can be connected before launch.</p>
-    </div>
-    ${renderReviewWidget()}
-  </section>
-  <section class="section approach-preview">
-    <div class="section-copy">
-      <span class="section-label">Approach</span>
-      <h2>Discover. Stabilize. Document. Support. Improve.</h2>
-      <p>That rhythm keeps support practical after the first consultation.</p>
-      ${renderButton(root, "See the Approach", "approach/", "secondary")}
-    </div>
-    ${visualNodes.approach}
-  </section>
+  ${renderHomeVoiceStrip(root)}
   ${renderFinalCta(root)}`;
 
 const renderServices = (root) => `
@@ -410,6 +428,7 @@ const renderAbout = (root) => `
       </div>
     </div>
   </section>
+  ${renderBrandValues()}
   ${renderFinalCta(root)}`;
 
 const renderContact = (root) => `
