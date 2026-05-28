@@ -2,6 +2,7 @@ import { mkdir, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import {
   allPages,
+  brandValues,
   contactFlow,
   faqs,
   navItems,
@@ -14,7 +15,7 @@ import {
 } from "./site-data.mjs";
 
 const outDir = process.cwd();
-const assetVersion = "20260528-staging-jones-inspired-5";
+const assetVersion = "20260528-staging-jones-inspired-6";
 const generatedDirs = [
   "about",
   "approach",
@@ -239,6 +240,27 @@ const renderPricing = () => `
     </div>
   </section>`;
 
+const renderBrandValues = () => `
+  <section class="section voice-section">
+    <div class="section-copy">
+      <span class="section-label">How Techordia Works</span>
+      <h2>Human support with serious technical depth.</h2>
+      <p>Small and mid-sized teams need more than a ticket queue. They need responsive people who can own the issue, explain the work, and get the environment cleaner as they go.</p>
+    </div>
+    <div class="voice-grid">
+      ${brandValues
+        .map(
+          ([title, text], index) => `
+        <article class="voice-card" style="--i:${index}">
+          <span>${String(index + 1).padStart(2, "0")}</span>
+          <h3>${esc(title)}</h3>
+          <p>${esc(text)}</p>
+        </article>`
+        )
+        .join("")}
+    </div>
+  </section>`;
+
 const renderFaqs = (items = faqs) => `
   <section class="section faq-section">
     <div class="section-copy">
@@ -284,6 +306,7 @@ const renderHome = (root) => `
     </div>
     ${renderServiceCards(root, true)}
   </section>
+  ${renderBrandValues()}
   ${renderPricing()}
   <section class="section review-section">
     <div class="section-copy">

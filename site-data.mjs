@@ -209,6 +209,15 @@ export const proof = [
   ["Cloud, server, and security expertise", "Microsoft 365, endpoints, servers, backup, and risk cleanup."]
 ];
 
+export const brandValues = [
+  ["Real people, real answers", "You work with humans who learn your team, your systems, and the context behind the ticket."],
+  ["White-glove IT support", "Careful support for the small details: onboarding, handoffs, vendors, access, and follow-through."],
+  ["Fast when work stops", "Urgent issues get clear ownership, practical triage, and escalation when the business is blocked."],
+  ["Can-do ownership", "Techordia looks for a path forward, coordinates the moving pieces, and stays with the problem."],
+  ["Not scripted. Not robotic.", "Support is handled with judgment, plain language, and the flexibility real environments need."],
+  ["Top-tier technical depth", "Strong troubleshooting across Microsoft 365, endpoints, servers, backups, security, and infrastructure."]
+];
+
 export const pricing = {
   title: "Pricing starts with the shape of your environment.",
   intro:
