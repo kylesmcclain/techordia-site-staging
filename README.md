@@ -1,26 +1,33 @@
-# Techordia MSP Website
+# Techordia Staging Site
 
-Static multi-page marketing site for Techordia, styled around the blue and teal Techordia brand palette with a dark MSP service-site structure.
+Static staging rebuild for Techordia's MSP website.
 
-## Edit Content
+Live staging target:
 
-- Page content, navigation, services, industries, resources, locations, and footer policy links live in `site-data.mjs`.
-- Generated HTML pages are created by `build-site.mjs`; avoid hand-editing generated `index.html` files unless it is a one-off emergency.
-- Visual styling lives in `styles.css`.
-- Motion, mobile navigation, reveal effects, orbit graphics, and the animated globe live in `script.js`.
+`https://kylesmcclain.github.io/techordia-site-staging/`
 
-After editing `site-data.mjs` or `build-site.mjs`, regenerate the site:
+The production GitHub Pages site remains in the separate `techordia-site` repository. This repo is intentionally noindexed with `robots.txt` and a `noindex,nofollow` meta tag.
+
+## Build
 
 ```powershell
 node build-site.mjs
 ```
 
-## Preview
+The generator writes exactly 9 pages:
 
-Run a static server from this folder:
+- `/`
+- `/services/`
+- `/services/fully-managed-it-services/`
+- `/services/co-managed-it-services/`
+- `/services/cybersecurity/`
+- `/services/short-term-it-projects/`
+- `/approach/`
+- `/about/`
+- `/contact/`
 
-```powershell
-python -m http.server 4173
-```
+## Notes
 
-Then open `http://127.0.0.1:4173/`.
+- Do not hand-edit generated `index.html` files.
+- Edit `site-data.mjs`, `build-site.mjs`, `styles.css`, and `script.js`, then rebuild.
+- The Google-review-style widget does not show numeric Google review claims until Techordia's Google Business Profile data is verified.

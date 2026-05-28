@@ -1,11 +1,9 @@
 const root = document.documentElement;
-const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 const menuToggle = document.querySelector(".menu-toggle");
 const navMenu = document.querySelector(".nav-menu");
 const navGroups = document.querySelectorAll(".nav-group");
-const siteHeader = document.querySelector(".site-header");
-const heroGrids = document.querySelectorAll(".hero-grid");
 
 if (menuToggle && navMenu) {
   menuToggle.addEventListener("click", () => {
@@ -40,184 +38,53 @@ document.addEventListener("click", (event) => {
   });
 });
 
-const updateScrollProgress = () => {
-  const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-  const progress = maxScroll > 0 ? window.scrollY / maxScroll : 0;
-  root.style.setProperty("--scroll-progress", `${progress * 100}%`);
-  root.style.setProperty("--scroll-y", `${Math.min(progress * 100, 100).toFixed(2)}%`);
-  siteHeader?.classList.toggle("is-scrolled", window.scrollY > 24);
-};
-
-let scrollQueued = false;
-const queueScrollProgress = () => {
-  if (scrollQueued) return;
-  scrollQueued = true;
-  requestAnimationFrame(() => {
-    updateScrollProgress();
-    scrollQueued = false;
-  });
-};
-
-updateScrollProgress();
-window.addEventListener("scroll", queueScrollProgress, { passive: true });
-window.addEventListener("resize", queueScrollProgress);
-
-if (!prefersReducedMotion) {
+if (!reduceMotion) {
   window.addEventListener(
     "pointermove",
     (event) => {
-      const x = event.clientX / window.innerWidth;
-      const y = event.clientY / window.innerHeight;
-      root.style.setProperty("--pointer-x", `${(x * 100).toFixed(2)}%`);
-      root.style.setProperty("--pointer-y", `${(y * 100).toFixed(2)}%`);
-      const gridX = (x - 0.5) * 28;
-      const gridY = (y - 0.5) * 22;
-      root.style.setProperty("--grid-x", `${gridX.toFixed(2)}px`);
-      root.style.setProperty("--grid-y", `${gridY.toFixed(2)}px`);
-      root.style.setProperty("--grid-x-back", `${(gridX * -0.7).toFixed(2)}px`);
-      root.style.setProperty("--grid-y-back", `${(gridY * -0.7).toFixed(2)}px`);
-      heroGrids.forEach((grid) => {
-        grid.style.transform = `translate3d(${gridX.toFixed(2)}px, ${gridY.toFixed(2)}px, 0)`;
-      });
+      const x = event.clientX / Math.max(1, window.innerWidth);
+      const y = event.clientY / Math.max(1, window.innerHeight);
+      root.style.setProperty("--grid-x", `${((x - 0.5) * 26).toFixed(1)}px`);
+      root.style.setProperty("--grid-y", `${((y - 0.5) * 22).toFixed(1)}px`);
     },
     { passive: true }
   );
 }
 
-const revealTargets = document.querySelectorAll(
-  [
-    ".reveal",
-    ".service-card",
-    ".component-card",
-    ".proof-card",
-    ".quote-card",
-    ".detail-box",
-    ".benefit-row",
-    ".person-card"
-  ].join(",")
-);
-
-revealTargets.forEach((element, index) => {
-  element.style.setProperty("--reveal-delay", `${Math.min(index % 8, 5) * 55}ms`);
-});
-
-if (prefersReducedMotion || !("IntersectionObserver" in window)) {
-  revealTargets.forEach((element) => element.classList.add("is-visible"));
-} else {
-  const revealObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("is-visible");
-          revealObserver.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
-  );
-
-  revealTargets.forEach((element) => revealObserver.observe(element));
-}
-
-document.querySelectorAll("[data-contact-form]").forEach((form) => {
-  form.addEventListener("submit", (event) => {
-    event.preventDefault();
-    const data = new FormData(form);
-    const firstName = data.get("First name") || "";
-    const lastName = data.get("Last name") || "";
-    const company = data.get("Company") || "";
-    const employees = data.get("Employees") || "";
-    const email = data.get("Email") || "";
-    const message = data.get("Message") || "";
-    const recipient = form.getAttribute("data-contact-email") || "support@techordia.com";
-    const subject = `Techordia website inquiry from ${company || `${firstName} ${lastName}`.trim() || "new prospect"}`;
-    const body = [
-      `Name: ${firstName} ${lastName}`.trim(),
-      `Company: ${company}`,
-      `Employees: ${employees}`,
-      `Email: ${email}`,
-      "",
-      "Message:",
-      message
-    ].join("\n");
-
-    window.location.href = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-  });
-});
-
-if (!prefersReducedMotion) {
-  document.querySelectorAll(".tilt-card").forEach((card) => {
-    card.addEventListener(
+const initVisualTilt = () => {
+  if (reduceMotion) return;
+  document.querySelectorAll(".visual").forEach((visual) => {
+    visual.addEventListener(
       "pointermove",
       (event) => {
-        const rect = card.getBoundingClientRect();
+        const rect = visual.getBoundingClientRect();
         const x = (event.clientX - rect.left) / rect.width;
         const y = (event.clientY - rect.top) / rect.height;
-        const rotateX = (0.5 - y) * 6;
-        const rotateY = (x - 0.5) * 7;
-        card.style.setProperty("--mx", `${(x * 100).toFixed(1)}%`);
-        card.style.setProperty("--my", `${(y * 100).toFixed(1)}%`);
-        card.style.transform = `translateY(-7px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg)`;
+        visual.style.setProperty("--mx", `${(x * 100).toFixed(1)}%`);
+        visual.style.setProperty("--my", `${(y * 100).toFixed(1)}%`);
+        visual.style.transform = `rotateX(${((0.5 - y) * 3.2).toFixed(2)}deg) rotateY(${((x - 0.5) * 4).toFixed(2)}deg)`;
       },
       { passive: true }
     );
-
-    card.addEventListener(
-      "pointerleave",
-      () => {
-        card.style.transform = "";
-      },
-      { passive: true }
-    );
+    visual.addEventListener("pointerleave", () => {
+      visual.style.transform = "";
+    });
   });
-}
+};
 
-if (!prefersReducedMotion) {
-  document.querySelectorAll("[data-service-map]").forEach((map) => {
-    map.addEventListener(
-      "pointermove",
-      (event) => {
-        const rect = map.getBoundingClientRect();
-        const x = (event.clientX - rect.left) / rect.width;
-        const y = (event.clientY - rect.top) / rect.height;
-        map.style.setProperty("--map-x", `${(x * 100).toFixed(1)}%`);
-        map.style.setProperty("--map-y", `${(y * 100).toFixed(1)}%`);
-        map.style.transform = `translateY(-4px) rotateX(${((0.5 - y) * 3).toFixed(2)}deg) rotateY(${((x - 0.5) * 4).toFixed(2)}deg)`;
-      },
-      { passive: true }
-    );
-
-    map.addEventListener(
-      "pointerleave",
-      () => {
-        map.style.transform = "";
-      },
-      { passive: true }
-    );
-  });
-}
-
-const createCoverage = (canvas) => {
+const createNetworkCanvas = (canvas) => {
   const ctx = canvas.getContext("2d");
   if (!ctx) return;
 
-  const state = {
-    pointerX: 0.5,
-    pointerY: 0.45,
-    targetX: 0.5,
-    targetY: 0.45
-  };
-
   const nodes = [
-    { label: "Alameda", x: 0.5, y: 0.52, size: 18, hub: true },
-    { label: "Help Desk", x: 0.2, y: 0.26, size: 9 },
-    { label: "Emergency", x: 0.75, y: 0.2, size: 9 },
-    { label: "Cloud", x: 0.82, y: 0.48, size: 10 },
-    { label: "Servers", x: 0.26, y: 0.72, size: 10 },
-    { label: "Security", x: 0.64, y: 0.78, size: 9 },
-    { label: "Backups", x: 0.42, y: 0.18, size: 8 }
+    { label: "Techordia", x: 0.5, y: 0.5, r: 18, hub: true },
+    { label: "Help Desk", x: 0.18, y: 0.3, r: 8 },
+    { label: "Devices", x: 0.32, y: 0.18, r: 7 },
+    { label: "M365", x: 0.76, y: 0.26, r: 8 },
+    { label: "", x: 0.82, y: 0.6, r: 8 },
+    { label: "Backups", x: 0.58, y: 0.8, r: 8 },
+    { label: "Vendors", x: 0.2, y: 0.72, r: 7 }
   ];
-
   const links = [
     [0, 1],
     [0, 2],
@@ -225,59 +92,34 @@ const createCoverage = (canvas) => {
     [0, 4],
     [0, 5],
     [0, 6],
-    [1, 6],
-    [3, 5],
-    [4, 5]
+    [1, 2],
+    [3, 4],
+    [4, 5],
+    [5, 6]
   ];
+  const state = { pointerX: 0.5, pointerY: 0.5, targetX: 0.5, targetY: 0.5, frame: 0 };
 
   const resize = () => {
     const rect = canvas.getBoundingClientRect();
-    const scale = Math.min(window.devicePixelRatio || 1, 2);
-    canvas.width = Math.max(1, Math.floor(rect.width * scale));
-    canvas.height = Math.max(1, Math.floor(rect.height * scale));
-    ctx.setTransform(scale, 0, 0, scale, 0, 0);
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.max(1, Math.floor(rect.width * dpr));
+    canvas.height = Math.max(1, Math.floor(rect.height * dpr));
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   };
 
-  const drawNode = (node, time, width, height) => {
-    const driftX = (state.pointerX - 0.5) * (node.hub ? 12 : 22);
-    const driftY = (state.pointerY - 0.45) * (node.hub ? 10 : 18);
-    const x = node.x * width + driftX;
-    const y = node.y * height + driftY;
-    const pulse = node.hub ? 1 + Math.sin(time * 0.003) * 0.04 : 1;
-
-    ctx.beginPath();
-    ctx.arc(x, y, node.size * pulse + 18, 0, Math.PI * 2);
-    ctx.fillStyle = node.hub ? "rgba(16, 184, 230, 0.13)" : "rgba(8, 117, 222, 0.08)";
-    ctx.fill();
-
-    ctx.beginPath();
-    ctx.arc(x, y, node.size * pulse, 0, Math.PI * 2);
-    ctx.fillStyle = node.hub ? "#10b8e6" : "#ffffff";
-    ctx.strokeStyle = node.hub ? "#0875de" : "rgba(8, 117, 222, 0.45)";
-    ctx.lineWidth = node.hub ? 3 : 2;
-    ctx.fill();
-    ctx.stroke();
-
-    ctx.font = node.hub ? "800 16px Inter, sans-serif" : "750 13px Inter, sans-serif";
-    ctx.fillStyle = "#0b2a42";
-    ctx.textAlign = "center";
-    ctx.fillText(node.label, x, y + node.size + 28);
-
+  const point = (node, width, height) => {
+    const mobileScale = width < 430 ? 0.74 : 1;
+    const driftScale = width < 430 ? 0.55 : 1;
+    const driftX = (state.pointerX - 0.5) * (node.hub ? 16 : 34) * driftScale;
+    const driftY = (state.pointerY - 0.5) * (node.hub ? 14 : 28) * driftScale;
+    const x = (0.5 + (node.x - 0.5) * mobileScale) * width + driftX;
+    const y = (0.5 + (node.y - 0.5) * mobileScale) * height + driftY;
     return { x, y };
   };
 
-  let queuedStaticFrame = false;
-  const queueStaticDraw = () => {
-    if (!prefersReducedMotion || queuedStaticFrame) return;
-    queuedStaticFrame = true;
-    requestAnimationFrame((time) => {
-      queuedStaticFrame = false;
-      draw(time);
-    });
-  };
-
-  const draw = (time) => {
-    if (prefersReducedMotion) {
+  const draw = (time = 0) => {
+    state.frame += 1;
+    if (reduceMotion) {
       state.pointerX = state.targetX;
       state.pointerY = state.targetY;
     } else {
@@ -289,61 +131,76 @@ const createCoverage = (canvas) => {
     const height = canvas.clientHeight;
     ctx.clearRect(0, 0, width, height);
 
-    const gradient = ctx.createLinearGradient(0, 0, width, height);
-    gradient.addColorStop(0, "rgba(255, 255, 255, 0.95)");
-    gradient.addColorStop(1, "rgba(222, 247, 252, 0.82)");
-    ctx.fillStyle = gradient;
+    const grd = ctx.createRadialGradient(width * 0.5, height * 0.42, 30, width * 0.5, height * 0.5, width * 0.58);
+    grd.addColorStop(0, "rgba(18, 199, 239, 0.38)");
+    grd.addColorStop(0.38, "rgba(7, 95, 206, 0.18)");
+    grd.addColorStop(1, "rgba(255, 255, 255, 0.02)");
+    ctx.fillStyle = grd;
     ctx.fillRect(0, 0, width, height);
 
     ctx.save();
-    ctx.globalAlpha = 0.7;
-    ctx.strokeStyle = "rgba(8, 117, 222, 0.08)";
+    ctx.translate(width / 2, height / 2);
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.16)";
     ctx.lineWidth = 1;
-    for (let x = 32; x < width; x += 56) {
+    for (let i = 0; i < 6; i += 1) {
       ctx.beginPath();
-      ctx.moveTo(x, 0);
-      ctx.lineTo(x, height);
-      ctx.stroke();
-    }
-    for (let y = 32; y < height; y += 56) {
-      ctx.beginPath();
-      ctx.moveTo(0, y);
-      ctx.lineTo(width, y);
+      ctx.ellipse(0, 0, width * (0.18 + i * 0.055), height * (0.1 + i * 0.035), (i * Math.PI) / 7, 0, Math.PI * 2);
       ctx.stroke();
     }
     ctx.restore();
 
-    const points = nodes.map((node) => ({
-      x: node.x * width + (state.pointerX - 0.5) * (node.hub ? 12 : 22),
-      y: node.y * height + (state.pointerY - 0.45) * (node.hub ? 10 : 18)
-    }));
-
+    const pts = nodes.map((node) => point(node, width, height));
     links.forEach(([from, to], index) => {
-      const a = points[from];
-      const b = points[to];
+      const a = pts[from];
+      const b = pts[to];
       ctx.beginPath();
       ctx.moveTo(a.x, a.y);
-      ctx.quadraticCurveTo((a.x + b.x) / 2, (a.y + b.y) / 2 - 32, b.x, b.y);
-      ctx.strokeStyle = index % 2 ? "rgba(25, 185, 156, 0.34)" : "rgba(8, 117, 222, 0.32)";
+      ctx.quadraticCurveTo((a.x + b.x) / 2, (a.y + b.y) / 2 - 24, b.x, b.y);
+      ctx.strokeStyle = index % 2 ? "rgba(18, 185, 179, 0.55)" : "rgba(18, 199, 239, 0.48)";
       ctx.lineWidth = 2;
       ctx.stroke();
 
-      const t = (time * 0.00018 + index * 0.13) % 1;
+      const t = (time * 0.00018 + index * 0.11) % 1;
       const cx = (1 - t) * (1 - t) * a.x + 2 * (1 - t) * t * ((a.x + b.x) / 2) + t * t * b.x;
-      const cy = (1 - t) * (1 - t) * a.y + 2 * (1 - t) * t * ((a.y + b.y) / 2 - 32) + t * t * b.y;
+      const cy = (1 - t) * (1 - t) * a.y + 2 * (1 - t) * t * ((a.y + b.y) / 2 - 24) + t * t * b.y;
       ctx.beginPath();
       ctx.arc(cx, cy, 3.5, 0, Math.PI * 2);
-      ctx.fillStyle = "#19b99c";
+      ctx.fillStyle = "#12b9b3";
       ctx.fill();
     });
 
-    nodes.forEach((node) => drawNode(node, time, width, height));
+    nodes.forEach((node, index) => {
+      const p = pts[index];
+      const pulse = node.hub ? 1 + Math.sin(time * 0.003) * 0.05 : 1;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, node.r * pulse + 18, 0, Math.PI * 2);
+      ctx.fillStyle = node.hub ? "rgba(18, 199, 239, 0.22)" : "rgba(255, 255, 255, 0.1)";
+      ctx.fill();
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, node.r * pulse, 0, Math.PI * 2);
+      ctx.fillStyle = node.hub ? "#12c7ef" : "#ffffff";
+      ctx.strokeStyle = node.hub ? "#12b9b3" : "rgba(18, 199, 239, 0.72)";
+      ctx.lineWidth = node.hub ? 3 : 2;
+      ctx.fill();
+      ctx.stroke();
+      const mobile = width < 430;
+      ctx.font = node.hub ? "900 16px Inter, sans-serif" : `800 ${mobile ? 11 : 12}px Inter, sans-serif`;
+      ctx.textAlign = "center";
+      ctx.fillStyle = "#ffffff";
+      const hideMobileLabel = !node.label || (mobile && ["Backups", "Vendors"].includes(node.label));
+      if (!hideMobileLabel) {
+        const labelInset = mobile ? 86 : 60;
+        const labelX = Math.min(width - labelInset, Math.max(labelInset, p.x));
+        ctx.fillText(node.label, labelX, p.y + node.r + 25);
+      }
+    });
 
-    if (!prefersReducedMotion) requestAnimationFrame(draw);
+    canvas.dataset.ready = "true";
+    canvas.dataset.frame = String(state.frame);
+    if (!reduceMotion) requestAnimationFrame(draw);
   };
 
   resize();
-  canvas.dataset.coverageReady = "true";
   window.addEventListener("resize", resize);
 
   canvas.addEventListener(
@@ -352,24 +209,80 @@ const createCoverage = (canvas) => {
       const rect = canvas.getBoundingClientRect();
       state.targetX = (event.clientX - rect.left) / rect.width;
       state.targetY = (event.clientY - rect.top) / rect.height;
-      canvas.dataset.coveragePointer = `${state.targetX.toFixed(3)},${state.targetY.toFixed(3)}`;
-      queueStaticDraw();
+      canvas.dataset.pointer = `${state.targetX.toFixed(3)},${state.targetY.toFixed(3)}`;
+      if (reduceMotion) requestAnimationFrame(draw);
     },
     { passive: true }
   );
 
-  canvas.addEventListener(
-    "pointerleave",
-    () => {
-      state.targetX = 0.5;
-      state.targetY = 0.45;
-      canvas.dataset.coveragePointer = "0.500,0.450";
-      queueStaticDraw();
-    },
-    { passive: true }
-  );
+  canvas.addEventListener("pointerleave", () => {
+    state.targetX = 0.5;
+    state.targetY = 0.5;
+    canvas.dataset.pointer = "0.500,0.500";
+  });
 
   requestAnimationFrame(draw);
 };
 
-document.querySelectorAll("[data-coverage]").forEach((canvas) => createCoverage(canvas));
+const initServiceSelector = () => {
+  const cards = [...document.querySelectorAll("[data-service-card]")];
+  if (!cards.length) return;
+
+  const setActive = (card) => {
+    cards.forEach((item) => item.classList.toggle("is-active", item === card));
+  };
+
+  cards.forEach((card) => {
+    card.addEventListener("mouseenter", () => setActive(card));
+    card.addEventListener("focusin", () => setActive(card));
+  });
+  setActive(cards[0]);
+};
+
+const initContactForm = () => {
+  document.querySelectorAll("[data-contact-form]").forEach((form) => {
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const data = new FormData(form);
+      const recipient = form.getAttribute("data-contact-email") || "info@techordia.com";
+      const subject = `Techordia IT review request from ${data.get("Company") || "website visitor"}`;
+      const body = [
+        `First name: ${data.get("First name") || ""}`,
+        `Last name: ${data.get("Last name") || ""}`,
+        `Company: ${data.get("Company") || ""}`,
+        `Email: ${data.get("Email") || ""}`,
+        `Support need: ${data.get("Support need") || ""}`,
+        "",
+        "What should we look at first?",
+        data.get("Message") || ""
+      ].join("\n");
+      window.location.href = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    });
+  });
+};
+
+const initReveal = () => {
+  const targets = document.querySelectorAll(".section, .proof-strip, .service-tile, .final-cta");
+  if (reduceMotion || !("IntersectionObserver" in window)) {
+    targets.forEach((target) => target.classList.add("is-visible"));
+    return;
+  }
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
+  );
+  targets.forEach((target) => observer.observe(target));
+};
+
+document.querySelectorAll("[data-network-canvas]").forEach((canvas) => createNetworkCanvas(canvas));
+initVisualTilt();
+initServiceSelector();
+initContactForm();
+initReveal();

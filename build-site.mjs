@@ -1,37 +1,37 @@
 import { mkdir, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import {
-  aboutCards,
   allPages,
-  commonFaqs,
-  footerGroups,
-  homePage,
-  industryCards,
-  navGroups,
-  policyCards,
-  resourceCards,
-  serviceCards,
+  contactFlow,
+  faqs,
+  navItems,
+  pages,
+  pricing,
+  proof,
+  reviewWidget,
+  servicePages,
   site
 } from "./site-data.mjs";
 
 const outDir = process.cwd();
+const assetVersion = "20260528-staging-jones-inspired-5";
 const generatedDirs = [
-  "services",
   "about",
-  "resources",
-  "it-case-studies-white-papers",
+  "approach",
   "blogs",
-  "faqs",
-  "existing-clients",
   "contact",
   "contact-us",
-  "managed-it-services",
-  "terms-of-service",
-  "privacy-policy",
   "disclosure",
+  "existing-clients",
+  "faqs",
+  "it-case-studies-white-papers",
+  "managed-it-services",
+  "privacy-policy",
+  "resources",
+  "services",
+  "terms-of-service",
   "trust-and-security"
 ];
-const assetVersion = "20260528-bay-area-pro-2";
 
 const esc = (value = "") =>
   String(value)
@@ -42,8 +42,7 @@ const esc = (value = "") =>
 
 const rootPrefix = (pagePath) => {
   if (!pagePath) return "";
-  const levels = pagePath.split("/").filter(Boolean).length;
-  return "../".repeat(levels);
+  return "../".repeat(pagePath.split("/").filter(Boolean).length);
 };
 
 const href = (root, target) => {
@@ -52,21 +51,29 @@ const href = (root, target) => {
   return `${root}${target}`;
 };
 
-const slug = (value) =>
-  value
-    .toLowerCase()
-    .replace(/&/g, "and")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "");
+const current = (page, target) => (page.path === target ? ' aria-current="page"' : "");
 
 const renderLogo = (root) => `<img class="brand-logo" src="${root}${site.logo}" alt="${site.brand}" />`;
 
-const renderHeader = (root, pagePath) => `
-  <a class="skip-link" href="#main">Skip to Content</a>
+const renderButton = (root, label, target, variant = "primary") =>
+  `<a class="button ${variant}" href="${href(root, target)}">${esc(label)}</a>`;
+
+const renderReviewWidget = () => `
+  <aside class="review-widget" aria-label="Google review profile status">
+    <div class="review-g">G</div>
+    <div>
+      <span>${esc(reviewWidget.source)}</span>
+      <strong>${esc(reviewWidget.title)}</strong>
+      <p>${esc(reviewWidget.status)}</p>
+    </div>
+  </aside>`;
+
+const renderHeader = (root, page) => `
+  <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header">
-    <div class="header-utility">
-      <span>${esc(homePage.hero.location)}</span>
-      <a href="${href(root, `tel:+1${site.phone.replaceAll("-", "")}`)}">${esc(site.phone)}</a>
+    <div class="topline">
+      <span>Based in Alameda, serving Bay Area businesses</span>
+      <a href="${site.phoneHref}">${esc(site.phone)}</a>
     </div>
     <nav class="nav-shell" aria-label="Primary navigation">
       <a class="brand" href="${root}" aria-label="Techordia home">${renderLogo(root)}</a>
@@ -74,354 +81,338 @@ const renderHeader = (root, pagePath) => `
         <span></span><span></span><span></span>
       </button>
       <div class="nav-menu" id="primary-menu">
-        ${navGroups
-          .map(
-            (group) => `
-            <div class="nav-group">
-              <button class="nav-trigger" type="button" aria-expanded="false">${esc(group.label)}</button>
-              <div class="mega-menu">
-                ${group.items
-                  .map((item) => `<a href="${href(root, item.path)}"${item.path === pagePath ? ' aria-current="page"' : ""}>${esc(item.title)}</a>`)
-                  .join("")}
-              </div>
-            </div>`
-          )
+        <div class="nav-group">
+          <button class="nav-trigger" type="button" aria-expanded="false">Services</button>
+          <div class="mega-menu">
+            <a href="${href(root, "services/")}"${current(page, "services/")}>All Services</a>
+            ${servicePages
+              .map((service) => `<a href="${href(root, service.path)}"${current(page, service.path)}>${esc(service.title)}</a>`)
+              .join("")}
+          </div>
+        </div>
+        ${navItems
+          .filter((item) => item.path !== "services/")
+          .map((item) => `<a class="nav-link" href="${href(root, item.path)}"${current(page, item.path)}>${esc(item.title)}</a>`)
           .join("")}
-        <a class="nav-link" href="${href(root, "existing-clients/")}"${pagePath === "existing-clients/" ? ' aria-current="page"' : ""}>Existing Clients</a>
-        <a class="nav-cta" href="${href(root, "contact/")}">Contact Us</a>
+        <a class="nav-cta" href="${href(root, "contact/")}">Book a Consultation</a>
       </div>
     </nav>
   </header>`;
 
 const renderFooter = (root) => `
   <footer class="site-footer">
-    <div class="footer-top">
+    <div class="footer-main">
       <div class="footer-brand">
         ${renderLogo(root)}
-        <p>${esc(site.tagline)}</p>
-        <p>${esc(site.address)}</p>
+        <p>Responsive managed IT, cybersecurity, cloud, server, backup, and project support from Alameda.</p>
       </div>
       <div class="footer-links">
-        ${footerGroups
-          .map(
-            (group) => `
-            <div>
-              <h2>${esc(group.label)}</h2>
-              ${group.items.map((item) => `<a href="${href(root, item.path)}">${esc(item.title)}</a>`).join("")}
-            </div>`
-          )
-          .join("")}
+        <div>
+          <h2>Services</h2>
+          <a href="${href(root, "services/")}">All Services</a>
+          ${servicePages.map((service) => `<a href="${href(root, service.path)}">${esc(service.title)}</a>`).join("")}
+        </div>
+        <div>
+          <h2>Company</h2>
+          <a href="${href(root, "approach/")}">Approach</a>
+          <a href="${href(root, "about/")}">About</a>
+          <a href="${href(root, "contact/")}">Contact</a>
+        </div>
+        <div>
+          <h2>Contact</h2>
+          <a href="${site.phoneHref}">${esc(site.phone)}</a>
+          <a href="mailto:${site.email}">${esc(site.email)}</a>
+          <span>${esc(site.address)}</span>
+        </div>
       </div>
     </div>
     <div class="footer-bottom">
-      <span>Managed IT Services from Alameda, CA</span>
-      <div class="footer-legal">
-        ${policyCards.map(([title, path]) => `<a href="${href(root, path)}">${esc(title)}</a>`).join("")}
-        <a href="#main">Back to top</a>
-      </div>
+      <span>Staging site - noindex</span>
+      <a href="#main">Back to top</a>
     </div>
   </footer>`;
 
-const renderButton = (root, label, target, variant = "primary") => `<a class="button ${variant}" href="${href(root, target)}">${esc(label)}</a>`;
-
-const renderBadgeRow = () => `
-  <div class="badge-row" aria-label="Techordia service focus areas">
-    <span>Help Desk</span>
-    <span>Emergency Support</span>
-    <span>Cloud Services</span>
-    <span>Server Management</span>
-    <span>Backups &amp; Recovery</span>
-  </div>`;
-
-const renderTrustStrip = () => `
-  <div class="trust-strip" aria-label="Techordia credibility markers">
-    ${homePage.hero.proof.map((item) => `<span>${esc(item)}</span>`).join("")}
-  </div>`;
-
-const renderLogoRail = () => `
-  <section class="logo-rail-section" aria-labelledby="trusted-heading">
-    <div class="section-inner">
-      <h2 id="trusted-heading">${esc(homePage.sections.trustTitle)}</h2>
-      <div class="logo-rail" aria-label="Representative client categories">
-        <div class="logo-track">
-          ${["Housing", "Healthcare", "Professional Services", "SaaS", "Remote Teams", "Nonprofits", "Hybrid Offices", "Growing Teams"].map((name) => `<span>${esc(name)}</span>`).join("")}
-          ${["Housing", "Healthcare", "Professional Services", "SaaS", "Remote Teams", "Nonprofits", "Hybrid Offices", "Growing Teams"].map((name) => `<span>${esc(name)}</span>`).join("")}
-        </div>
+const visualNodes = {
+  home: `
+    <div class="visual visual-home" data-visual="home">
+      <canvas class="network-canvas" data-network-canvas width="760" height="640" aria-label="Animated Techordia service network"></canvas>
+      <div class="visual-label visual-label-left">Alameda</div>
+      <div class="visual-label visual-label-right">Bay Area SMBs</div>
+      ${renderReviewWidget()}
+    </div>`,
+  services: `
+    <div class="visual visual-services" data-visual="services">
+      <div class="service-orb">
+        ${servicePages.map((service, index) => `<span style="--i:${index}">${esc(service.title)}</span>`).join("")}
+        <strong>Techordia</strong>
       </div>
-    </div>
-  </section>`;
+      <p>Four service lanes. One support conversation.</p>
+    </div>`,
+  managed: `
+    <div class="visual visual-managed" data-visual="managed">
+      <div class="ops-hub">Managed IT</div>
+      ${["Users", "Devices", "M365", "Servers", "Backups", "Vendors"].map((item, index) => `<span class="ops-node node-${index + 1}">${esc(item)}</span>`).join("")}
+    </div>`,
+  "co-managed": `
+    <div class="visual visual-co" data-visual="co-managed">
+      <div class="team-lane internal"><span>Internal IT</span><strong>Control</strong></div>
+      <div class="handoff-line"><i></i><i></i><i></i></div>
+      <div class="team-lane techordia"><span>Techordia</span><strong>Capacity</strong></div>
+    </div>`,
+  cybersecurity: `
+    <div class="visual visual-cyber" data-visual="cybersecurity">
+      <div class="shield-core">Security</div>
+      ${["Identity", "Email", "Endpoint", "Backup", "Access"].map((item) => `<span>${esc(item)}</span>`).join("")}
+    </div>`,
+  projects: `
+    <div class="visual visual-projects" data-visual="projects">
+      ${["Scope", "Prepare", "Cutover", "Test", "Handoff"].map((item, index) => `<div class="project-step" style="--i:${index}"><span>${String(index + 1).padStart(2, "0")}</span><strong>${esc(item)}</strong></div>`).join("")}
+    </div>`,
+  approach: `
+    <div class="visual visual-approach" data-visual="approach">
+      ${pages.approach.steps.map(([title], index) => `<span style="--i:${index}">${esc(title)}</span>`).join("")}
+      <strong>Operate cleanly</strong>
+    </div>`,
+  about: `
+    <div class="visual visual-about" data-visual="about">
+      <div class="founder-avatar">WL</div>
+      <h2>${esc(site.founder)}</h2>
+      <p>Founder, Techordia</p>
+      <span>Alameda, CA</span>
+    </div>`,
+  contact: `
+    <div class="visual visual-contact" data-visual="contact">
+      ${contactFlow.map(([num, title, text]) => `<div class="contact-step"><span>${esc(num)}</span><strong>${esc(title)}</strong><p>${esc(text)}</p></div>`).join("")}
+    </div>`
+};
 
-const renderHomeHero = (root) => `
-  <section class="hero home-hero" data-hero>
-    <div class="hero-grid" aria-hidden="true"></div>
+const renderHero = (root, page, options = {}) => `
+  <section class="hero ${options.home ? "home-hero" : "sub-hero"}" data-page-visual="${esc(page.visual || "home")}">
+    <div class="hero-bg" aria-hidden="true"></div>
     <div class="hero-inner">
-      <div class="hero-copy reveal">
-        <p class="eyebrow">${esc(homePage.hero.eyebrow)}</p>
-        <h1>${esc(homePage.hero.title)}</h1>
-        <p>${esc(homePage.hero.text)}</p>
-        ${renderTrustStrip()}
+      <div class="hero-copy">
+        ${options.home ? `<div class="brand-kicker">${renderLogo(root)}</div>` : ""}
+        <h1>${esc(page.h1 || page.title)}</h1>
+        <p>${esc(page.intro || page.hero || "")}</p>
         <div class="hero-actions">
-          ${renderButton(root, homePage.hero.primary, "contact/")}
-          ${renderButton(root, homePage.hero.secondary, "#services", "secondary")}
-        </div>
-        <p class="cta-note">${esc(homePage.hero.microcopy)}</p>
-        ${renderBadgeRow()}
-      </div>
-      <div class="coverage-panel reveal">
-        <canvas class="coverage-canvas" width="760" height="620" data-coverage aria-label="Animated Bay Area managed IT service network"></canvas>
-        <div class="coverage-card">
-          <span>Alameda hub</span>
-          <strong>Bay Area SMB support</strong>
-          <p>Help desk, cloud, servers, security, and recovery connected in one support lane.</p>
+          ${renderButton(root, "Book a Consultation", "contact/")}
+          ${renderButton(root, options.secondaryLabel || "See Services", options.secondaryTarget || "services/", "secondary")}
         </div>
       </div>
+      ${visualNodes[page.visual] || visualNodes.services}
     </div>
   </section>`;
 
-const renderServiceCards = (root) => `
-  <section class="section package-list" id="services">
-    <div class="section-inner">
-      <div class="section-heading">
-        <p class="eyebrow">${esc(homePage.sections.serviceTitle)}</p>
-        <h2>See how we help.</h2>
-      </div>
-      <div class="service-card-grid">
-        ${serviceCards
-          .map(
-            (card, index) => `
-            <a class="service-card reveal tilt-card" href="${href(root, card.path)}">
-              <span class="service-icon" aria-hidden="true"></span>
-              <span class="card-index">${String(index + 1).padStart(2, "0")}</span>
-              <h3>${esc(card.title)}</h3>
-              <p>${esc(card.summary)}</p>
-              ${card.details ? `<dl class="package-points">${card.details.map(([label, text]) => `<div><dt>${esc(label)}</dt><dd>${esc(text)}</dd></div>`).join("")}</dl>` : ""}
-              <span class="text-link">${esc(card.cta)}</span>
-            </a>`
-          )
-          .join("")}
-      </div>
-    </div>
+const renderProof = () => `
+  <section class="proof-strip" aria-label="Techordia proof points">
+    ${proof.map(([title, text]) => `<article><strong>${esc(title)}</strong><span>${esc(text)}</span></article>`).join("")}
   </section>`;
 
-const renderWhy = () => `
-  <section class="section split-proof">
-    <div class="section-inner split-layout">
-      <div>
-        <p class="eyebrow">Why Techordia</p>
-        <h2>${esc(homePage.sections.whyTitle)}</h2>
-        <p class="section-lead">${esc(homePage.sections.outcome)}</p>
-      </div>
-      <div class="proof-grid">
-        ${homePage.sections.why.map(([title, text]) => `<article class="proof-card reveal"><h3>${esc(title)}</h3><p>${esc(text)}</p></article>`).join("")}
-      </div>
-    </div>
-  </section>`;
-
-const renderTestimonials = () => `
-  <section class="section testimonial-band">
-    <div class="section-inner">
-      <div class="section-heading">
-        <p class="eyebrow">What clients should feel</p>
-        <h2>Clear support. Less noise. Better control.</h2>
-      </div>
-      <div class="testimonial-grid">
-        ${homePage.sections.testimonials.map(([title, text]) => `<article class="quote-card reveal"><p>${esc(text)}</p><strong>${esc(title)}</strong></article>`).join("")}
-      </div>
-    </div>
-  </section>`;
-
-const renderFaq = (faqs = commonFaqs, title = "Frequently Asked Questions") => `
-  <section class="section faq-section">
-    <div class="section-inner faq-layout">
-      <aside class="faq-tabs" aria-label="FAQ categories">
-        <span>General Questions</span>
-        <span>Services</span>
-        <span>Contract</span>
-        <span>Pricing</span>
-        <span>Scalability</span>
-      </aside>
-      <div>
-        <p class="eyebrow">FAQ</p>
-        <h2>${esc(title)}</h2>
-        <div class="faq-list">
-          ${faqs.map(([q, a]) => `<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join("")}
-        </div>
-      </div>
-    </div>
-  </section>`;
-
-const renderCta = (root) => `
-  <section class="section final-cta">
-    <div class="section-inner cta-panel">
-      <div class="cta-icon" aria-hidden="true">T</div>
-      <div>
-        <h2>Ready to quiet the IT noise?</h2>
-        <p>Talk through users, devices, Microsoft 365, risk, and support coverage.</p>
-      </div>
-      <div class="cta-actions">
-        ${renderButton(root, "Book a Consultation", "contact/", "light")}
-        ${renderButton(root, `Call ${site.phone}`, `tel:+1${site.phone.replaceAll("-", "")}`, "ghost")}
-      </div>
-    </div>
-  </section>`;
-
-const renderServiceMap = (page = {}) => `
-  <div class="service-map" data-service-map aria-label="Managed IT operating model">
-    <div class="map-hub">
-      <span>Techordia</span>
-      <strong>${esc(page.h1 || "Managed IT")}</strong>
-    </div>
-    <div class="map-lane lane-one"><span>Users</span><strong>Help Desk</strong></div>
-    <div class="map-lane lane-two"><span>Cloud</span><strong>Microsoft 365</strong></div>
-    <div class="map-lane lane-three"><span>Infrastructure</span><strong>Servers &amp; Network</strong></div>
-    <div class="map-lane lane-four"><span>Protection</span><strong>Security &amp; Backups</strong></div>
-    <div class="map-line line-one"></div>
-    <div class="map-line line-two"></div>
-    <div class="map-line line-three"></div>
-    <div class="map-line line-four"></div>
-  </div>`;
-
-const renderContactForm = () => `
-  <form class="contact-form" id="contact-form" data-contact-form data-contact-email="${site.email}">
-    <div class="form-row">
-      <label>First Name<span>*</span><input name="First name" required /></label>
-      <label>Last Name<span>*</span><input name="Last name" required /></label>
-    </div>
-    <div class="form-row">
-      <label>Company name<span>*</span><input name="Company" required /></label>
-      <label>Number of employees<span>*</span><select name="Employees" required><option value="">Please Select</option><option>1-25</option><option>26-75</option><option>76-200</option><option>200+</option></select></label>
-    </div>
-    <label>Email address<span>*</span><input type="email" name="Email" required /></label>
-    <label>Message<span>*</span><textarea name="Message" rows="5" required></textarea></label>
-    <button class="button primary" type="submit">Let's Talk</button>
-  </form>`;
-
-const renderDetailHero = (root, page) => `
-  <section class="hero detail-hero" data-hero>
-    <div class="hero-grid" aria-hidden="true"></div>
-    <div class="hero-inner detail-inner">
-      <div class="hero-copy reveal">
-        <p class="eyebrow">${page.contact ? "Contact Techordia" : "Techordia services"}</p>
-        <h1>${esc(page.h1)}</h1>
-        <p>${esc(page.kicker || page.intro)}</p>
-        <div class="hero-actions">
-          ${renderButton(root, page.contact ? "Let's Talk" : "Book a Consultation", page.contact ? "#contact-form" : "contact/")}
-          ${renderButton(root, "Call Techordia", `tel:+1${site.phone.replaceAll("-", "")}`, "secondary")}
-        </div>
-      </div>
-      <div class="detail-art reveal">
-        ${page.contact ? `<div class="founder-video"><div class="play-button">T</div><h2>Wilson Lee</h2><p>Founder, Techordia</p></div>` : renderServiceMap(page)}
-      </div>
-    </div>
-  </section>`;
-
-const renderPackageDetails = (page) => `
-  <section class="section package-detail">
-    <div class="section-inner">
-      <div class="copy-form-grid">
-        <div>
-          <p class="eyebrow">${esc(page.packageTitle || "Package Details")}</p>
-          <h2>${esc(page.benefitsTitle || page.h1)}</h2>
-          <p class="section-lead">${esc(page.intro)}</p>
-          <div class="detail-grid">
-            ${(page.details || serviceCards.find((card) => card.path === page.path)?.details || page.benefits || []).slice(0, 4).map(([label, text]) => `<article class="detail-box reveal"><h3>${esc(label)}</h3><p>${esc(text)}</p></article>`).join("")}
-          </div>
-        </div>
-        ${renderContactForm()}
-      </div>
-    </div>
-  </section>`;
-
-const renderComponents = (components, title = "Key Components") => `
-  <section class="section component-section">
-    <div class="section-inner">
-      <div class="section-heading">
-        <p class="eyebrow">${esc(title)}</p>
-        <h2>The pieces that keep IT moving.</h2>
-      </div>
-      <div class="component-grid">
-        ${components.map(([title, text]) => `<article class="component-card reveal"><div class="line-icon">${esc(title.charAt(0))}</div><h3>${esc(title)}</h3><p>${esc(text)}</p></article>`).join("")}
-      </div>
-    </div>
-  </section>`;
-
-const renderBenefits = (page) => `
-  <section class="section benefits-section">
-    <div class="section-inner split-layout">
-      <div>
-        <p class="eyebrow">Why it works</p>
-        <h2>${esc(page.benefitsTitle || "Practical IT outcomes")}</h2>
-      </div>
-      <div class="benefit-stack">
-        ${(page.benefits || []).map(([title, text]) => `<article class="benefit-row reveal"><span></span><div><h3>${esc(title)}</h3><p>${esc(text)}</p></div></article>`).join("")}
-      </div>
-    </div>
-  </section>`;
-
-const renderCardPage = (root, page) => `
-  ${renderDetailHero(root, page)}
-  <section class="section card-page-section">
-    <div class="section-inner">
-      <div class="copy-form-grid">
-        <div>
-          <p class="eyebrow">Overview</p>
-          <h2>${esc(page.h1)}</h2>
-          <p class="section-lead">${esc(page.intro)}</p>
-        </div>
-        ${page.contact ? renderContactForm() : `<div class="info-panel"><h3>Talk to Techordia</h3><p>Email ${esc(site.email)} or call ${esc(site.phone)} to discuss the right support model.</p>${renderButton(root, "Contact Us", "contact/")}</div>`}
-      </div>
-      ${page.cards ? `<div class="service-card-grid compact">${page.cards.map((card) => `<a class="service-card reveal" href="${href(root, card.path)}"><h3>${esc(card.title)}</h3><p>${esc(card.summary)}</p><span class="text-link">Open page</span></a>`).join("")}</div>` : ""}
-      ${page.people ? `<div class="people-grid">${page.people.map(([name, role, text]) => `<article class="person-card reveal"><div class="person-avatar">${esc(name.charAt(0))}</div><h3>${esc(name)}</h3><strong>${esc(role)}</strong><p>${esc(text)}</p></article>`).join("")}</div>` : ""}
-      ${page.testimonials ? `<div class="testimonial-grid">${page.testimonials.map(([title, text]) => `<article class="quote-card reveal"><p>${esc(text)}</p><strong>${esc(title)}</strong></article>`).join("")}</div>` : ""}
-      ${page.faqGroups ? renderFaqGroups(page.faqGroups) : ""}
-    </div>
-  </section>`;
-
-const renderFaqGroups = (groups) => `
-  <div class="faq-groups">
-    ${groups
+const renderServiceCards = (root, compact = false) => `
+  <div class="service-grid ${compact ? "compact" : ""}" data-service-selector>
+    ${servicePages
       .map(
-        ([label, faqs]) => `
-        <section class="faq-group" id="${slug(label)}">
-          <h2>${esc(label)}</h2>
-          <div class="faq-list">${faqs.map(([q, a]) => `<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join("")}</div>
-        </section>`
+        (service, index) => `
+        <article class="service-tile" data-service-card="${esc(service.key)}">
+          <span class="tile-number">${String(index + 1).padStart(2, "0")}</span>
+          <h3>${esc(service.title)}</h3>
+          <p>${esc(service.summary)}</p>
+          <dl>
+            <div><dt>Best for</dt><dd>${esc(service.fit)}</dd></div>
+            <div><dt>Includes</dt><dd>${esc(service.included.slice(0, 4).join(", "))}</dd></div>
+          </dl>
+          <a class="text-link" href="${href(root, service.path)}">${esc(service.cta)}</a>
+        </article>`
       )
       .join("")}
   </div>`;
 
-const renderHome = (root) => `
-  ${renderHomeHero(root)}
-  ${renderWhy()}
-  ${renderServiceCards(root)}
-  ${renderLogoRail()}
-  ${renderComponents([
-    ["Help Desk", "User support, remote sessions, access requests, and daily fixes."],
-    ["Emergency Support", "Urgent response for outages, access loss, and critical blockers."],
-    ["Cloud Services", "Microsoft 365, Teams, SharePoint, OneDrive, licensing, and permissions."],
-    ["Server Management", "Server health, patching, monitoring, vendors, and infrastructure support."],
-    ["Backups & Recovery", "Coverage checks, restore expectations, continuity planning, and recovery support."],
-    ["Security", "MFA, endpoints, email safety, backup checks, and access reviews."]
-  ], "How Techordia Helps")}
-  ${renderTestimonials()}
-  ${renderFaq(commonFaqs)}
-  ${renderCta(root)}`;
+const renderPricing = () => `
+  <section class="section pricing-section">
+    <div class="section-copy">
+      <span class="section-label">Pricing</span>
+      <h2>${esc(pricing.title)}</h2>
+      <p>${esc(pricing.intro)}</p>
+    </div>
+    <div class="pricing-factors">
+      ${pricing.factors.map(([title, text]) => `<article><strong>${esc(title)}</strong><p>${esc(text)}</p></article>`).join("")}
+    </div>
+  </section>`;
 
-const isDetailedService = (page) => Boolean(page.components && page.benefits);
+const renderFaqs = (items = faqs) => `
+  <section class="section faq-section">
+    <div class="section-copy">
+      <span class="section-label">FAQ</span>
+      <h2>Questions decision-makers ask first.</h2>
+    </div>
+    <div class="faq-list">
+      ${items.map(([q, a]) => `<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join("")}
+    </div>
+  </section>`;
+
+const renderContactForm = () => `
+  <form class="contact-form" id="contact-form" data-contact-form data-contact-email="${site.email}">
+    <label>First name<input name="First name" autocomplete="given-name" required /></label>
+    <label>Last name<input name="Last name" autocomplete="family-name" required /></label>
+    <label>Company<input name="Company" autocomplete="organization" required /></label>
+    <label>Email<input type="email" name="Email" autocomplete="email" required /></label>
+    <label>Support need<select name="Support need" required><option value="">Select one</option><option>Fully managed IT</option><option>Co-managed IT</option><option>Cybersecurity</option><option>IT project</option><option>Not sure yet</option></select></label>
+    <label>What should we look at first?<textarea name="Message" rows="5" required></textarea></label>
+    <button class="button primary" type="submit">Start the Conversation</button>
+  </form>`;
+
+const renderFinalCta = (root) => `
+  <section class="final-cta">
+    <div>
+      <h2>Ready to quiet the IT noise?</h2>
+      <p>Talk through users, devices, Microsoft 365, security, backups, and support coverage.</p>
+    </div>
+    <div class="cta-actions">
+      ${renderButton(root, "Book a Consultation", "contact/", "light")}
+      ${renderButton(root, `Call ${site.phone}`, site.phoneHref, "ghost")}
+    </div>
+  </section>`;
+
+const renderHome = (root) => `
+  ${renderHero(root, pages.home, { home: true, secondaryLabel: "See How We Help", secondaryTarget: "services/" })}
+  ${renderProof()}
+  <section class="section split-section">
+    <div class="section-copy">
+      <span class="section-label">Services</span>
+      <h2>Four ways to get IT under control.</h2>
+      <p>Start with the support lane that matches your team. Techordia can own the whole environment, work beside internal IT, improve security, or deliver a focused project.</p>
+    </div>
+    ${renderServiceCards(root, true)}
+  </section>
+  ${renderPricing()}
+  <section class="section review-section">
+    <div class="section-copy">
+      <span class="section-label">Reviews</span>
+      <h2>A review widget without a fake claim.</h2>
+      <p>The staging site includes the Jones-style social proof placement. Verified Google Business Profile details can be connected before launch.</p>
+    </div>
+    ${renderReviewWidget()}
+  </section>
+  <section class="section approach-preview">
+    <div class="section-copy">
+      <span class="section-label">Approach</span>
+      <h2>Discover. Stabilize. Document. Support. Improve.</h2>
+      <p>That rhythm keeps support practical after the first consultation.</p>
+      ${renderButton(root, "See the Approach", "approach/", "secondary")}
+    </div>
+    ${visualNodes.approach}
+  </section>
+  ${renderFinalCta(root)}`;
+
+const renderServices = (root) => `
+  ${renderHero(root, pages.services, { secondaryLabel: "Compare Packages", secondaryTarget: "#packages" })}
+  <section class="section services-section" id="packages">
+    <div class="section-copy">
+      <span class="section-label">Service Packages</span>
+      <h2>No filler pages. Just the support models that matter.</h2>
+      <p>Each package has a different job, scope, and operating model.</p>
+    </div>
+    ${renderServiceCards(root)}
+  </section>
+  ${renderPricing()}
+  ${renderFaqs()}
+  ${renderFinalCta(root)}`;
+
+const renderServicePage = (root, page) => `
+  ${renderHero(root, page, { secondaryLabel: "What's Included", secondaryTarget: "#included" })}
+  <section class="section split-section" id="included">
+    <div class="section-copy">
+      <span class="section-label">${esc(page.title)}</span>
+      <h2>${esc(page.hero)}</h2>
+      <p>${esc(page.intro)}</p>
+    </div>
+    <div class="included-list">
+      ${page.included.map((item) => `<span>${esc(item)}</span>`).join("")}
+    </div>
+  </section>
+  <section class="section outcomes-section">
+    <div class="section-copy">
+      <span class="section-label">Outcomes</span>
+      <h2>What gets better.</h2>
+    </div>
+    <div class="outcome-grid">
+      ${page.outcomes.map(([title, text]) => `<article><h3>${esc(title)}</h3><p>${esc(text)}</p></article>`).join("")}
+    </div>
+  </section>
+  <section class="section process-section" data-process>
+    <div class="section-copy">
+      <span class="section-label">How it works</span>
+      <h2>Clear steps, clean handoff.</h2>
+    </div>
+    <div class="process-rail">
+      ${page.steps.map(([title, text], index) => `<article><span>${String(index + 1).padStart(2, "0")}</span><h3>${esc(title)}</h3><p>${esc(text)}</p></article>`).join("")}
+    </div>
+  </section>
+  ${renderFaqs(page.faqs)}
+  ${renderFinalCta(root)}`;
+
+const renderApproach = (root) => `
+  ${renderHero(root, pages.approach, { secondaryLabel: "Talk to Techordia", secondaryTarget: "contact/" })}
+  <section class="section process-section large-process" data-process>
+    <div class="section-copy">
+      <span class="section-label">Operating Model</span>
+      <h2>Support should leave the environment cleaner than it found it.</h2>
+      <p>Each stage turns unclear IT into owned, documented work.</p>
+    </div>
+    <div class="process-rail">
+      ${pages.approach.steps.map(([title, text], index) => `<article><span>${String(index + 1).padStart(2, "0")}</span><h3>${esc(title)}</h3><p>${esc(text)}</p></article>`).join("")}
+    </div>
+  </section>
+  ${renderPricing()}
+  ${renderFinalCta(root)}`;
+
+const renderAbout = (root) => `
+  ${renderHero(root, pages.about, { secondaryLabel: "Contact Techordia", secondaryTarget: "contact/" })}
+  <section class="section founder-section">
+    <div class="founder-panel">
+      <div class="founder-avatar large">WL</div>
+      <div>
+        <span class="section-label">Founder</span>
+        <h2>${esc(site.founder)}</h2>
+        <p>Founder image space reserved for Wilson Lee.</p>
+      </div>
+    </div>
+    <div class="section-copy">
+      <h2>Alameda-based support with operational discipline.</h2>
+      <p>Techordia serves SMBs that need IT to be responsive, documented, security-minded, and practical. The site avoids fake partner badges and thin claims; proof stays tied to real Techordia context.</p>
+      <div class="about-facts">
+        <span>Founded ${esc(site.founded)}</span>
+        <span>${esc(site.region)}</span>
+        <span>${esc(site.phone)}</span>
+      </div>
+    </div>
+  </section>
+  ${renderFinalCta(root)}`;
+
+const renderContact = (root) => `
+  ${renderHero(root, pages.contact, { secondaryLabel: `Call ${site.phone}`, secondaryTarget: site.phoneHref })}
+  <section class="section contact-section">
+    <div class="section-copy">
+      <span class="section-label">Consultation</span>
+      <h2>What happens next.</h2>
+      <p>Techordia reviews the support need, the environment shape, and the right service lane before recommending next steps.</p>
+      <div class="contact-direct">
+        <a href="${site.phoneHref}">${esc(site.phone)}</a>
+        <a href="mailto:${site.email}">${esc(site.email)}</a>
+        <span>${esc(site.address)}</span>
+      </div>
+    </div>
+    ${renderContactForm()}
+  </section>
+  ${renderFinalCta(root)}`;
 
 const renderMain = (root, page) => {
   if (page.path === "") return renderHome(root);
-  if (isDetailedService(page)) {
-    return `
-      ${renderDetailHero(root, page)}
-      ${renderPackageDetails(page)}
-      ${renderFaq(page.faqs || commonFaqs)}
-      ${renderLogoRail()}
-      ${renderComponents(page.components)}
-      ${renderBenefits(page)}
-      ${renderCta(root)}`;
-  }
-  return `${renderCardPage(root, page)}${renderCta(root)}`;
+  if (page.path === "services/") return renderServices(root);
+  if (page.path === "approach/") return renderApproach(root);
+  if (page.path === "about/") return renderAbout(root);
+  if (page.path === "contact/") return renderContact(root);
+  return renderServicePage(root, page);
 };
 
 const renderHtml = (page) => {
@@ -431,8 +422,9 @@ const renderHtml = (page) => {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>${esc(page.title || site.brand)}</title>
-    <meta name="description" content="${esc(page.description || page.kicker || site.description)}" />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>${esc(page.seoTitle || page.title || site.brand)}</title>
+    <meta name="description" content="${esc(page.summary || page.intro || site.description)}" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
@@ -440,9 +432,8 @@ const renderHtml = (page) => {
     <link rel="stylesheet" href="${root}styles.css?v=${assetVersion}" />
     <script defer src="${root}script.js?v=${assetVersion}"></script>
   </head>
-  <body data-page="${esc(page.path || "home")}">
-    <div class="scroll-progress" aria-hidden="true"></div>
-    ${renderHeader(root, page.path)}
+  <body data-page="${esc(page.path || "home")}" data-visual="${esc(page.visual || "home")}">
+    ${renderHeader(root, page)}
     <main id="main">
       ${renderMain(root, page)}
     </main>
@@ -471,4 +462,10 @@ for (const page of allPages) {
   await writePage(page);
 }
 
-console.log(`Generated ${allPages.length} pages.`);
+await writeFile(
+  path.join(outDir, "robots.txt"),
+  "User-agent: *\nDisallow: /\n",
+  "utf8"
+);
+
+console.log(`Generated ${allPages.length} staging pages.`);
