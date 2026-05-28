@@ -15,7 +15,7 @@ import {
 } from "./site-data.mjs";
 
 const outDir = process.cwd();
-const assetVersion = "20260528-staging-jones-inspired-7";
+const assetVersion = "20260528-staging-dark-direction-2";
 const generatedDirs = [
   "about",
   "approach",
@@ -137,8 +137,6 @@ const visualNodes = {
   home: `
     <div class="visual visual-home" data-visual="home">
       <canvas class="network-canvas" data-network-canvas width="760" height="640" aria-label="Animated Techordia service network"></canvas>
-      <div class="visual-label visual-label-left">Alameda</div>
-      <div class="visual-label visual-label-right">Bay Area SMBs</div>
     </div>`,
   services: `
     <div class="visual visual-services" data-visual="services">
@@ -191,15 +189,31 @@ const renderHero = (root, page, options = {}) => `
     <div class="hero-bg" aria-hidden="true"></div>
     <div class="hero-inner">
       <div class="hero-copy">
-        ${options.home ? `<div class="brand-kicker">${renderLogo(root)}</div>` : ""}
-        <h1>${esc(page.h1 || page.title)}</h1>
+        ${
+          options.home
+            ? `<h1><span>IT that works.</span><em>So you can.</em></h1>`
+            : `<h1>${esc(page.h1 || page.title)}</h1>`
+        }
         <p>${esc(page.intro || page.hero || "")}</p>
         <div class="hero-actions">
           ${renderButton(root, "Book a Consultation", "contact/")}
           ${renderButton(root, options.secondaryLabel || "See Services", options.secondaryTarget || "services/", "secondary")}
         </div>
+        ${
+          options.home
+            ? `<div class="hero-proof-row">
+                <article><span>Support</span><strong>Real people. Real quick.</strong></article>
+                <article><span>Security</span><strong>Protect what matters.</strong></article>
+                <article><span>Strategy</span><strong>IT that drives results.</strong></article>
+              </div>
+              <div class="hero-location">Alameda, CA | Serving the entire Bay Area and beyond</div>`
+            : ""
+        }
       </div>
-      ${visualNodes[page.visual] || visualNodes.services}
+      <div class="hero-visual-shell">
+        ${visualNodes[page.visual] || visualNodes.services}
+        ${options.home ? renderReviewWidget() : ""}
+      </div>
     </div>
   </section>`;
 
@@ -333,7 +347,6 @@ const renderFinalCta = (root) => `
 const renderHome = (root) => `
   ${renderHero(root, pages.home, { home: true, secondaryLabel: "See How We Help", secondaryTarget: "services/" })}
   ${renderProof()}
-  ${renderHomeReview()}
   <section class="section home-service-section">
     <div class="section-copy">
       <span class="section-label">Services</span>

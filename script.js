@@ -107,13 +107,19 @@ const createNetworkCanvas = (canvas) => {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   };
 
-  const point = (node, width, height) => {
-    const mobileScale = width < 430 ? 0.74 : 1;
+  const getGlobe = (width, height) => ({
+    cx: width * (width < 430 ? 0.5 : 0.54),
+    cy: height * 0.5,
+    r: Math.min(width, height) * (width < 430 ? 0.39 : 0.43)
+  });
+
+  const point = (node, width, height, globe) => {
+    const mobileScale = width < 430 ? 0.78 : 1;
     const driftScale = width < 430 ? 0.55 : 1;
     const driftX = (state.pointerX - 0.5) * (node.hub ? 16 : 34) * driftScale;
     const driftY = (state.pointerY - 0.5) * (node.hub ? 14 : 28) * driftScale;
-    const x = (0.5 + (node.x - 0.5) * mobileScale) * width + driftX;
-    const y = (0.5 + (node.y - 0.5) * mobileScale) * height + driftY;
+    const x = globe.cx + (node.x - 0.5) * globe.r * 1.62 * mobileScale + driftX;
+    const y = globe.cy + (node.y - 0.5) * globe.r * 1.48 * mobileScale + driftY;
     return { x, y };
   };
 
@@ -129,27 +135,41 @@ const createNetworkCanvas = (canvas) => {
 
     const width = canvas.clientWidth;
     const height = canvas.clientHeight;
+    const globe = getGlobe(width, height);
     ctx.clearRect(0, 0, width, height);
 
-    const grd = ctx.createRadialGradient(width * 0.5, height * 0.42, 30, width * 0.5, height * 0.5, width * 0.58);
-    grd.addColorStop(0, "rgba(18, 199, 239, 0.38)");
-    grd.addColorStop(0.38, "rgba(7, 95, 206, 0.18)");
-    grd.addColorStop(1, "rgba(255, 255, 255, 0.02)");
-    ctx.fillStyle = grd;
-    ctx.fillRect(0, 0, width, height);
-
+    const grd = ctx.createRadialGradient(globe.cx - globe.r * 0.18, globe.cy - globe.r * 0.08, 18, globe.cx, globe.cy, globe.r);
+    grd.addColorStop(0, "rgba(18, 199, 239, 0.52)");
+    grd.addColorStop(0.42, "rgba(7, 95, 206, 0.25)");
+    grd.addColorStop(1, "rgba(1, 12, 31, 0.04)");
     ctx.save();
-    ctx.translate(width / 2, height / 2);
+    ctx.beginPath();
+    ctx.arc(globe.cx, globe.cy, globe.r, 0, Math.PI * 2);
+    ctx.clip();
+    ctx.fillStyle = grd;
+    ctx.fillRect(globe.cx - globe.r, globe.cy - globe.r, globe.r * 2, globe.r * 2);
+
+    ctx.translate(globe.cx, globe.cy);
     ctx.strokeStyle = "rgba(255, 255, 255, 0.16)";
     ctx.lineWidth = 1;
-    for (let i = 0; i < 6; i += 1) {
+    for (let i = 0; i < 7; i += 1) {
       ctx.beginPath();
-      ctx.ellipse(0, 0, width * (0.18 + i * 0.055), height * (0.1 + i * 0.035), (i * Math.PI) / 7, 0, Math.PI * 2);
+      ctx.ellipse(0, 0, globe.r * (0.42 + i * 0.08), globe.r * (0.16 + i * 0.035), (i * Math.PI) / 7, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+    for (let i = -2; i <= 2; i += 1) {
+      ctx.beginPath();
+      ctx.ellipse(i * globe.r * 0.18, 0, globe.r * 0.16, globe.r * 0.96, 0, 0, Math.PI * 2);
       ctx.stroke();
     }
     ctx.restore();
+    ctx.beginPath();
+    ctx.arc(globe.cx, globe.cy, globe.r, 0, Math.PI * 2);
+    ctx.strokeStyle = "rgba(18, 199, 239, 0.44)";
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
 
-    const pts = nodes.map((node) => point(node, width, height));
+    const pts = nodes.map((node) => point(node, width, height, globe));
     links.forEach(([from, to], index) => {
       const a = pts[from];
       const b = pts[to];

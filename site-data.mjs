@@ -163,9 +163,9 @@ export const pages = {
   home: {
     path: "",
     title: "Techordia | Managed IT Services for Bay Area SMBs",
-    h1: "Business IT support without the runaround.",
+    h1: "IT that works. So you can.",
     intro:
-      "Techordia helps small and mid-sized teams manage users, devices, Microsoft 365, security, backups, and day-to-day support.",
+      "Proactive IT support, security, and guidance for Bay Area businesses. Less downtime. More momentum.",
     visual: "home"
   },
   services: {
