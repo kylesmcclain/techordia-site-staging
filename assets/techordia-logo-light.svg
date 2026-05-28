@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 170" role="img" aria-labelledby="title desc">
+  <title id="title">Techordia</title>
+  <desc id="desc">Techordia light logo for dark backgrounds.</desc>
+  <defs>
+    <linearGradient id="markLight" x1="12" x2="116" y1="20" y2="98" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0a7cff"/>
+      <stop offset="1" stop-color="#15d4c8"/>
+    </linearGradient>
+    <linearGradient id="wordLight" x1="166" x2="611" y1="74" y2="74" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#dcecff"/>
+      <stop offset="0.45" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#38e6d8"/>
+    </linearGradient>
+  </defs>
+  <g>
+    <path d="M25 35h78L83 57H5L25 35Z" fill="#0a7cff"/>
+    <path d="M114 35h76l-20 22h-43c-15 0-27 12-27 27v52L77 145V83c0-27 16-48 37-48Z" fill="url(#markLight)"/>
+    <path d="M70 64h23v75l-23 24V64Z" fill="#15d4c8"/>
+  </g>
+  <text x="170" y="102" fill="url(#wordLight)" font-family="Inter, Arial, sans-serif" font-size="70" font-weight="700" letter-spacing="7">TECHORDIA</text>
+</svg>
