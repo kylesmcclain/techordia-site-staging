@@ -17,7 +17,7 @@ import {
 } from "./site-data.mjs";
 
 const outDir = process.cwd();
-const assetVersion = "20260529-unboxed-hero-effects-1";
+const assetVersion = "20260529-denser-hero-effects-4";
 const generatedDirs = [
   "about",
   "approach",
@@ -161,53 +161,109 @@ const visualNodes = {
       <canvas class="network-canvas" data-network-canvas width="760" height="640" aria-label="Animated Techordia service network"></canvas>
     </div>`,
   services: `
-    <div class="visual visual-orbit visual-services" data-visual="services">
-      <div class="effect-stage service-orbit">
-        <i class="orbit-ring ring-one"></i>
-        <i class="orbit-ring ring-two"></i>
-        <i class="orbit-ring ring-three"></i>
-        <strong class="orbit-core">Right model</strong>
-        ${servicePages.map((service, index) => `<span class="orbit-label" style="--i:${index}">${esc(service.title)}</span>`).join("")}
-        ${servicePages.map((service, index) => `<b class="orbit-spark" style="--i:${index}"></b>`).join("")}
+    <div class="visual visual-services" data-visual="services">
+      <div class="service-selector-effect">
+        <i class="effect-halo halo-one"></i>
+        <i class="effect-halo halo-two"></i>
+        <strong class="effect-core"><span>Techordia</span><small>right support model</small></strong>
+        ${servicePages.map((service, index) => `
+          <article class="effect-card selector-card selector-${esc(service.key)}" style="--i:${index}">
+            <span>${String(index + 1).padStart(2, "0")}</span>
+            <strong>${esc(service.title)}</strong>
+            <p>${esc(service.fit)}</p>
+          </article>`).join("")}
+        <b class="effect-line line-a"></b><b class="effect-line line-b"></b><b class="effect-line line-c"></b><b class="effect-line line-d"></b>
       </div>
     </div>`,
   managed: `
-    <div class="visual visual-orbit visual-managed" data-visual="managed">
-      <div class="effect-stage managed-constellation">
-        <i class="orbit-ring ring-one"></i>
-        <i class="orbit-ring ring-two"></i>
-        <strong class="orbit-core">Techordia</strong>
-        ${["Users", "Devices", "M365", "Backups", "Vendors", "Security"].map((item, index) => `<span class="orbit-label ops-node node-${index + 1}">${esc(item)}</span>`).join("")}
-        ${["Users", "Devices", "M365", "Backups", "Vendors", "Security"].map((_, index) => `<b class="orbit-spark node-${index + 1}"></b>`).join("")}
+    <div class="visual visual-managed" data-visual="managed">
+      <div class="managed-map-effect">
+        <i class="effect-halo halo-one"></i>
+        <i class="effect-halo halo-two"></i>
+        <strong class="effect-core"><span>Techordia</span><small>owns the rhythm</small></strong>
+        ${[
+          ["Support", "Tickets and urgent escalation"],
+          ["Devices", "Inventory, agents, lifecycle"],
+          ["Microsoft 365", "Users, access, collaboration"],
+          ["Backups", "Visibility and recovery paths"],
+          ["Vendors", "Coordination and follow-through"],
+          ["Security", "Practical controls"]
+        ].map(([title, text], index) => `
+          <article class="effect-card managed-node managed-node-${index + 1}">
+            <span>${String(index + 1).padStart(2, "0")}</span>
+            <strong>${esc(title)}</strong>
+            <p>${esc(text)}</p>
+          </article>`).join("")}
+        <b class="effect-line line-a"></b><b class="effect-line line-b"></b><b class="effect-line line-c"></b><b class="effect-line line-d"></b>
       </div>
     </div>`,
   "co-managed": `
     <div class="visual visual-co" data-visual="co-managed">
-      <div class="lane-system">
-        <div class="lane-card internal"><span>Internal IT owns</span><strong>Strategy, approvals, business context</strong></div>
-        <div class="lane-bridge"><i></i><i></i><i></i><b>Shared visibility</b></div>
-        <div class="lane-card techordia"><span>Techordia owns</span><strong>Overflow, escalation, projects, documentation</strong></div>
+      <div class="co-lane-effect">
+        <section class="co-column internal">
+          <span>Internal IT owns</span>
+          <strong>Business context</strong>
+          <p>Priorities, approvals, internal communication, and systems that stay close to the business.</p>
+          <b>Approvals</b><b>Policy</b><b>Stakeholders</b>
+        </section>
+        <div class="co-spine"><i></i><i></i><i></i><strong>Shared visibility</strong></div>
+        <section class="co-column techordia">
+          <span>Techordia owns</span>
+          <strong>Execution capacity</strong>
+          <p>Overflow tickets, escalation, project work, documentation, monitoring, and vendor follow-through.</p>
+          <b>Escalation</b><b>Projects</b><b>Documentation</b>
+        </section>
       </div>
     </div>`,
   cybersecurity: `
     <div class="visual visual-cyber" data-visual="cybersecurity">
-      <div class="shield-radar">
+      <div class="security-control-effect">
+        <i class="effect-halo halo-one"></i>
         <i class="radar-sweep"></i>
-        <strong class="shield-core">Controls</strong>
-        ${["Identity", "Endpoint", "Email", "Backup", "Access"].map((item, index) => `<span style="--i:${index}">${esc(item)}</span>`).join("")}
+        <strong class="effect-core shield-core"><span>Controls</span><small>kept practical</small></strong>
+        ${[
+          ["Identity", "MFA, admins, user access"],
+          ["Endpoint", "Agents, patching, response"],
+          ["Email", "Protection and filtering"],
+          ["Backup", "Recovery visibility"],
+          ["Access", "Least privilege cleanup"]
+        ].map(([title, text], index) => `
+          <article class="effect-card control-card control-${index + 1}">
+            <span>${String(index + 1).padStart(2, "0")}</span>
+            <strong>${esc(title)}</strong>
+            <p>${esc(text)}</p>
+          </article>`).join("")}
       </div>
     </div>`,
   projects: `
     <div class="visual visual-projects" data-visual="projects">
-      <div class="cutover-visual">
-        <i></i>
-        ${["Scope", "Prepare", "Cutover", "Test", "Handoff"].map((item, index) => `<div class="project-step" style="--i:${index}"><span>${String(index + 1).padStart(2, "0")}</span><strong>${esc(item)}</strong></div>`).join("")}
+      <div class="project-flow-effect">
+        <i class="project-spine"></i>
+        ${[
+          ["Scope", "Business goal, access, vendors"],
+          ["Prepare", "Prerequisites and rollback expectations"],
+          ["Cutover", "Coordinated change window"],
+          ["Test", "Confirm users, systems, and recovery"],
+          ["Handoff", "Documented final state"]
+        ].map(([title, text], index) => `
+          <article class="project-step" style="--i:${index}">
+            <span>${String(index + 1).padStart(2, "0")}</span>
+            <strong>${esc(title)}</strong>
+            <p>${esc(text)}</p>
+          </article>`).join("")}
       </div>
     </div>`,
   approach: `
     <div class="visual visual-approach" data-visual="approach">
-      ${pages.approach.steps.map(([title], index) => `<span style="--i:${index}">${esc(title)}</span>`).join("")}
-      <strong>Owned IT</strong>
+      <div class="approach-flow-effect">
+        <strong class="effect-core"><span>Owned IT</span><small>operating rhythm</small></strong>
+        ${pages.approach.steps.map(([title, text], index) => `
+          <article class="effect-card approach-card approach-${index + 1}">
+            <span>${String(index + 1).padStart(2, "0")}</span>
+            <strong>${esc(title)}</strong>
+            <p>${esc(text)}</p>
+          </article>`).join("")}
+      </div>
     </div>`,
   about: `
     <div class="visual visual-about" data-visual="about">
