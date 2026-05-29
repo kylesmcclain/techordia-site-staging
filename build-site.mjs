@@ -17,7 +17,7 @@ import {
 } from "./site-data.mjs";
 
 const outDir = process.cwd();
-const assetVersion = "20260529-denser-hero-effects-4";
+const assetVersion = "20260529-techordia-way-nav-1";
 const generatedDirs = [
   "about",
   "approach",
@@ -104,7 +104,7 @@ const renderHeader = (root, page) => `
               .join("")}
           </div>
         </div>
-        <a class="nav-link" href="${href(root, "approach/")}"${current(page, "approach/")}>Approach</a>
+        <a class="nav-link nav-link-way" href="${href(root, "approach/")}"${current(page, "approach/")}>The Techordia Way</a>
         <div class="nav-group">
           <button class="nav-trigger" type="button" aria-expanded="false">About</button>
           <div class="mega-menu about-menu">
@@ -137,7 +137,7 @@ const renderFooter = (root) => `
         </div>
         <div>
           <h2>Company</h2>
-          <a href="${href(root, "approach/")}">Approach</a>
+          <a href="${href(root, "approach/")}">The Techordia Way</a>
           <a href="${href(root, "about/#story")}">The Techordia Story</a>
           <a href="${href(root, "about/#team")}">Team</a>
         </div>
@@ -581,7 +581,7 @@ const renderApproach = (root) => `
   ${renderHero(root, pages.approach, { actions: false })}
   <section class="section approach-detail-section">
     ${renderSectionHeader(
-      "Support should leave the environment cleaner than it found it",
+      "How Techordia works with clients",
       "The process is intentionally practical: understand the business, stabilize what interrupts work, document what matters, and keep improving the operating model."
     )}
     <div class="process-rail">

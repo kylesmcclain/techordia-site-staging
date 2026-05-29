@@ -22,7 +22,7 @@ The generator writes exactly 9 pages:
 - `/services/co-managed-it-services/`
 - `/services/cybersecurity/`
 - `/services/short-term-it-projects/`
-- `/approach/`
+- `/approach/` - displayed as "The Techordia Way"
 - `/about/`
 - `/contact/`
 

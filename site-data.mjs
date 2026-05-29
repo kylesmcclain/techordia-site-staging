@@ -158,10 +158,10 @@ export const servicePages = [
 
 export const approach = {
   path: "approach/",
-  title: "Our Approach | Techordia",
-  h1: "A practical process before a proposal.",
+  title: "The Techordia Way | Techordia",
+  h1: "The Techordia Way",
   intro:
-    "We look at how your team works, which systems matter, where risk sits, and what support path users need before recommending a model.",
+    "A practical working model for understanding the business, stabilizing support, documenting what matters, and improving IT over time.",
   visual: "approach",
   steps: [
     ["Discover", "Map users, devices, cloud systems, vendors, support paths, risks, and recurring pain."],
@@ -210,7 +210,7 @@ export const pages = {
 
 export const navItems = [
   { title: "Services", path: "services/" },
-  { title: "Approach", path: "approach/" },
+  { title: "The Techordia Way", path: "approach/" },
   { title: "About", path: "about/" },
   { title: "Contact", path: "contact/" }
 ];
