@@ -100,30 +100,20 @@ const createNetworkCanvas = (canvas) => {
   const ctx = canvas.getContext("2d");
   if (!ctx) return;
 
-  const nodes = [
-    { label: "Techordia", x: 0.5, y: 0.5, r: 18, hub: true },
-    { label: "Support", x: 0.18, y: 0.3, r: 8 },
-    { label: "Devices", x: 0.32, y: 0.18, r: 7 },
-    { label: "M365", x: 0.76, y: 0.26, r: 8 },
-    { label: "Security", x: 0.82, y: 0.6, r: 8 },
-    { label: "Backups", x: 0.58, y: 0.8, r: 8 },
-    { label: "Vendors", x: 0.2, y: 0.72, r: 7 },
-    { label: "Projects", x: 0.42, y: 0.74, r: 7 }
-  ];
-  const links = [
-    [0, 1],
-    [0, 2],
-    [0, 3],
-    [0, 4],
-    [0, 5],
-    [0, 6],
-    [0, 7],
-    [1, 2],
-    [3, 4],
-    [4, 5],
-    [5, 6],
-    [6, 7],
-    [2, 7]
+  const dotField = [];
+  for (let lat = -62; lat <= 66; lat += 8) {
+    for (let lon = -176; lon <= 180; lon += 8) {
+      const skip = Math.sin((lat * 17 + lon * 11) * 0.017) > 0.74;
+      if (!skip) dotField.push({ lat: (lat * Math.PI) / 180, lon: (lon * Math.PI) / 180 });
+    }
+  }
+
+  const routes = [
+    { to: [-0.15, -0.68], label: "Support" },
+    { to: [0.5, -0.48], label: "Microsoft 365" },
+    { to: [0.64, -0.04], label: "Security" },
+    { to: [0.34, 0.58], label: "Backups" },
+    { to: [-0.55, 0.42], label: "Projects" }
   ];
   const state = { pointerX: 0.5, pointerY: 0.5, targetX: 0.5, targetY: 0.5, frame: 0 };
 
@@ -135,20 +125,50 @@ const createNetworkCanvas = (canvas) => {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   };
 
-  const getGlobe = (width, height) => ({
-    cx: width * (width < 430 ? 0.5 : 0.54),
-    cy: height * 0.5,
-    r: Math.min(width, height) * (width < 430 ? 0.39 : 0.43)
-  });
+  const getGlobe = (width, height) => {
+    const small = width < 430;
+    return {
+      cx: width * (small ? 0.5 : 0.58),
+      cy: height * (small ? 0.52 : 0.48),
+      r: Math.min(width, height) * (small ? 0.41 : 0.46)
+    };
+  };
 
-  const point = (node, width, height, globe) => {
-    const mobileScale = width < 430 ? 0.78 : 1;
-    const driftScale = width < 430 ? 0.55 : 1;
-    const driftX = (state.pointerX - 0.5) * (node.hub ? 16 : 34) * driftScale;
-    const driftY = (state.pointerY - 0.5) * (node.hub ? 14 : 28) * driftScale;
-    const x = globe.cx + (node.x - 0.5) * globe.r * 1.62 * mobileScale + driftX;
-    const y = globe.cy + (node.y - 0.5) * globe.r * 1.48 * mobileScale + driftY;
-    return { x, y };
+  const project = (lat, lon, globe, rotation = 0) => {
+    const tilt = -0.38 + (state.pointerY - 0.5) * 0.18;
+    const drift = (state.pointerX - 0.5) * 0.34;
+    const rotatedLon = lon + rotation + drift;
+    const cosLat = Math.cos(lat);
+    const x = cosLat * Math.sin(rotatedLon);
+    const y = Math.sin(lat) * Math.cos(tilt) - cosLat * Math.cos(rotatedLon) * Math.sin(tilt);
+    const z = cosLat * Math.cos(rotatedLon) * Math.cos(tilt) + Math.sin(lat) * Math.sin(tilt);
+    return {
+      x: globe.cx + x * globe.r,
+      y: globe.cy - y * globe.r,
+      z
+    };
+  };
+
+  const drawCurve = (from, to, lift, color, progress) => {
+    const midX = (from.x + to.x) / 2;
+    const midY = (from.y + to.y) / 2 - lift;
+    ctx.beginPath();
+    ctx.moveTo(from.x, from.y);
+    ctx.quadraticCurveTo(midX, midY, to.x, to.y);
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 1.4;
+    ctx.stroke();
+
+    const t = progress % 1;
+    const px = (1 - t) * (1 - t) * from.x + 2 * (1 - t) * t * midX + t * t * to.x;
+    const py = (1 - t) * (1 - t) * from.y + 2 * (1 - t) * t * midY + t * t * to.y;
+    ctx.beginPath();
+    ctx.arc(px, py, 3.4, 0, Math.PI * 2);
+    ctx.fillStyle = "#12c7ef";
+    ctx.shadowColor = "#12c7ef";
+    ctx.shadowBlur = 18;
+    ctx.fill();
+    ctx.shadowBlur = 0;
   };
 
   const draw = (time = 0) => {
@@ -164,84 +184,62 @@ const createNetworkCanvas = (canvas) => {
     const width = canvas.clientWidth;
     const height = canvas.clientHeight;
     const globe = getGlobe(width, height);
+    const rotation = time * 0.00008;
     ctx.clearRect(0, 0, width, height);
 
-    const grd = ctx.createRadialGradient(globe.cx - globe.r * 0.18, globe.cy - globe.r * 0.08, 18, globe.cx, globe.cy, globe.r);
-    grd.addColorStop(0, "rgba(18, 199, 239, 0.52)");
-    grd.addColorStop(0.42, "rgba(7, 95, 206, 0.25)");
-    grd.addColorStop(1, "rgba(1, 12, 31, 0.04)");
+    const halo = ctx.createRadialGradient(globe.cx, globe.cy, globe.r * 0.08, globe.cx, globe.cy, globe.r * 1.28);
+    halo.addColorStop(0, "rgba(18, 199, 239, 0.2)");
+    halo.addColorStop(0.54, "rgba(6, 91, 163, 0.2)");
+    halo.addColorStop(1, "rgba(18, 199, 239, 0)");
+    ctx.fillStyle = halo;
+    ctx.fillRect(0, 0, width, height);
+
+    const grd = ctx.createRadialGradient(globe.cx - globe.r * 0.24, globe.cy - globe.r * 0.24, 14, globe.cx, globe.cy, globe.r);
+    grd.addColorStop(0, "rgba(23, 206, 242, 0.28)");
+    grd.addColorStop(0.34, "rgba(4, 41, 75, 0.92)");
+    grd.addColorStop(1, "rgba(0, 8, 20, 0.98)");
     ctx.save();
     ctx.beginPath();
     ctx.arc(globe.cx, globe.cy, globe.r, 0, Math.PI * 2);
-    ctx.clip();
     ctx.fillStyle = grd;
-    ctx.fillRect(globe.cx - globe.r, globe.cy - globe.r, globe.r * 2, globe.r * 2);
+    ctx.fill();
+    ctx.clip();
 
-    ctx.translate(globe.cx, globe.cy);
-    ctx.strokeStyle = "rgba(255, 255, 255, 0.16)";
-    ctx.lineWidth = 1;
-    for (let i = 0; i < 7; i += 1) {
+    dotField.forEach((dot) => {
+      const p = project(dot.lat, dot.lon, globe, rotation);
+      if (p.z < -0.18) return;
+      const alpha = 0.15 + Math.max(0, p.z) * 0.42;
       ctx.beginPath();
-      ctx.ellipse(0, 0, globe.r * (0.42 + i * 0.08), globe.r * (0.16 + i * 0.035), (i * Math.PI) / 7, 0, Math.PI * 2);
-      ctx.stroke();
-    }
-    for (let i = -2; i <= 2; i += 1) {
-      ctx.beginPath();
-      ctx.ellipse(i * globe.r * 0.18, 0, globe.r * 0.16, globe.r * 0.96, 0, 0, Math.PI * 2);
-      ctx.stroke();
-    }
+      ctx.arc(p.x, p.y, Math.max(0.7, 1.55 + p.z * 0.9), 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(125, 213, 255, ${alpha})`;
+      ctx.fill();
+    });
+
+    routes.forEach((route, index) => {
+      const from = { x: globe.cx - globe.r * 0.52, y: globe.cy - globe.r * 0.05 };
+      const to = { x: globe.cx + route.to[0] * globe.r, y: globe.cy + route.to[1] * globe.r };
+      drawCurve(from, to, globe.r * (0.26 + index * 0.035), index % 2 ? "rgba(18, 185, 179, 0.5)" : "rgba(18, 199, 239, 0.48)", time * 0.00018 + index * 0.16);
+    });
     ctx.restore();
+
     ctx.beginPath();
     ctx.arc(globe.cx, globe.cy, globe.r, 0, Math.PI * 2);
-    ctx.strokeStyle = "rgba(18, 199, 239, 0.44)";
+    ctx.strokeStyle = "rgba(18, 199, 239, 0.38)";
     ctx.lineWidth = 1.5;
     ctx.stroke();
 
-    const pts = nodes.map((node) => point(node, width, height, globe));
-    links.forEach(([from, to], index) => {
-      const a = pts[from];
-      const b = pts[to];
-      ctx.beginPath();
-      ctx.moveTo(a.x, a.y);
-      ctx.quadraticCurveTo((a.x + b.x) / 2, (a.y + b.y) / 2 - 24, b.x, b.y);
-      ctx.strokeStyle = index % 2 ? "rgba(18, 185, 179, 0.55)" : "rgba(18, 199, 239, 0.48)";
-      ctx.lineWidth = 2;
-      ctx.stroke();
-
-      const t = (time * 0.00018 + index * 0.11) % 1;
-      const cx = (1 - t) * (1 - t) * a.x + 2 * (1 - t) * t * ((a.x + b.x) / 2) + t * t * b.x;
-      const cy = (1 - t) * (1 - t) * a.y + 2 * (1 - t) * t * ((a.y + b.y) / 2 - 24) + t * t * b.y;
-      ctx.beginPath();
-      ctx.arc(cx, cy, 3.5, 0, Math.PI * 2);
-      ctx.fillStyle = "#12b9b3";
-      ctx.fill();
-    });
-
-    nodes.forEach((node, index) => {
-      const p = pts[index];
-      const pulse = node.hub ? 1 + Math.sin(time * 0.003) * 0.05 : 1;
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, node.r * pulse + 18, 0, Math.PI * 2);
-      ctx.fillStyle = node.hub ? "rgba(18, 199, 239, 0.22)" : "rgba(255, 255, 255, 0.1)";
-      ctx.fill();
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, node.r * pulse, 0, Math.PI * 2);
-      ctx.fillStyle = node.hub ? "#12c7ef" : "#ffffff";
-      ctx.strokeStyle = node.hub ? "#12b9b3" : "rgba(18, 199, 239, 0.72)";
-      ctx.lineWidth = node.hub ? 3 : 2;
-      ctx.fill();
-      ctx.stroke();
-      const mobile = width < 430;
-      ctx.font = node.hub ? "900 16px Inter, sans-serif" : `800 ${mobile ? 11 : 12}px Inter, sans-serif`;
-      ctx.textAlign = "center";
-      ctx.fillStyle = "#ffffff";
-      const hideMobileLabel = !node.label || (mobile && ["Backups", "Vendors", "Projects"].includes(node.label));
-      if (!hideMobileLabel) {
-        const labelInset = mobile ? 86 : 60;
-        const labelX = Math.min(width - labelInset, Math.max(labelInset, p.x));
-        ctx.fillText(node.label, labelX, p.y + node.r + 25);
-      }
-    });
+    const bay = { x: globe.cx - globe.r * 0.52, y: globe.cy - globe.r * 0.05 };
+    ctx.beginPath();
+    ctx.arc(bay.x, bay.y, 6, 0, Math.PI * 2);
+    ctx.fillStyle = "#ffffff";
+    ctx.shadowColor = "#12c7ef";
+    ctx.shadowBlur = 24;
+    ctx.fill();
+    ctx.shadowBlur = 0;
+    ctx.fillStyle = "rgba(255, 255, 255, 0.9)";
+    ctx.font = "800 12px Inter, sans-serif";
+    ctx.textAlign = "left";
+    ctx.fillText("Bay Area", bay.x + 12, bay.y + 4);
 
     canvas.dataset.ready = "true";
     canvas.dataset.frame = String(state.frame);

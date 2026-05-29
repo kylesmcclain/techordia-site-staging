@@ -17,7 +17,7 @@ import {
 } from "./site-data.mjs";
 
 const outDir = process.cwd();
-const assetVersion = "20260529-jones-review-placement-1";
+const assetVersion = "20260529-hero-effects-redesign-1";
 const generatedDirs = [
   "about",
   "approach",
@@ -161,31 +161,48 @@ const visualNodes = {
       <canvas class="network-canvas" data-network-canvas width="760" height="640" aria-label="Animated Techordia service network"></canvas>
     </div>`,
   services: `
-    <div class="visual visual-services" data-visual="services">
-      <div class="service-map">
-        <strong>Right model</strong>
-        ${servicePages.map((service, index) => `<span style="--i:${index}">${esc(service.title)}</span>`).join("")}
+    <div class="visual visual-orbit visual-services" data-visual="services">
+      <div class="effect-stage service-orbit">
+        <i class="orbit-ring ring-one"></i>
+        <i class="orbit-ring ring-two"></i>
+        <i class="orbit-ring ring-three"></i>
+        <strong class="orbit-core">Right model</strong>
+        ${servicePages.map((service, index) => `<span class="orbit-label" style="--i:${index}">${esc(service.title)}</span>`).join("")}
+        ${servicePages.map((service, index) => `<b class="orbit-spark" style="--i:${index}"></b>`).join("")}
       </div>
     </div>`,
   managed: `
-    <div class="visual visual-managed" data-visual="managed">
-      <div class="managed-core">Techordia</div>
-      ${["Users", "Devices", "M365", "Backups", "Vendors", "Security"].map((item, index) => `<span class="ops-node node-${index + 1}">${esc(item)}</span>`).join("")}
+    <div class="visual visual-orbit visual-managed" data-visual="managed">
+      <div class="effect-stage managed-constellation">
+        <i class="orbit-ring ring-one"></i>
+        <i class="orbit-ring ring-two"></i>
+        <strong class="orbit-core">Techordia</strong>
+        ${["Users", "Devices", "M365", "Backups", "Vendors", "Security"].map((item, index) => `<span class="orbit-label ops-node node-${index + 1}">${esc(item)}</span>`).join("")}
+        ${["Users", "Devices", "M365", "Backups", "Vendors", "Security"].map((_, index) => `<b class="orbit-spark node-${index + 1}"></b>`).join("")}
+      </div>
     </div>`,
   "co-managed": `
     <div class="visual visual-co" data-visual="co-managed">
-      <div class="lane-card internal"><span>Internal IT owns</span><strong>Strategy, approvals, business context</strong></div>
-      <div class="lane-bridge"><i></i><i></i><i></i></div>
-      <div class="lane-card techordia"><span>Techordia owns</span><strong>Overflow, escalation, projects, documentation</strong></div>
+      <div class="lane-system">
+        <div class="lane-card internal"><span>Internal IT owns</span><strong>Strategy, approvals, business context</strong></div>
+        <div class="lane-bridge"><i></i><i></i><i></i><b>Shared visibility</b></div>
+        <div class="lane-card techordia"><span>Techordia owns</span><strong>Overflow, escalation, projects, documentation</strong></div>
+      </div>
     </div>`,
   cybersecurity: `
     <div class="visual visual-cyber" data-visual="cybersecurity">
-      <div class="shield-core">Controls</div>
-      ${["Identity", "Endpoint", "Email", "Backup", "Access"].map((item) => `<span>${esc(item)}</span>`).join("")}
+      <div class="shield-radar">
+        <i class="radar-sweep"></i>
+        <strong class="shield-core">Controls</strong>
+        ${["Identity", "Endpoint", "Email", "Backup", "Access"].map((item, index) => `<span style="--i:${index}">${esc(item)}</span>`).join("")}
+      </div>
     </div>`,
   projects: `
     <div class="visual visual-projects" data-visual="projects">
-      ${["Scope", "Prepare", "Cutover", "Test", "Handoff"].map((item, index) => `<div class="project-step" style="--i:${index}"><span>${String(index + 1).padStart(2, "0")}</span><strong>${esc(item)}</strong></div>`).join("")}
+      <div class="cutover-visual">
+        <i></i>
+        ${["Scope", "Prepare", "Cutover", "Test", "Handoff"].map((item, index) => `<div class="project-step" style="--i:${index}"><span>${String(index + 1).padStart(2, "0")}</span><strong>${esc(item)}</strong></div>`).join("")}
+      </div>
     </div>`,
   approach: `
     <div class="visual visual-approach" data-visual="approach">
