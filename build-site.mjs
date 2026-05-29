@@ -17,7 +17,7 @@ import {
 } from "./site-data.mjs";
 
 const outDir = process.cwd();
-const assetVersion = "20260529-hero-effects-redesign-1";
+const assetVersion = "20260529-unboxed-hero-effects-1";
 const generatedDirs = [
   "about",
   "approach",

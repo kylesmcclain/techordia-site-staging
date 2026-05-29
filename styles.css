@@ -442,6 +442,20 @@ summary,
   display: none;
 }
 
+.service-hero .visual,
+.sub-hero .visual {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  overflow: visible;
+}
+
+.service-hero .visual::before,
+.sub-hero .visual::before {
+  display: none;
+}
+
 .network-canvas {
   position: absolute;
   inset: 0;
@@ -1452,26 +1466,24 @@ details p {
 .lane-card {
   position: relative;
   min-height: 320px;
-  border: 1px solid rgba(18, 199, 239, 0.22);
-  border-radius: 24px;
+  border: 0;
+  border-radius: 0;
   display: grid;
   place-items: center;
   padding: 28px;
   overflow: hidden;
   text-align: center;
-  background:
-    linear-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.055) 1px, transparent 1px),
-    rgba(1, 12, 31, 0.42);
-  background-size: 34px 34px;
+  background: transparent;
+  background-size: auto;
 }
 
 .lane-card::after {
   content: "";
   position: absolute;
-  inset: auto 0 0;
-  height: 44%;
-  background: linear-gradient(180deg, transparent, rgba(18, 199, 239, 0.14));
+  inset: 12% 16%;
+  border: 1px solid rgba(18, 199, 239, 0.22);
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 50%, rgba(18, 199, 239, 0.12), transparent 68%);
 }
 
 .lane-card span {
@@ -1571,13 +1583,27 @@ details p {
   display: flex;
   align-items: center;
   gap: 16px;
-  border: 1px solid rgba(18, 199, 239, 0.22);
-  border-radius: 18px;
-  background: rgba(1, 12, 31, 0.78);
+  border: 0;
+  border-radius: 0;
+  background: transparent;
   color: #fff;
-  padding: 15px 18px;
+  padding: 9px 18px 9px 54px;
   transform: translateX(calc((var(--i) - 2) * 18px));
-  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.18);
+  box-shadow: none;
+}
+
+.project-step::before {
+  content: "";
+  position: absolute;
+  left: 36px;
+  top: 50%;
+  width: 13px;
+  height: 13px;
+  border: 2px solid var(--tc-cyan);
+  border-radius: 50%;
+  background: #04142a;
+  box-shadow: 0 0 20px rgba(18, 199, 239, 0.64);
+  transform: translate(-50%, -50%);
 }
 
 .project-step span {
