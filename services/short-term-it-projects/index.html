@@ -5,22 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex,nofollow" />
     <title>IT Projects | Techordia</title>
-    <meta name="description" content="Focused execution for migrations, office moves, endpoint rollouts, network changes, and cleanup." />
+    <meta name="description" content="Scoped execution for migrations, office moves, endpoint rollouts, network changes, cleanup, and cutovers." />
+    <script>
+      try {
+        const requestedTheme = new URLSearchParams(location.search).get("theme");
+        const theme = requestedTheme === "light" || requestedTheme === "dark" ? requestedTheme : localStorage.getItem("techordia-theme");
+        if (theme === "light" || theme === "dark") document.documentElement.dataset.theme = theme;
+      } catch (error) {}
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <link rel="icon" href="../../assets/techordia-logo.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="../../styles.css?v=20260528-staging-dark-direction-2" />
-    <script defer src="../../script.js?v=20260528-staging-dark-direction-2"></script>
+    <link rel="stylesheet" href="../../styles.css?v=20260528-conversion-redesign-1" />
+    <script defer src="../../script.js?v=20260528-conversion-redesign-1"></script>
   </head>
   <body data-page="services/short-term-it-projects/" data-visual="projects">
 
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header">
-    <div class="topline">
-      <span>Based in Alameda, serving Bay Area businesses</span>
-      <a href="tel:+18779254785">877-925-4785</a>
-    </div>
     <nav class="nav-shell" aria-label="Primary navigation">
       <a class="brand" href="../../" aria-label="Techordia home"><img class="brand-logo" src="../../assets/techordia-logo-official.png" alt="Techordia" /></a>
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-menu" aria-label="Open navigation">
@@ -31,10 +34,22 @@
           <button class="nav-trigger" type="button" aria-expanded="false">Services</button>
           <div class="mega-menu">
             <a href="../../services/">All Services</a>
-            <a href="../../services/fully-managed-it-services/">Fully Managed IT</a><a href="../../services/co-managed-it-services/">Co-Managed IT</a><a href="../../services/cybersecurity/">Cybersecurity</a><a href="../../services/short-term-it-projects/" aria-current="page">IT Projects</a>
+            <a href="../../services/fully-managed-it-services/">Managed IT</a><a href="../../services/co-managed-it-services/">Co-Managed IT</a><a href="../../services/cybersecurity/">Cybersecurity</a><a href="../../services/short-term-it-projects/" aria-current="page">IT Projects</a>
           </div>
         </div>
-        <a class="nav-link" href="../../approach/">Approach</a><a class="nav-link" href="../../about/">About</a><a class="nav-link" href="../../contact/">Contact</a>
+        <a class="nav-link" href="../../approach/">Approach</a>
+        <div class="nav-group">
+          <button class="nav-trigger" type="button" aria-expanded="false">About</button>
+          <div class="mega-menu about-menu">
+            <a href="../../about/#story">The Techordia Story</a>
+            <a href="../../about/#team">Team</a>
+          </div>
+        </div>
+        <a class="nav-link" href="../../contact/">Contact</a>
+        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch color theme" aria-pressed="false">
+          <span class="theme-toggle-track"><span class="theme-toggle-knob"></span></span>
+          <span class="theme-toggle-text">Light</span>
+        </button>
         <a class="nav-cta" href="../../contact/">Book a Consultation</a>
       </div>
     </nav>
@@ -42,17 +57,17 @@
     <main id="main">
 
 
-  <section class="hero sub-hero" data-page-visual="projects">
+  <section class="hero service-hero" data-page-visual="projects">
     <div class="hero-bg" aria-hidden="true"></div>
     <div class="hero-inner">
       <div class="hero-copy">
         <h1>IT Projects</h1>
-        <p>Techordia scopes the work, coordinates dependencies, executes the technical pieces, tests the result, and leaves the environment easier to support.</p>
+        <p>Projects are where hidden IT gaps often surface. Techordia scopes the change, coordinates dependencies, executes the technical work, and leaves the final state easier to support.</p>
+
         <div class="hero-actions">
           <a class="button primary" href="../../contact/">Book a Consultation</a>
-          <a class="button secondary" href="#included">What's Included</a>
+          <a class="button secondary" href="#model">See the Service Model</a>
         </div>
-
       </div>
       <div class="hero-visual-shell">
 
@@ -63,53 +78,74 @@
       </div>
     </div>
   </section>
-  <section class="section split-section" id="included">
-    <div class="section-copy">
-      <span class="section-label">IT Projects</span>
-      <h2>Defined IT projects with scope, cutover planning, testing, and handoff.</h2>
-      <p>Techordia scopes the work, coordinates dependencies, executes the technical pieces, tests the result, and leaves the environment easier to support.</p>
-    </div>
-    <div class="included-list">
-      <span>Scoping</span><span>Migration</span><span>Rollout</span><span>Vendor coordination</span><span>Testing</span><span>Handoff</span>
-    </div>
-  </section>
-  <section class="section outcomes-section">
-    <div class="section-copy">
-      <span class="section-label">Outcomes</span>
-      <h2>What gets better.</h2>
-    </div>
-    <div class="outcome-grid">
-      <article><h3>Cleaner cutovers</h3><p>Users, vendors, timing, rollback, and support coverage are planned before go-live.</p></article><article><h3>Less project drift</h3><p>Scope, owners, prerequisites, and blockers stay visible.</p></article><article><h3>Usable handoff</h3><p>The final state is documented so support does not collapse after launch.</p></article>
-    </div>
-  </section>
-  <section class="section process-section" data-process>
-    <div class="section-copy">
-      <span class="section-label">How it works</span>
-      <h2>Clear steps, clean handoff.</h2>
-    </div>
-    <div class="process-rail">
-      <article><span>01</span><h3>Scope</h3><p>Goals, systems, dependencies, owners, and timing.</p></article><article><span>02</span><h3>Prepare</h3><p>Access, backups, vendors, users, hardware, and change windows.</p></article><article><span>03</span><h3>Execute</h3><p>Migration, rollout, cutover, testing, and live support.</p></article><article><span>04</span><h3>Handoff</h3><p>Documentation, stabilization, open items, and next-step recommendations.</p></article>
+  <section class="section service-model-section" id="model">
+
+  <div class="section-copy">
+    <h2>What Techordia owns</h2>
+    <p>Projects are where hidden IT gaps often surface. Techordia scopes the change, coordinates dependencies, executes the technical work, and leaves the final state easier to support.</p>
+  </div>
+    <div class="service-model-card">
+      <div>
+        <span class="tile-icon"><svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M8 14h8" /><path d="M21 14h19" /><path d="M8 24h22" /><path d="M35 24h5" /><path d="M8 34h14" /><path d="M27 34h13" /><circle cx="18" cy="14" r="3" /><circle cx="32" cy="24" r="3" /><circle cx="24" cy="34" r="3" /></svg></span>
+        <h3>IT Projects</h3>
+      </div>
+      <dl>
+        <div><dt>What it is</dt><dd>Techordia plans and executes defined IT projects with scope, prerequisites, vendor coordination, cutover planning, testing, and support handoff.</dd></div>
+        <div><dt>Best for</dt><dd>Teams that have a clear change to make and need it delivered without chaos or lingering support problems.</dd></div>
+        <div><dt>How it works</dt><dd>We clarify goals, dependencies, owners, timing, testing, rollback considerations, and documentation before and after the work.</dd></div>
+      </dl>
     </div>
   </section>
 
-  <section class="section faq-section">
-    <div class="section-copy">
-      <span class="section-label">FAQ</span>
-      <h2>Questions decision-makers ask first.</h2>
+  <section class="section service-specific project-specific">
+
+  <div class="section-copy">
+    <h2>From scope to supportable handoff</h2>
+
+  </div>
+    <div class="cutover-track">
+      <article><span>01</span><strong>Business goal</strong></article><article><span>02</span><strong>Dependencies</strong></article><article><span>03</span><strong>Change window</strong></article><article><span>04</span><strong>Testing</strong></article><article><span>05</span><strong>Support handoff</strong></article>
     </div>
+  </section>
+  <section class="section outcomes-section">
+
+  <div class="section-copy">
+    <h2>Business outcomes</h2>
+
+  </div>
+    <div class="outcome-grid">
+      <article><h3>Cleaner cutovers</h3><p>Users, vendors, timing, rollback, and support coverage are planned before go-live.</p></article><article><h3>Less project drift</h3><p>Scope, prerequisites, owners, and blockers stay visible.</p></article><article><h3>Better handoff</h3><p>The final state is documented so support does not collapse after launch.</p></article>
+    </div>
+  </section>
+  <section class="section process-section" data-process>
+
+  <div class="section-copy">
+    <h2>How project work stays controlled</h2>
+
+  </div>
+    <div class="process-rail">
+      <article><span>01</span><h3>Scope</h3><p>Define goals, systems, dependencies, stakeholders, timing, and risk.</p></article><article><span>02</span><h3>Prepare</h3><p>Confirm access, backups, vendors, users, hardware, licenses, and change windows.</p></article><article><span>03</span><h3>Execute</h3><p>Handle migration, rollout, cutover, testing, communication, and live support.</p></article><article><span>04</span><h3>Handoff</h3><p>Document the final state, open items, support notes, and recommendations.</p></article>
+    </div>
+  </section>
+
+  <section class="section faq-section simple-faq">
+
+  <div class="section-copy">
+    <h2>Questions about it projects</h2>
+
+  </div>
     <div class="faq-list">
-      <details><summary>Do you do project-only work?</summary><p>Yes. Projects can be scoped independently from recurring managed services.</p></details><details><summary>What projects fit?</summary><p>Microsoft 365 migrations, endpoint rollouts, office moves, network work, server changes, cleanup, and security remediation.</p></details><details><summary>How is pricing handled?</summary><p>Project pricing depends on scope, timing, dependencies, risk, and support expectations.</p></details>
+      <details><summary>Do you do project-only work?</summary><p>Yes. Projects can be scoped independently from recurring managed services when the work and handoff expectations are clear.</p></details><details><summary>What projects are a fit?</summary><p>Microsoft 365 migrations, endpoint rollouts, office moves, network work, server changes, cleanup, security remediation, and vendor-dependent cutovers.</p></details><details><summary>How do you reduce cutover risk?</summary><p>We identify dependencies, confirm access and backups, plan timing, define rollback expectations, and communicate support coverage before go-live.</p></details><details><summary>What happens after the project?</summary><p>Techordia documents the final state, reviews open items, and can either hand off support or continue under a managed/co-managed model.</p></details>
     </div>
   </section>
 
   <section class="final-cta">
     <div>
-      <h2>Ready to quiet the IT noise?</h2>
-      <p>Talk through users, devices, Microsoft 365, security, backups, and support coverage.</p>
+      <h2>Find the right IT support relationship.</h2>
+      <p>Start with a practical conversation about your users, systems, risks, and support expectations. We will help identify whether managed, co-managed, project, or security support fits best.</p>
     </div>
     <div class="cta-actions">
-      <a class="button light" href="../../contact/">Book a Consultation</a>
-      <a class="button ghost" href="tel:+18779254785">Call 877-925-4785</a>
+      <a class="button light" href="../../contact/">Talk With Techordia</a>
     </div>
   </section>
     </main>
@@ -118,24 +154,24 @@
     <div class="footer-main">
       <div class="footer-brand">
         <img class="brand-logo" src="../../assets/techordia-logo-official.png" alt="Techordia" />
-        <p>Responsive managed IT, cybersecurity, cloud, server, backup, and project support from Alameda.</p>
+        <p>Relationship-driven managed IT, cybersecurity, and project support for Bay Area SMBs.</p>
       </div>
       <div class="footer-links">
         <div>
           <h2>Services</h2>
           <a href="../../services/">All Services</a>
-          <a href="../../services/fully-managed-it-services/">Fully Managed IT</a><a href="../../services/co-managed-it-services/">Co-Managed IT</a><a href="../../services/cybersecurity/">Cybersecurity</a><a href="../../services/short-term-it-projects/">IT Projects</a>
+          <a href="../../services/fully-managed-it-services/">Managed IT</a><a href="../../services/co-managed-it-services/">Co-Managed IT</a><a href="../../services/cybersecurity/">Cybersecurity</a><a href="../../services/short-term-it-projects/">IT Projects</a>
         </div>
         <div>
           <h2>Company</h2>
           <a href="../../approach/">Approach</a>
-          <a href="../../about/">About</a>
-          <a href="../../contact/">Contact</a>
+          <a href="../../about/#story">The Techordia Story</a>
+          <a href="../../about/#team">Team</a>
         </div>
         <div>
           <h2>Contact</h2>
           <a href="tel:+18779254785">877-925-4785</a>
-          <a href="mailto:info@techordia.com">info@techordia.com</a>
+          <a href="mailto:support@techordia.com">support@techordia.com</a>
           <span>887 Island Drive, Suite C, Alameda, CA 94502</span>
         </div>
       </div>

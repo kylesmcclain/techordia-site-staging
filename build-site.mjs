@@ -2,20 +2,22 @@ import { mkdir, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import {
   allPages,
-  brandValues,
+  clientExperience,
   contactFlow,
-  faqs,
+  faqGroups,
+  leadershipNotes,
   navItems,
   pages,
   pricing,
-  proof,
   reviewWidget,
   servicePages,
-  site
+  site,
+  teamMembers,
+  whyTechordia
 } from "./site-data.mjs";
 
 const outDir = process.cwd();
-const assetVersion = "20260528-staging-dark-direction-2";
+const assetVersion = "20260528-conversion-redesign-1";
 const generatedDirs = [
   "about",
   "approach",
@@ -25,7 +27,9 @@ const generatedDirs = [
   "disclosure",
   "existing-clients",
   "faqs",
+  "industries",
   "it-case-studies-white-papers",
+  "locations",
   "managed-it-services",
   "privacy-policy",
   "resources",
@@ -59,6 +63,18 @@ const renderLogo = (root) => `<img class="brand-logo" src="${root}${site.logo}" 
 const renderButton = (root, label, target, variant = "primary") =>
   `<a class="button ${variant}" href="${href(root, target)}">${esc(label)}</a>`;
 
+const iconSvg = (name) => {
+  const common = 'viewBox="0 0 48 48" aria-hidden="true" focusable="false"';
+  const icons = {
+    headset: `<svg ${common}><path d="M12 26v-4a12 12 0 0 1 24 0v4" /><path d="M12 26h-2a4 4 0 0 0-4 4v3a4 4 0 0 0 4 4h4V26h-2Z" /><path d="M36 26h2a4 4 0 0 1 4 4v3a4 4 0 0 1-4 4h-4V26h2Z" /><path d="M32 38c-2 3-5 4-9 4h-3" /></svg>`,
+    lanes: `<svg ${common}><path d="M8 14h14" /><path d="M26 14h14" /><path d="M15 14v20" /><path d="M33 14v20" /><path d="M8 34h14" /><path d="M26 34h14" /><circle cx="15" cy="14" r="4" /><circle cx="33" cy="34" r="4" /></svg>`,
+    shield: `<svg ${common}><path d="M24 6 39 12v11c0 10-6 16-15 19C15 39 9 33 9 23V12l15-6Z" /><path d="m17 24 5 5 10-12" /></svg>`,
+    timeline: `<svg ${common}><path d="M8 14h8" /><path d="M21 14h19" /><path d="M8 24h22" /><path d="M35 24h5" /><path d="M8 34h14" /><path d="M27 34h13" /><circle cx="18" cy="14" r="3" /><circle cx="32" cy="24" r="3" /><circle cx="24" cy="34" r="3" /></svg>`,
+    user: `<svg ${common}><circle cx="24" cy="17" r="7" /><path d="M11 40c2-8 7-12 13-12s11 4 13 12" /></svg>`
+  };
+  return icons[name] || icons.headset;
+};
+
 const renderReviewWidget = () => `
   <aside class="review-widget" aria-label="Google review profile status">
     <div class="review-g">G</div>
@@ -72,10 +88,6 @@ const renderReviewWidget = () => `
 const renderHeader = (root, page) => `
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header">
-    <div class="topline">
-      <span>Based in Alameda, serving Bay Area businesses</span>
-      <a href="${site.phoneHref}">${esc(site.phone)}</a>
-    </div>
     <nav class="nav-shell" aria-label="Primary navigation">
       <a class="brand" href="${root}" aria-label="Techordia home">${renderLogo(root)}</a>
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-menu" aria-label="Open navigation">
@@ -91,10 +103,19 @@ const renderHeader = (root, page) => `
               .join("")}
           </div>
         </div>
-        ${navItems
-          .filter((item) => item.path !== "services/")
-          .map((item) => `<a class="nav-link" href="${href(root, item.path)}"${current(page, item.path)}>${esc(item.title)}</a>`)
-          .join("")}
+        <a class="nav-link" href="${href(root, "approach/")}"${current(page, "approach/")}>Approach</a>
+        <div class="nav-group">
+          <button class="nav-trigger" type="button" aria-expanded="false">About</button>
+          <div class="mega-menu about-menu">
+            <a href="${href(root, "about/#story")}">The Techordia Story</a>
+            <a href="${href(root, "about/#team")}">Team</a>
+          </div>
+        </div>
+        <a class="nav-link" href="${href(root, "contact/")}"${current(page, "contact/")}>Contact</a>
+        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch color theme" aria-pressed="false">
+          <span class="theme-toggle-track"><span class="theme-toggle-knob"></span></span>
+          <span class="theme-toggle-text">Light</span>
+        </button>
         <a class="nav-cta" href="${href(root, "contact/")}">Book a Consultation</a>
       </div>
     </nav>
@@ -105,7 +126,7 @@ const renderFooter = (root) => `
     <div class="footer-main">
       <div class="footer-brand">
         ${renderLogo(root)}
-        <p>Responsive managed IT, cybersecurity, cloud, server, backup, and project support from Alameda.</p>
+        <p>Relationship-driven managed IT, cybersecurity, and project support for Bay Area SMBs.</p>
       </div>
       <div class="footer-links">
         <div>
@@ -116,8 +137,8 @@ const renderFooter = (root) => `
         <div>
           <h2>Company</h2>
           <a href="${href(root, "approach/")}">Approach</a>
-          <a href="${href(root, "about/")}">About</a>
-          <a href="${href(root, "contact/")}">Contact</a>
+          <a href="${href(root, "about/#story")}">The Techordia Story</a>
+          <a href="${href(root, "about/#team")}">Team</a>
         </div>
         <div>
           <h2>Contact</h2>
@@ -140,27 +161,26 @@ const visualNodes = {
     </div>`,
   services: `
     <div class="visual visual-services" data-visual="services">
-      <div class="service-orb">
+      <div class="service-map">
+        <strong>Right model</strong>
         ${servicePages.map((service, index) => `<span style="--i:${index}">${esc(service.title)}</span>`).join("")}
-        <strong>Techordia</strong>
       </div>
-      <p>Four service lanes. One support conversation.</p>
     </div>`,
   managed: `
     <div class="visual visual-managed" data-visual="managed">
-      <div class="ops-hub">Managed IT</div>
-      ${["Users", "Devices", "M365", "Servers", "Backups", "Vendors"].map((item, index) => `<span class="ops-node node-${index + 1}">${esc(item)}</span>`).join("")}
+      <div class="managed-core">Techordia</div>
+      ${["Users", "Devices", "M365", "Backups", "Vendors", "Security"].map((item, index) => `<span class="ops-node node-${index + 1}">${esc(item)}</span>`).join("")}
     </div>`,
   "co-managed": `
     <div class="visual visual-co" data-visual="co-managed">
-      <div class="team-lane internal"><span>Internal IT</span><strong>Control</strong></div>
-      <div class="handoff-line"><i></i><i></i><i></i></div>
-      <div class="team-lane techordia"><span>Techordia</span><strong>Capacity</strong></div>
+      <div class="lane-card internal"><span>Internal IT owns</span><strong>Strategy, approvals, business context</strong></div>
+      <div class="lane-bridge"><i></i><i></i><i></i></div>
+      <div class="lane-card techordia"><span>Techordia owns</span><strong>Overflow, escalation, projects, documentation</strong></div>
     </div>`,
   cybersecurity: `
     <div class="visual visual-cyber" data-visual="cybersecurity">
-      <div class="shield-core">Security</div>
-      ${["Identity", "Email", "Endpoint", "Backup", "Access"].map((item) => `<span>${esc(item)}</span>`).join("")}
+      <div class="shield-core">Controls</div>
+      ${["Identity", "Endpoint", "Email", "Backup", "Access"].map((item) => `<span>${esc(item)}</span>`).join("")}
     </div>`,
   projects: `
     <div class="visual visual-projects" data-visual="projects">
@@ -169,14 +189,14 @@ const visualNodes = {
   approach: `
     <div class="visual visual-approach" data-visual="approach">
       ${pages.approach.steps.map(([title], index) => `<span style="--i:${index}">${esc(title)}</span>`).join("")}
-      <strong>Operate cleanly</strong>
+      <strong>Owned IT</strong>
     </div>`,
   about: `
     <div class="visual visual-about" data-visual="about">
       <div class="founder-avatar">WL</div>
       <h2>${esc(site.founder)}</h2>
-      <p>Founder, Techordia</p>
-      <span>Alameda, CA</span>
+      <p>Founder & CTO</p>
+      <span>Founded ${esc(site.founded)}</span>
     </div>`,
   contact: `
     <div class="visual visual-contact" data-visual="contact">
@@ -184,103 +204,76 @@ const visualNodes = {
     </div>`
 };
 
-const renderHero = (root, page, options = {}) => `
-  <section class="hero ${options.home ? "home-hero" : "sub-hero"}" data-page-visual="${esc(page.visual || "home")}">
+const renderHero = (root, page, options = {}) => {
+  const isHome = options.home;
+  const isService = options.service;
+  const heroClass = isHome ? "home-hero" : isService ? "service-hero" : "sub-hero";
+  const actions = options.actions === false ? "" : `
+        <div class="hero-actions">
+          ${renderButton(root, options.primaryLabel || "Book a Consultation", options.primaryTarget || "contact/")}
+          ${
+            options.secondaryLabel
+              ? renderButton(root, options.secondaryLabel, options.secondaryTarget || "services/", "secondary")
+              : ""
+          }
+        </div>`;
+
+  return `
+  <section class="hero ${heroClass}" data-page-visual="${esc(page.visual || "home")}">
     <div class="hero-bg" aria-hidden="true"></div>
     <div class="hero-inner">
       <div class="hero-copy">
         ${
-          options.home
+          isHome
             ? `<h1><span>IT that works.</span><em>So you can.</em></h1>`
             : `<h1>${esc(page.h1 || page.title)}</h1>`
         }
         <p>${esc(page.intro || page.hero || "")}</p>
-        <div class="hero-actions">
-          ${renderButton(root, "Book a Consultation", "contact/")}
-          ${renderButton(root, options.secondaryLabel || "See Services", options.secondaryTarget || "services/", "secondary")}
-        </div>
-        ${
-          options.home
-            ? `<div class="hero-proof-row">
-                <article><span>Support</span><strong>Real people. Real quick.</strong></article>
-                <article><span>Security</span><strong>Protect what matters.</strong></article>
-                <article><span>Strategy</span><strong>IT that drives results.</strong></article>
-              </div>
-              <div class="hero-location">Alameda, CA | Serving the entire Bay Area and beyond</div>`
-            : ""
-        }
+        ${actions}
       </div>
       <div class="hero-visual-shell">
         ${visualNodes[page.visual] || visualNodes.services}
-        ${options.home ? renderReviewWidget() : ""}
+        ${isHome ? renderReviewWidget() : ""}
       </div>
     </div>
   </section>`;
+};
 
-const renderProof = () => `
-  <section class="proof-strip" aria-label="Techordia proof points">
-    ${proof.map(([title, text]) => `<article><strong>${esc(title)}</strong><span>${esc(text)}</span></article>`).join("")}
-  </section>`;
-
-const renderServiceCards = (root, compact = false) => `
-  <div class="service-grid ${compact ? "compact" : ""}" data-service-selector>
-    ${servicePages
-      .map(
-        (service, index) => `
-        <article class="service-tile" data-service-card="${esc(service.key)}">
-          <span class="tile-number">${String(index + 1).padStart(2, "0")}</span>
-          <h3>${esc(service.title)}</h3>
-          <p>${esc(service.summary)}</p>
-          <dl>
-            <div><dt>Best for</dt><dd>${esc(service.fit)}</dd></div>
-            <div><dt>Includes</dt><dd>${esc(service.included.slice(0, 4).join(", "))}</dd></div>
-          </dl>
-          <a class="text-link" href="${href(root, service.path)}">${esc(service.cta)}</a>
-        </article>`
-      )
-      .join("")}
+const renderSectionHeader = (title, text = "") => `
+  <div class="section-copy">
+    <h2>${esc(title)}</h2>
+    ${text ? `<p>${text}</p>` : ""}
   </div>`;
 
-const renderServiceGateways = (root) => `
-  <div class="gateway-grid">
+const renderServiceSummaryCards = (root, options = {}) => `
+  <div class="service-grid ${options.compact ? "compact" : ""}" data-service-selector>
     ${servicePages
       .map(
         (service) => `
-        <a class="gateway-card" href="${href(root, service.path)}">
-          <span>${esc(service.fit)}</span>
+        <a class="service-tile" href="${href(root, service.path)}" data-service-card="${esc(service.key)}">
+          <span class="tile-icon">${iconSvg(service.icon)}</span>
           <h3>${esc(service.title)}</h3>
-          <p>${esc(service.summary)}</p>
-          <strong>${esc(service.cta)}</strong>
+          <dl>
+            <div><dt>What it is</dt><dd>${esc(service.what)}</dd></div>
+            <div><dt>Best for</dt><dd>${esc(service.bestFor)}</dd></div>
+            <div><dt>How it works</dt><dd>${esc(service.how)}</dd></div>
+          </dl>
         </a>`
       )
       .join("")}
   </div>`;
 
-const renderPricing = () => `
-  <section class="section pricing-section">
-    <div class="section-copy">
-      <span class="section-label">Pricing</span>
-      <h2>${esc(pricing.title)}</h2>
-      <p>${esc(pricing.intro)}</p>
-    </div>
-    <div class="pricing-factors">
-      ${pricing.factors.map(([title, text]) => `<article><strong>${esc(title)}</strong><p>${esc(text)}</p></article>`).join("")}
-    </div>
-  </section>`;
-
-const renderBrandValues = () => `
-  <section class="section voice-section">
-    <div class="section-copy">
-      <span class="section-label">How Techordia Works</span>
-      <h2>Human support with serious technical depth.</h2>
-      <p>Small and mid-sized teams need more than a ticket queue. They need responsive people who can own the issue, explain the work, and get the environment cleaner as they go.</p>
-    </div>
-    <div class="voice-grid">
-      ${brandValues
+const renderWhyTechordia = () => `
+  <section class="section why-section">
+    ${renderSectionHeader(
+      "Why Techordia",
+      "The right IT partner helps teams <strong>stay productive</strong>, <strong>reduce downtime</strong>, and <strong>keep critical systems supported</strong> as the business grows."
+    )}
+    <div class="outcome-grid">
+      ${whyTechordia
         .map(
-          ([title, text], index) => `
-        <article class="voice-card" style="--i:${index}">
-          <span>${String(index + 1).padStart(2, "0")}</span>
+          ([title, text]) => `
+        <article>
           <h3>${esc(title)}</h3>
           <p>${esc(text)}</p>
         </article>`
@@ -289,35 +282,72 @@ const renderBrandValues = () => `
     </div>
   </section>`;
 
-const renderHomeReview = () => `
-  <section class="section home-review-row">
-    <div class="section-copy">
-      <span class="section-label">Reputation</span>
-      <h2>See public feedback before you start.</h2>
-      <p>This spot is ready for verified Google Business Profile details. Until the rating and review count are confirmed, the staging site keeps the claim neutral.</p>
+const renderPricing = () => `
+  <section class="section pricing-section">
+    ${renderSectionHeader(pricing.title, esc(pricing.intro))}
+    <div class="pricing-factors">
+      ${pricing.factors.map(([title, text]) => `<article><strong>${esc(title)}</strong><p>${esc(text)}</p></article>`).join("")}
     </div>
-    ${renderReviewWidget()}
   </section>`;
 
-const renderHomeVoiceStrip = (root) => `
-  <section class="voice-strip" aria-label="Techordia support style">
-    <div>
-      <span>Real people</span>
-      <span>White-glove IT</span>
-      <span>Fast support</span>
-      <span>Not robotic</span>
-    </div>
-    ${renderButton(root, "Meet Techordia", "about/", "secondary")}
-  </section>`;
+const flattenFaqs = (groups) => groups.flatMap((group) => group.items.map((item) => ({ group, item })));
 
-const renderFaqs = (items = faqs) => `
-  <section class="section faq-section">
-    <div class="section-copy">
-      <span class="section-label">FAQ</span>
-      <h2>Questions decision-makers ask first.</h2>
-    </div>
+const renderFaqs = (items = null, options = {}) => {
+  if (items) {
+    return `
+  <section class="section faq-section simple-faq">
+    ${renderSectionHeader(options.title || "Questions to clarify before we start.")}
     <div class="faq-list">
       ${items.map(([q, a]) => `<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join("")}
+    </div>
+  </section>`;
+  }
+
+  const all = flattenFaqs(faqGroups);
+  return `
+  <section class="section faq-section" data-faq-section>
+    ${renderSectionHeader(
+      "Questions SMB leaders ask before choosing an MSP",
+      "The best conversations usually start with transition risk, responsiveness, support ownership, and how new work gets implemented."
+    )}
+    <div class="faq-layout">
+      <div class="faq-filters" aria-label="FAQ categories">
+        <button type="button" class="is-active" data-faq-filter="all" aria-pressed="true">All</button>
+        ${faqGroups.map((group) => `<button type="button" data-faq-filter="${esc(group.key)}" aria-pressed="false">${esc(group.label)}</button>`).join("")}
+      </div>
+      <div class="faq-list">
+        ${all
+          .map(
+            ({ group, item }) => `
+          <details data-faq-item="${esc(group.key)}">
+            <summary>${esc(item[0])}</summary>
+            <p>${esc(item[1])}</p>
+          </details>`
+          )
+          .join("")}
+      </div>
+    </div>
+  </section>`;
+};
+
+const renderClientExperience = (root) => `
+  <section class="section experience-section">
+    ${renderSectionHeader(
+      "What clients should feel",
+      "A trusted IT partner should turn technology from a liability or distraction into a business asset your team can count on."
+    )}
+    <div class="experience-layout">
+      <div class="experience-grid">
+        ${clientExperience
+          .map(([title, text]) => `<article><h3>${esc(title)}</h3><p>${esc(text)}</p></article>`)
+          .join("")}
+      </div>
+      <aside class="leadership-panel">
+        <div class="founder-avatar">WL</div>
+        <h3>Leadership you can talk to</h3>
+        ${leadershipNotes.map((note) => `<p>${esc(note)}</p>`).join("")}
+        ${renderButton(root, "Meet the Team", "about/#team", "secondary")}
+      </aside>
     </div>
   </section>`;
 
@@ -327,139 +357,226 @@ const renderContactForm = () => `
     <label>Last name<input name="Last name" autocomplete="family-name" required /></label>
     <label>Company<input name="Company" autocomplete="organization" required /></label>
     <label>Email<input type="email" name="Email" autocomplete="email" required /></label>
-    <label>Support need<select name="Support need" required><option value="">Select one</option><option>Fully managed IT</option><option>Co-managed IT</option><option>Cybersecurity</option><option>IT project</option><option>Not sure yet</option></select></label>
+    <label>Support need<select name="Support need" required><option value="">Select one</option><option>Managed IT</option><option>Co-managed IT</option><option>Cybersecurity</option><option>IT project</option><option>Not sure yet</option></select></label>
     <label>What should we look at first?<textarea name="Message" rows="5" required></textarea></label>
-    <button class="button primary" type="submit">Start the Conversation</button>
+    <button class="button primary" type="submit">Send Message</button>
   </form>`;
 
 const renderFinalCta = (root) => `
   <section class="final-cta">
     <div>
-      <h2>Ready to quiet the IT noise?</h2>
-      <p>Talk through users, devices, Microsoft 365, security, backups, and support coverage.</p>
+      <h2>Find the right IT support relationship.</h2>
+      <p>Start with a practical conversation about your users, systems, risks, and support expectations. We will help identify whether managed, co-managed, project, or security support fits best.</p>
     </div>
     <div class="cta-actions">
-      ${renderButton(root, "Book a Consultation", "contact/", "light")}
-      ${renderButton(root, `Call ${site.phone}`, site.phoneHref, "ghost")}
+      ${renderButton(root, "Talk With Techordia", "contact/", "light")}
     </div>
   </section>`;
 
 const renderHome = (root) => `
   ${renderHero(root, pages.home, { home: true, secondaryLabel: "See How We Help", secondaryTarget: "services/" })}
-  ${renderProof()}
+  ${renderWhyTechordia()}
   <section class="section home-service-section">
-    <div class="section-copy">
-      <span class="section-label">Services</span>
-      <h2>Four ways to get IT under control.</h2>
-      <p>Start with the support lane that matches your team. Techordia can own the whole environment, work beside internal IT, improve security, or deliver a focused project.</p>
-    </div>
-    ${renderServiceGateways(root)}
+    ${renderSectionHeader(
+      "Choose the support model that fits",
+      "Each service lane is built around a different operating need, from complete IT ownership to targeted project execution."
+    )}
+    ${renderServiceSummaryCards(root)}
   </section>
-  ${renderHomeVoiceStrip(root)}
+  ${renderClientExperience(root)}
+  ${renderFaqs()}
   ${renderFinalCta(root)}`;
 
 const renderServices = (root) => `
-  ${renderHero(root, pages.services, { secondaryLabel: "Compare Packages", secondaryTarget: "#packages" })}
+  ${renderHero(root, pages.services, { secondaryLabel: "Compare Service Models", secondaryTarget: "#packages" })}
   <section class="section services-section" id="packages">
-    <div class="section-copy">
-      <span class="section-label">Service Packages</span>
-      <h2>No filler pages. Just the support models that matter.</h2>
-      <p>Each package has a different job, scope, and operating model.</p>
-    </div>
-    ${renderServiceCards(root)}
+    ${renderSectionHeader(
+      "Service models",
+      "Use these summaries to decide which conversation is most useful first. The right model depends on users, devices, risk, support expectations, and the work already on your plate."
+    )}
+    ${renderServiceSummaryCards(root)}
   </section>
   ${renderPricing()}
   ${renderFaqs()}
   ${renderFinalCta(root)}`;
 
-const renderServicePage = (root, page) => `
-  ${renderHero(root, page, { secondaryLabel: "What's Included", secondaryTarget: "#included" })}
-  <section class="section split-section" id="included">
-    <div class="section-copy">
-      <span class="section-label">${esc(page.title)}</span>
-      <h2>${esc(page.hero)}</h2>
-      <p>${esc(page.intro)}</p>
+const serviceProcessTitles = {
+  managed: "How managed IT becomes stable",
+  "co-managed": "How shared support gets defined",
+  cybersecurity: "How practical risk reduction starts",
+  projects: "How project work stays controlled"
+};
+
+const renderServiceSpecificSection = (page) => {
+  if (page.key === "managed") {
+    return `
+  <section class="section service-specific managed-specific">
+    ${renderSectionHeader("The managed support model")}
+    <div class="support-model-grid">
+      <article><span>01</span><h3>User support</h3><p>Ticket routing, remote help, onsite coordination, urgent escalation, onboarding, and day-to-day questions.</p></article>
+      <article><span>02</span><h3>Systems ownership</h3><p>Microsoft 365, endpoints, backups, vendors, access paths, and infrastructure stay visible and supportable.</p></article>
+      <article><span>03</span><h3>Operating rhythm</h3><p>Recurring issues, lifecycle needs, documentation, and security priorities are reviewed instead of ignored.</p></article>
     </div>
-    <div class="included-list">
-      ${page.included.map((item) => `<span>${esc(item)}</span>`).join("")}
+  </section>`;
+  }
+
+  if (page.key === "co-managed") {
+    return `
+  <section class="section service-specific co-specific">
+    ${renderSectionHeader("Shared lanes prevent dropped work")}
+    <div class="lane-compare">
+      <article><h3>Internal team</h3><p>Business context, priorities, approvals, internal communication, and systems the company wants to keep close.</p></article>
+      <div class="lane-center">Shared visibility</div>
+      <article><h3>Techordia</h3><p>Overflow tickets, escalation, monitoring, documentation, project execution, security cleanup, and vendor follow-through.</p></article>
+    </div>
+  </section>`;
+  }
+
+  if (page.key === "cybersecurity") {
+    return `
+  <section class="section service-specific cyber-specific">
+    ${renderSectionHeader("Security controls that support operations")}
+    <div class="control-matrix">
+      ${["Identity", "Endpoint", "Email", "Backup", "Admin access", "Documentation"]
+        .map((item) => `<article><span>${iconSvg("shield")}</span><strong>${esc(item)}</strong><p>Practical checks, cleanup, and supportable controls that reduce day-to-day risk.</p></article>`)
+        .join("")}
+    </div>
+  </section>`;
+  }
+
+  return `
+  <section class="section service-specific project-specific">
+    ${renderSectionHeader("From scope to supportable handoff")}
+    <div class="cutover-track">
+      ${["Business goal", "Dependencies", "Change window", "Testing", "Support handoff"]
+        .map((item, index) => `<article><span>${String(index + 1).padStart(2, "0")}</span><strong>${esc(item)}</strong></article>`)
+        .join("")}
+    </div>
+  </section>`;
+};
+
+const renderServicePage = (root, page) => `
+  ${renderHero(root, page, {
+    service: true,
+    primaryLabel: "Book a Consultation",
+    primaryTarget: "contact/",
+    secondaryLabel: "See the Service Model",
+    secondaryTarget: "#model"
+  })}
+  <section class="section service-model-section" id="model">
+    ${renderSectionHeader("What Techordia owns", esc(page.intro))}
+    <div class="service-model-card">
+      <div>
+        <span class="tile-icon">${iconSvg(page.icon)}</span>
+        <h3>${esc(page.title)}</h3>
+      </div>
+      <dl>
+        <div><dt>What it is</dt><dd>${esc(page.what)}</dd></div>
+        <div><dt>Best for</dt><dd>${esc(page.bestFor)}</dd></div>
+        <div><dt>How it works</dt><dd>${esc(page.how)}</dd></div>
+      </dl>
     </div>
   </section>
+  ${renderServiceSpecificSection(page)}
   <section class="section outcomes-section">
-    <div class="section-copy">
-      <span class="section-label">Outcomes</span>
-      <h2>What gets better.</h2>
-    </div>
+    ${renderSectionHeader("Business outcomes")}
     <div class="outcome-grid">
       ${page.outcomes.map(([title, text]) => `<article><h3>${esc(title)}</h3><p>${esc(text)}</p></article>`).join("")}
     </div>
   </section>
   <section class="section process-section" data-process>
-    <div class="section-copy">
-      <span class="section-label">How it works</span>
-      <h2>Clear steps, clean handoff.</h2>
-    </div>
+    ${renderSectionHeader(serviceProcessTitles[page.key] || "How the work gets done")}
     <div class="process-rail">
       ${page.steps.map(([title, text], index) => `<article><span>${String(index + 1).padStart(2, "0")}</span><h3>${esc(title)}</h3><p>${esc(text)}</p></article>`).join("")}
     </div>
   </section>
-  ${renderFaqs(page.faqs)}
+  ${renderFaqs(page.faqs, { title: `Questions about ${page.title.toLowerCase()}` })}
   ${renderFinalCta(root)}`;
 
 const renderApproach = (root) => `
-  ${renderHero(root, pages.approach, { secondaryLabel: "Talk to Techordia", secondaryTarget: "contact/" })}
-  <section class="section process-section large-process" data-process>
-    <div class="section-copy">
-      <span class="section-label">Operating Model</span>
-      <h2>Support should leave the environment cleaner than it found it.</h2>
-      <p>Each stage turns unclear IT into owned, documented work.</p>
-    </div>
+  ${renderHero(root, pages.approach, { actions: false })}
+  <section class="section approach-detail-section">
+    ${renderSectionHeader(
+      "Support should leave the environment cleaner than it found it",
+      "The process is intentionally practical: understand the business, stabilize what interrupts work, document what matters, and keep improving the operating model."
+    )}
     <div class="process-rail">
       ${pages.approach.steps.map(([title, text], index) => `<article><span>${String(index + 1).padStart(2, "0")}</span><h3>${esc(title)}</h3><p>${esc(text)}</p></article>`).join("")}
     </div>
   </section>
-  ${renderPricing()}
-  ${renderFinalCta(root)}`;
-
-const renderAbout = (root) => `
-  ${renderHero(root, pages.about, { secondaryLabel: "Contact Techordia", secondaryTarget: "contact/" })}
-  <section class="section founder-section">
-    <div class="founder-panel">
-      <div class="founder-avatar large">WL</div>
-      <div>
-        <span class="section-label">Founder</span>
-        <h2>${esc(site.founder)}</h2>
-        <p>Founder image space reserved for Wilson Lee.</p>
-      </div>
+  <section class="section approach-principles">
+    ${renderSectionHeader("What the process protects")}
+    <div class="outcome-grid">
+      <article><h3>Continuity</h3><p>Support should reduce interruption, not create new dependency on one person or one undocumented workaround.</p></article>
+      <article><h3>Clarity</h3><p>Owners, users, vendors, systems, and escalation paths should be understandable before a problem becomes urgent.</p></article>
+      <article><h3>Judgment</h3><p>Good IT support uses technical depth, but the decision-making has to make sense to business operators.</p></article>
     </div>
-    <div class="section-copy">
-      <h2>Alameda-based support with operational discipline.</h2>
-      <p>Techordia serves SMBs that need IT to be responsive, documented, security-minded, and practical. The site avoids fake partner badges and thin claims; proof stays tied to real Techordia context.</p>
-      <div class="about-facts">
-        <span>Founded ${esc(site.founded)}</span>
-        <span>${esc(site.region)}</span>
-        <span>${esc(site.phone)}</span>
-      </div>
+  </section>`;
+
+const renderAbout = (root) => {
+  const groups = [...new Set(teamMembers.map((member) => member.group))];
+  return `
+  ${renderHero(root, pages.about, { actions: false })}
+  <section class="section story-section" id="story">
+    ${renderSectionHeader(
+      "The Techordia Story",
+      "Techordia started in Alameda in 2010 with a practical belief: small and mid-sized businesses should have IT support from people who know their environment, document the work, and stay accountable after the urgent issue is fixed."
+    )}
+    <div class="story-panel">
+      <p>That operating style still guides the company. Techordia supports businesses that need daily issues handled, critical systems watched, vendors coordinated, security improved, and projects delivered without turning IT into a management burden.</p>
+      <p>The work is technical, but the relationship is human: clear support paths, plain-language recommendations, and a team that understands how IT decisions affect operations.</p>
     </div>
   </section>
-  ${renderBrandValues()}
-  ${renderFinalCta(root)}`;
+  <section class="section team-section" id="team">
+    ${renderSectionHeader("Team")}
+    ${groups
+      .map(
+        (group) => `
+      <div class="team-group">
+        <h3>${esc(group)}</h3>
+        <div class="team-grid">
+          ${teamMembers
+            .filter((member) => member.group === group)
+            .map(
+              (member) => `
+            <article class="team-card">
+              <div class="team-photo" aria-label="${esc(member.name)} photo placeholder">${esc(member.initials)}</div>
+              <div>
+                <h4>${esc(member.name)}</h4>
+                <p class="team-role">${esc(member.role)}</p>
+                <p>${esc(member.bio)}</p>
+                <a href="${esc(member.linkedin)}" target="_blank" rel="noopener">LinkedIn URL</a>
+              </div>
+            </article>`
+            )
+            .join("")}
+        </div>
+      </div>`
+      )
+      .join("")}
+  </section>`;
+};
 
 const renderContact = (root) => `
-  ${renderHero(root, pages.contact, { secondaryLabel: `Call ${site.phone}`, secondaryTarget: site.phoneHref })}
+  ${renderHero(root, pages.contact, { actions: false })}
   <section class="section contact-section">
-    <div class="section-copy">
-      <span class="section-label">Consultation</span>
-      <h2>What happens next.</h2>
-      <p>Techordia reviews the support need, the environment shape, and the right service lane before recommending next steps.</p>
-      <div class="contact-direct">
+    ${renderSectionHeader(
+      "What happens next",
+      "A useful first conversation usually covers the users you support, the systems that cannot go down, the issues that keep repeating, and the support relationship that would make the business easier to run."
+    )}
+    <div class="contact-layout">
+      <div class="contact-details">
+        <h3>Contact Techordia</h3>
         <a href="${site.phoneHref}">${esc(site.phone)}</a>
         <a href="mailto:${site.email}">${esc(site.email)}</a>
         <span>${esc(site.address)}</span>
+        <div class="contact-expectations">
+          ${contactFlow.map(([num, title, text]) => `<article><span>${esc(num)}</span><strong>${esc(title)}</strong><p>${esc(text)}</p></article>`).join("")}
+        </div>
       </div>
+      ${renderContactForm()}
     </div>
-    ${renderContactForm()}
-  </section>
-  ${renderFinalCta(root)}`;
+  </section>`;
 
 const renderMain = (root, page) => {
   if (page.path === "") return renderHome(root);
@@ -480,6 +597,13 @@ const renderHtml = (page) => {
     <meta name="robots" content="noindex,nofollow" />
     <title>${esc(page.seoTitle || page.title || site.brand)}</title>
     <meta name="description" content="${esc(page.summary || page.intro || site.description)}" />
+    <script>
+      try {
+        const requestedTheme = new URLSearchParams(location.search).get("theme");
+        const theme = requestedTheme === "light" || requestedTheme === "dark" ? requestedTheme : localStorage.getItem("techordia-theme");
+        if (theme === "light" || theme === "dark") document.documentElement.dataset.theme = theme;
+      } catch (error) {}
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
@@ -517,10 +641,6 @@ for (const page of allPages) {
   await writePage(page);
 }
 
-await writeFile(
-  path.join(outDir, "robots.txt"),
-  "User-agent: *\nDisallow: /\n",
-  "utf8"
-);
+await writeFile(path.join(outDir, "robots.txt"), "User-agent: *\nDisallow: /\n", "utf8");
 
 console.log(`Generated ${allPages.length} staging pages.`);

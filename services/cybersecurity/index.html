@@ -5,22 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex,nofollow" />
     <title>Cybersecurity Services | Techordia</title>
-    <meta name="description" content="Practical controls for identity, endpoints, email, backup, admin access, and risk cleanup." />
+    <meta name="description" content="Practical security controls for identity, endpoints, email, backups, admin access, and recovery readiness." />
+    <script>
+      try {
+        const requestedTheme = new URLSearchParams(location.search).get("theme");
+        const theme = requestedTheme === "light" || requestedTheme === "dark" ? requestedTheme : localStorage.getItem("techordia-theme");
+        if (theme === "light" || theme === "dark") document.documentElement.dataset.theme = theme;
+      } catch (error) {}
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <link rel="icon" href="../../assets/techordia-logo.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="../../styles.css?v=20260528-staging-dark-direction-2" />
-    <script defer src="../../script.js?v=20260528-staging-dark-direction-2"></script>
+    <link rel="stylesheet" href="../../styles.css?v=20260528-conversion-redesign-1" />
+    <script defer src="../../script.js?v=20260528-conversion-redesign-1"></script>
   </head>
   <body data-page="services/cybersecurity/" data-visual="cybersecurity">
 
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header">
-    <div class="topline">
-      <span>Based in Alameda, serving Bay Area businesses</span>
-      <a href="tel:+18779254785">877-925-4785</a>
-    </div>
     <nav class="nav-shell" aria-label="Primary navigation">
       <a class="brand" href="../../" aria-label="Techordia home"><img class="brand-logo" src="../../assets/techordia-logo-official.png" alt="Techordia" /></a>
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-menu" aria-label="Open navigation">
@@ -31,10 +34,22 @@
           <button class="nav-trigger" type="button" aria-expanded="false">Services</button>
           <div class="mega-menu">
             <a href="../../services/">All Services</a>
-            <a href="../../services/fully-managed-it-services/">Fully Managed IT</a><a href="../../services/co-managed-it-services/">Co-Managed IT</a><a href="../../services/cybersecurity/" aria-current="page">Cybersecurity</a><a href="../../services/short-term-it-projects/">IT Projects</a>
+            <a href="../../services/fully-managed-it-services/">Managed IT</a><a href="../../services/co-managed-it-services/">Co-Managed IT</a><a href="../../services/cybersecurity/" aria-current="page">Cybersecurity</a><a href="../../services/short-term-it-projects/">IT Projects</a>
           </div>
         </div>
-        <a class="nav-link" href="../../approach/">Approach</a><a class="nav-link" href="../../about/">About</a><a class="nav-link" href="../../contact/">Contact</a>
+        <a class="nav-link" href="../../approach/">Approach</a>
+        <div class="nav-group">
+          <button class="nav-trigger" type="button" aria-expanded="false">About</button>
+          <div class="mega-menu about-menu">
+            <a href="../../about/#story">The Techordia Story</a>
+            <a href="../../about/#team">Team</a>
+          </div>
+        </div>
+        <a class="nav-link" href="../../contact/">Contact</a>
+        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch color theme" aria-pressed="false">
+          <span class="theme-toggle-track"><span class="theme-toggle-knob"></span></span>
+          <span class="theme-toggle-text">Light</span>
+        </button>
         <a class="nav-cta" href="../../contact/">Book a Consultation</a>
       </div>
     </nav>
@@ -42,75 +57,96 @@
     <main id="main">
 
 
-  <section class="hero sub-hero" data-page-visual="cybersecurity">
+  <section class="hero service-hero" data-page-visual="cybersecurity">
     <div class="hero-bg" aria-hidden="true"></div>
     <div class="hero-inner">
       <div class="hero-copy">
         <h1>Cybersecurity</h1>
-        <p>Techordia focuses on controls your team can actually maintain: identity, devices, email, backup, admin access, and documentation.</p>
+        <p>Cybersecurity should make the business more resilient. Techordia focuses on controls your team can actually maintain and understand.</p>
+
         <div class="hero-actions">
           <a class="button primary" href="../../contact/">Book a Consultation</a>
-          <a class="button secondary" href="#included">What's Included</a>
+          <a class="button secondary" href="#model">See the Service Model</a>
         </div>
-
       </div>
       <div class="hero-visual-shell">
 
     <div class="visual visual-cyber" data-visual="cybersecurity">
-      <div class="shield-core">Security</div>
-      <span>Identity</span><span>Email</span><span>Endpoint</span><span>Backup</span><span>Access</span>
+      <div class="shield-core">Controls</div>
+      <span>Identity</span><span>Endpoint</span><span>Email</span><span>Backup</span><span>Access</span>
     </div>
 
       </div>
     </div>
   </section>
-  <section class="section split-section" id="included">
-    <div class="section-copy">
-      <span class="section-label">Cybersecurity</span>
-      <h2>Security work that protects daily operations without turning into theater.</h2>
-      <p>Techordia focuses on controls your team can actually maintain: identity, devices, email, backup, admin access, and documentation.</p>
-    </div>
-    <div class="included-list">
-      <span>MFA</span><span>Endpoint care</span><span>Email security</span><span>Backup review</span><span>Access reviews</span><span>Risk cleanup</span>
-    </div>
-  </section>
-  <section class="section outcomes-section">
-    <div class="section-copy">
-      <span class="section-label">Outcomes</span>
-      <h2>What gets better.</h2>
-    </div>
-    <div class="outcome-grid">
-      <article><h3>Reduce obvious risk</h3><p>Lock down access, endpoints, email, and administrative paths first.</p></article><article><h3>Improve recovery</h3><p>Backups, restore expectations, and continuity notes are checked and documented.</p></article><article><h3>Make security operational</h3><p>Security work becomes part of normal support, not a one-time report.</p></article>
-    </div>
-  </section>
-  <section class="section process-section" data-process>
-    <div class="section-copy">
-      <span class="section-label">How it works</span>
-      <h2>Clear steps, clean handoff.</h2>
-    </div>
-    <div class="process-rail">
-      <article><span>01</span><h3>Assess</h3><p>Review identity, endpoints, email, backup, admins, and exposed gaps.</p></article><article><span>02</span><h3>Prioritize</h3><p>Separate urgent risk from nice-to-have cleanup.</p></article><article><span>03</span><h3>Remediate</h3><p>Apply controls and document what changed.</p></article><article><span>04</span><h3>Maintain</h3><p>Fold reviews, updates, and recurring checks into support rhythm.</p></article>
+  <section class="section service-model-section" id="model">
+
+  <div class="section-copy">
+    <h2>What Techordia owns</h2>
+    <p>Cybersecurity should make the business more resilient. Techordia focuses on controls your team can actually maintain and understand.</p>
+  </div>
+    <div class="service-model-card">
+      <div>
+        <span class="tile-icon"><svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M24 6 39 12v11c0 10-6 16-15 19C15 39 9 33 9 23V12l15-6Z" /><path d="m17 24 5 5 10-12" /></svg></span>
+        <h3>Cybersecurity</h3>
+      </div>
+      <dl>
+        <div><dt>What it is</dt><dd>Techordia helps SMBs strengthen the controls that matter most to daily operations: identity, endpoints, email, backup, access, and recovery.</dd></div>
+        <div><dt>Best for</dt><dd>Teams that need stronger protection and better recovery readiness without turning security into a confusing side project.</dd></div>
+        <div><dt>How it works</dt><dd>We assess practical risk, prioritize the most important gaps, implement controls, and fold security maintenance into normal IT operations.</dd></div>
+      </dl>
     </div>
   </section>
 
-  <section class="section faq-section">
-    <div class="section-copy">
-      <span class="section-label">FAQ</span>
-      <h2>Questions decision-makers ask first.</h2>
+  <section class="section service-specific cyber-specific">
+
+  <div class="section-copy">
+    <h2>Security controls that support operations</h2>
+
+  </div>
+    <div class="control-matrix">
+      <article><span><svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M24 6 39 12v11c0 10-6 16-15 19C15 39 9 33 9 23V12l15-6Z" /><path d="m17 24 5 5 10-12" /></svg></span><strong>Identity</strong><p>Practical checks, cleanup, and supportable controls that reduce day-to-day risk.</p></article><article><span><svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M24 6 39 12v11c0 10-6 16-15 19C15 39 9 33 9 23V12l15-6Z" /><path d="m17 24 5 5 10-12" /></svg></span><strong>Endpoint</strong><p>Practical checks, cleanup, and supportable controls that reduce day-to-day risk.</p></article><article><span><svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M24 6 39 12v11c0 10-6 16-15 19C15 39 9 33 9 23V12l15-6Z" /><path d="m17 24 5 5 10-12" /></svg></span><strong>Email</strong><p>Practical checks, cleanup, and supportable controls that reduce day-to-day risk.</p></article><article><span><svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M24 6 39 12v11c0 10-6 16-15 19C15 39 9 33 9 23V12l15-6Z" /><path d="m17 24 5 5 10-12" /></svg></span><strong>Backup</strong><p>Practical checks, cleanup, and supportable controls that reduce day-to-day risk.</p></article><article><span><svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M24 6 39 12v11c0 10-6 16-15 19C15 39 9 33 9 23V12l15-6Z" /><path d="m17 24 5 5 10-12" /></svg></span><strong>Admin access</strong><p>Practical checks, cleanup, and supportable controls that reduce day-to-day risk.</p></article><article><span><svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M24 6 39 12v11c0 10-6 16-15 19C15 39 9 33 9 23V12l15-6Z" /><path d="m17 24 5 5 10-12" /></svg></span><strong>Documentation</strong><p>Practical checks, cleanup, and supportable controls that reduce day-to-day risk.</p></article>
     </div>
+  </section>
+  <section class="section outcomes-section">
+
+  <div class="section-copy">
+    <h2>Business outcomes</h2>
+
+  </div>
+    <div class="outcome-grid">
+      <article><h3>Reduce obvious risk</h3><p>Identity, admin access, endpoint health, email security, and backup gaps are prioritized first.</p></article><article><h3>Improve continuity</h3><p>Recovery expectations, backup visibility, and critical-system dependencies become clearer.</p></article><article><h3>Make security operational</h3><p>Security improvements become part of the support model instead of a separate annual panic.</p></article>
+    </div>
+  </section>
+  <section class="section process-section" data-process>
+
+  <div class="section-copy">
+    <h2>How practical risk reduction starts</h2>
+
+  </div>
+    <div class="process-rail">
+      <article><span>01</span><h3>Assess</h3><p>Review identity, endpoints, email, backup, admin access, exposed gaps, and business-critical systems.</p></article><article><span>02</span><h3>Prioritize</h3><p>Separate urgent risk from cleanup that can be sequenced over time.</p></article><article><span>03</span><h3>Remediate</h3><p>Apply controls, clean up access, improve visibility, and document what changed.</p></article><article><span>04</span><h3>Maintain</h3><p>Fold recurring checks, updates, and review items into the IT support rhythm.</p></article>
+    </div>
+  </section>
+
+  <section class="section faq-section simple-faq">
+
+  <div class="section-copy">
+    <h2>Questions about cybersecurity</h2>
+
+  </div>
     <div class="faq-list">
-      <details><summary>Do you provide compliance certification?</summary><p>No fake certification claims. Techordia helps with practical controls and documentation that support reviews.</p></details><details><summary>What comes first?</summary><p>Identity, admin access, endpoints, email, backup coverage, and recovery expectations.</p></details><details><summary>Can security be part of managed IT?</summary><p>Yes. Security should be built into daily IT operations, not treated as a separate mystery project.</p></details>
+      <details><summary>Do you provide fake compliance badges or certification claims?</summary><p>No. The staging site avoids fake SOC, HIPAA, or ISO claims. Techordia focuses on practical controls and documentation that support real reviews.</p></details><details><summary>What security controls usually come first?</summary><p>Identity, MFA, admin access, endpoint coverage, email protection, backup visibility, and recovery expectations usually come before low-value complexity.</p></details><details><summary>Can security be included with managed IT?</summary><p>Yes. Security works best when it is integrated into daily IT operations, onboarding, offboarding, patching, backup checks, and support work.</p></details><details><summary>How disruptive is a security cleanup?</summary><p>The goal is controlled improvement. Techordia sequences changes, communicates user impact, and avoids pushing unnecessary complexity all at once.</p></details>
     </div>
   </section>
 
   <section class="final-cta">
     <div>
-      <h2>Ready to quiet the IT noise?</h2>
-      <p>Talk through users, devices, Microsoft 365, security, backups, and support coverage.</p>
+      <h2>Find the right IT support relationship.</h2>
+      <p>Start with a practical conversation about your users, systems, risks, and support expectations. We will help identify whether managed, co-managed, project, or security support fits best.</p>
     </div>
     <div class="cta-actions">
-      <a class="button light" href="../../contact/">Book a Consultation</a>
-      <a class="button ghost" href="tel:+18779254785">Call 877-925-4785</a>
+      <a class="button light" href="../../contact/">Talk With Techordia</a>
     </div>
   </section>
     </main>
@@ -119,24 +155,24 @@
     <div class="footer-main">
       <div class="footer-brand">
         <img class="brand-logo" src="../../assets/techordia-logo-official.png" alt="Techordia" />
-        <p>Responsive managed IT, cybersecurity, cloud, server, backup, and project support from Alameda.</p>
+        <p>Relationship-driven managed IT, cybersecurity, and project support for Bay Area SMBs.</p>
       </div>
       <div class="footer-links">
         <div>
           <h2>Services</h2>
           <a href="../../services/">All Services</a>
-          <a href="../../services/fully-managed-it-services/">Fully Managed IT</a><a href="../../services/co-managed-it-services/">Co-Managed IT</a><a href="../../services/cybersecurity/">Cybersecurity</a><a href="../../services/short-term-it-projects/">IT Projects</a>
+          <a href="../../services/fully-managed-it-services/">Managed IT</a><a href="../../services/co-managed-it-services/">Co-Managed IT</a><a href="../../services/cybersecurity/">Cybersecurity</a><a href="../../services/short-term-it-projects/">IT Projects</a>
         </div>
         <div>
           <h2>Company</h2>
           <a href="../../approach/">Approach</a>
-          <a href="../../about/">About</a>
-          <a href="../../contact/">Contact</a>
+          <a href="../../about/#story">The Techordia Story</a>
+          <a href="../../about/#team">Team</a>
         </div>
         <div>
           <h2>Contact</h2>
           <a href="tel:+18779254785">877-925-4785</a>
-          <a href="mailto:info@techordia.com">info@techordia.com</a>
+          <a href="mailto:support@techordia.com">support@techordia.com</a>
           <span>887 Island Drive, Suite C, Alameda, CA 94502</span>
         </div>
       </div>

@@ -4,6 +4,30 @@ const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").match
 const menuToggle = document.querySelector(".menu-toggle");
 const navMenu = document.querySelector(".nav-menu");
 const navGroups = document.querySelectorAll(".nav-group");
+const themeToggle = document.querySelector("[data-theme-toggle]");
+
+const setTheme = (theme, persist = true) => {
+  const next = theme === "light" ? "light" : "dark";
+  root.dataset.theme = next;
+  if (themeToggle) {
+    const isLight = next === "light";
+    themeToggle.setAttribute("aria-pressed", String(isLight));
+    themeToggle.querySelector(".theme-toggle-text").textContent = isLight ? "Light" : "Dark";
+  }
+  if (persist) {
+    try {
+      localStorage.setItem("techordia-theme", next);
+    } catch (error) {
+      // Theme persistence is a convenience; the site still works without storage.
+    }
+  }
+};
+
+setTheme(root.dataset.theme || "dark", false);
+
+themeToggle?.addEventListener("click", () => {
+  setTheme(root.dataset.theme === "light" ? "dark" : "light");
+});
 
 if (menuToggle && navMenu) {
   menuToggle.addEventListener("click", () => {
@@ -78,12 +102,13 @@ const createNetworkCanvas = (canvas) => {
 
   const nodes = [
     { label: "Techordia", x: 0.5, y: 0.5, r: 18, hub: true },
-    { label: "Help Desk", x: 0.18, y: 0.3, r: 8 },
+    { label: "Support", x: 0.18, y: 0.3, r: 8 },
     { label: "Devices", x: 0.32, y: 0.18, r: 7 },
     { label: "M365", x: 0.76, y: 0.26, r: 8 },
-    { label: "", x: 0.82, y: 0.6, r: 8 },
+    { label: "Security", x: 0.82, y: 0.6, r: 8 },
     { label: "Backups", x: 0.58, y: 0.8, r: 8 },
-    { label: "Vendors", x: 0.2, y: 0.72, r: 7 }
+    { label: "Vendors", x: 0.2, y: 0.72, r: 7 },
+    { label: "Projects", x: 0.42, y: 0.74, r: 7 }
   ];
   const links = [
     [0, 1],
@@ -92,10 +117,13 @@ const createNetworkCanvas = (canvas) => {
     [0, 4],
     [0, 5],
     [0, 6],
+    [0, 7],
     [1, 2],
     [3, 4],
     [4, 5],
-    [5, 6]
+    [5, 6],
+    [6, 7],
+    [2, 7]
   ];
   const state = { pointerX: 0.5, pointerY: 0.5, targetX: 0.5, targetY: 0.5, frame: 0 };
 
@@ -207,7 +235,7 @@ const createNetworkCanvas = (canvas) => {
       ctx.font = node.hub ? "900 16px Inter, sans-serif" : `800 ${mobile ? 11 : 12}px Inter, sans-serif`;
       ctx.textAlign = "center";
       ctx.fillStyle = "#ffffff";
-      const hideMobileLabel = !node.label || (mobile && ["Backups", "Vendors"].includes(node.label));
+      const hideMobileLabel = !node.label || (mobile && ["Backups", "Vendors", "Projects"].includes(node.label));
       if (!hideMobileLabel) {
         const labelInset = mobile ? 86 : 60;
         const labelX = Math.min(width - labelInset, Math.max(labelInset, p.x));
@@ -259,6 +287,32 @@ const initServiceSelector = () => {
   setActive(cards[0]);
 };
 
+const initFaqFilters = () => {
+  document.querySelectorAll("[data-faq-section]").forEach((section) => {
+    const buttons = [...section.querySelectorAll("[data-faq-filter]")];
+    const items = [...section.querySelectorAll("[data-faq-item]")];
+    if (!buttons.length || !items.length) return;
+
+    const setFilter = (filter) => {
+      buttons.forEach((button) => {
+        const active = button.dataset.faqFilter === filter;
+        button.classList.toggle("is-active", active);
+        button.setAttribute("aria-pressed", String(active));
+      });
+      items.forEach((item) => {
+        const show = filter === "all" || item.dataset.faqItem === filter;
+        item.hidden = !show;
+        if (!show) item.removeAttribute("open");
+      });
+    };
+
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => setFilter(button.dataset.faqFilter || "all"));
+    });
+    setFilter("all");
+  });
+};
+
 const initContactForm = () => {
   document.querySelectorAll("[data-contact-form]").forEach((form) => {
     form.addEventListener("submit", (event) => {
@@ -282,7 +336,7 @@ const initContactForm = () => {
 };
 
 const initReveal = () => {
-  const targets = document.querySelectorAll(".section, .proof-strip, .service-tile, .final-cta");
+  const targets = document.querySelectorAll(".section, .service-tile, .final-cta");
   if (reduceMotion || !("IntersectionObserver" in window)) {
     targets.forEach((target) => target.classList.add("is-visible"));
     return;
@@ -304,5 +358,6 @@ const initReveal = () => {
 document.querySelectorAll("[data-network-canvas]").forEach((canvas) => createNetworkCanvas(canvas));
 initVisualTilt();
 initServiceSelector();
+initFaqFilters();
 initContactForm();
 initReveal();

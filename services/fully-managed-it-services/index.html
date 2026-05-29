@@ -4,23 +4,26 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex,nofollow" />
-    <title>Fully Managed IT Services | Techordia</title>
-    <meta name="description" content="Day-to-day IT ownership for users, devices, Microsoft 365, servers, vendors, backups, and support." />
+    <title>Managed IT Services | Techordia</title>
+    <meta name="description" content="A complete IT support lane for users, devices, Microsoft 365, vendors, backups, and daily operations." />
+    <script>
+      try {
+        const requestedTheme = new URLSearchParams(location.search).get("theme");
+        const theme = requestedTheme === "light" || requestedTheme === "dark" ? requestedTheme : localStorage.getItem("techordia-theme");
+        if (theme === "light" || theme === "dark") document.documentElement.dataset.theme = theme;
+      } catch (error) {}
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <link rel="icon" href="../../assets/techordia-logo.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="../../styles.css?v=20260528-staging-dark-direction-2" />
-    <script defer src="../../script.js?v=20260528-staging-dark-direction-2"></script>
+    <link rel="stylesheet" href="../../styles.css?v=20260528-conversion-redesign-1" />
+    <script defer src="../../script.js?v=20260528-conversion-redesign-1"></script>
   </head>
   <body data-page="services/fully-managed-it-services/" data-visual="managed">
 
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header">
-    <div class="topline">
-      <span>Based in Alameda, serving Bay Area businesses</span>
-      <a href="tel:+18779254785">877-925-4785</a>
-    </div>
     <nav class="nav-shell" aria-label="Primary navigation">
       <a class="brand" href="../../" aria-label="Techordia home"><img class="brand-logo" src="../../assets/techordia-logo-official.png" alt="Techordia" /></a>
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-menu" aria-label="Open navigation">
@@ -31,10 +34,22 @@
           <button class="nav-trigger" type="button" aria-expanded="false">Services</button>
           <div class="mega-menu">
             <a href="../../services/">All Services</a>
-            <a href="../../services/fully-managed-it-services/" aria-current="page">Fully Managed IT</a><a href="../../services/co-managed-it-services/">Co-Managed IT</a><a href="../../services/cybersecurity/">Cybersecurity</a><a href="../../services/short-term-it-projects/">IT Projects</a>
+            <a href="../../services/fully-managed-it-services/" aria-current="page">Managed IT</a><a href="../../services/co-managed-it-services/">Co-Managed IT</a><a href="../../services/cybersecurity/">Cybersecurity</a><a href="../../services/short-term-it-projects/">IT Projects</a>
           </div>
         </div>
-        <a class="nav-link" href="../../approach/">Approach</a><a class="nav-link" href="../../about/">About</a><a class="nav-link" href="../../contact/">Contact</a>
+        <a class="nav-link" href="../../approach/">Approach</a>
+        <div class="nav-group">
+          <button class="nav-trigger" type="button" aria-expanded="false">About</button>
+          <div class="mega-menu about-menu">
+            <a href="../../about/#story">The Techordia Story</a>
+            <a href="../../about/#team">Team</a>
+          </div>
+        </div>
+        <a class="nav-link" href="../../contact/">Contact</a>
+        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch color theme" aria-pressed="false">
+          <span class="theme-toggle-track"><span class="theme-toggle-knob"></span></span>
+          <span class="theme-toggle-text">Light</span>
+        </button>
         <a class="nav-cta" href="../../contact/">Book a Consultation</a>
       </div>
     </nav>
@@ -42,75 +57,98 @@
     <main id="main">
 
 
-  <section class="hero sub-hero" data-page-visual="managed">
+  <section class="hero service-hero" data-page-visual="managed">
     <div class="hero-bg" aria-hidden="true"></div>
     <div class="hero-inner">
       <div class="hero-copy">
-        <h1>Fully Managed IT</h1>
-        <p>Techordia becomes the operating layer for daily IT. Users get support, systems stay documented, and recurring work has an owner.</p>
+        <h1>Managed IT</h1>
+        <p>Managed IT is built for businesses that want users supported, critical systems watched, vendors coordinated, and recurring IT work owned without adding management burden.</p>
+
         <div class="hero-actions">
           <a class="button primary" href="../../contact/">Book a Consultation</a>
-          <a class="button secondary" href="#included">What's Included</a>
+          <a class="button secondary" href="#model">See the Service Model</a>
         </div>
-
       </div>
       <div class="hero-visual-shell">
 
     <div class="visual visual-managed" data-visual="managed">
-      <div class="ops-hub">Managed IT</div>
-      <span class="ops-node node-1">Users</span><span class="ops-node node-2">Devices</span><span class="ops-node node-3">M365</span><span class="ops-node node-4">Servers</span><span class="ops-node node-5">Backups</span><span class="ops-node node-6">Vendors</span>
+      <div class="managed-core">Techordia</div>
+      <span class="ops-node node-1">Users</span><span class="ops-node node-2">Devices</span><span class="ops-node node-3">M365</span><span class="ops-node node-4">Backups</span><span class="ops-node node-5">Vendors</span><span class="ops-node node-6">Security</span>
     </div>
 
       </div>
     </div>
   </section>
-  <section class="section split-section" id="included">
-    <div class="section-copy">
-      <span class="section-label">Fully Managed IT</span>
-      <h2>Your users, devices, cloud, network, vendors, and security handled in one accountable support lane.</h2>
-      <p>Techordia becomes the operating layer for daily IT. Users get support, systems stay documented, and recurring work has an owner.</p>
-    </div>
-    <div class="included-list">
-      <span>Help desk</span><span>Microsoft 365</span><span>Endpoints</span><span>Servers</span><span>Backups</span><span>Vendor coordination</span>
-    </div>
-  </section>
-  <section class="section outcomes-section">
-    <div class="section-copy">
-      <span class="section-label">Outcomes</span>
-      <h2>What gets better.</h2>
-    </div>
-    <div class="outcome-grid">
-      <article><h3>Faster support</h3><p>Users know where to go and urgent issues have a clear escalation path.</p></article><article><h3>Cleaner systems</h3><p>Microsoft 365, devices, backups, and servers are tracked and maintained.</p></article><article><h3>Less vendor noise</h3><p>Carriers, software vendors, hardware partners, and cloud providers stay coordinated.</p></article>
-    </div>
-  </section>
-  <section class="section process-section" data-process>
-    <div class="section-copy">
-      <span class="section-label">How it works</span>
-      <h2>Clear steps, clean handoff.</h2>
-    </div>
-    <div class="process-rail">
-      <article><span>01</span><h3>Discover</h3><p>Users, devices, vendors, licenses, access paths, and risks.</p></article><article><span>02</span><h3>Stabilize</h3><p>Support routes, security basics, backup checks, and endpoint coverage.</p></article><article><span>03</span><h3>Operate</h3><p>Help desk, recurring maintenance, vendor coordination, and documentation.</p></article><article><span>04</span><h3>Improve</h3><p>Roadmap, lifecycle planning, security cleanup, and project handoff.</p></article>
+  <section class="section service-model-section" id="model">
+
+  <div class="section-copy">
+    <h2>What Techordia owns</h2>
+    <p>Managed IT is built for businesses that want users supported, critical systems watched, vendors coordinated, and recurring IT work owned without adding management burden.</p>
+  </div>
+    <div class="service-model-card">
+      <div>
+        <span class="tile-icon"><svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M12 26v-4a12 12 0 0 1 24 0v4" /><path d="M12 26h-2a4 4 0 0 0-4 4v3a4 4 0 0 0 4 4h4V26h-2Z" /><path d="M36 26h2a4 4 0 0 1 4 4v3a4 4 0 0 1-4 4h-4V26h2Z" /><path d="M32 38c-2 3-5 4-9 4h-3" /></svg></span>
+        <h3>Managed IT</h3>
+      </div>
+      <dl>
+        <div><dt>What it is</dt><dd>Techordia becomes the primary IT partner for day-to-day support, systems management, documentation, vendor coordination, and recurring maintenance.</dd></div>
+        <div><dt>Best for</dt><dd>SMBs with 10-200 employees that need dependable IT ownership without hiring a full internal team.</dd></div>
+        <div><dt>How it works</dt><dd>We map the environment, stabilize support paths, document critical systems, and operate IT with clear ticket ownership and escalation.</dd></div>
+      </dl>
     </div>
   </section>
 
-  <section class="section faq-section">
-    <div class="section-copy">
-      <span class="section-label">FAQ</span>
-      <h2>Questions decision-makers ask first.</h2>
+  <section class="section service-specific managed-specific">
+
+  <div class="section-copy">
+    <h2>The managed support model</h2>
+
+  </div>
+    <div class="support-model-grid">
+      <article><span>01</span><h3>User support</h3><p>Ticket routing, remote help, onsite coordination, urgent escalation, onboarding, and day-to-day questions.</p></article>
+      <article><span>02</span><h3>Systems ownership</h3><p>Microsoft 365, endpoints, backups, vendors, access paths, and infrastructure stay visible and supportable.</p></article>
+      <article><span>03</span><h3>Operating rhythm</h3><p>Recurring issues, lifecycle needs, documentation, and security priorities are reviewed instead of ignored.</p></article>
     </div>
+  </section>
+  <section class="section outcomes-section">
+
+  <div class="section-copy">
+    <h2>Business outcomes</h2>
+
+  </div>
+    <div class="outcome-grid">
+      <article><h3>Stay productive</h3><p>Users have a clear support path when work is blocked, and urgent issues can escalate beyond the normal ticket queue.</p></article><article><h3>Reduce downtime</h3><p>Devices, Microsoft 365, backups, servers, and vendors stay visible so preventable outages are caught earlier.</p></article><article><h3>Grow with less IT drag</h3><p>Documentation, onboarding, access, and lifecycle planning improve as the business adds people and systems.</p></article>
+    </div>
+  </section>
+  <section class="section process-section" data-process>
+
+  <div class="section-copy">
+    <h2>How managed IT becomes stable</h2>
+
+  </div>
+    <div class="process-rail">
+      <article><span>01</span><h3>Discover</h3><p>Identify users, devices, cloud systems, vendors, support paths, risk areas, and recurring pain.</p></article><article><span>02</span><h3>Stabilize</h3><p>Clarify ticket routing, remote support access, backup visibility, endpoint coverage, and priority gaps.</p></article><article><span>03</span><h3>Operate</h3><p>Handle help desk, maintenance, vendor coordination, documentation, and escalation for daily operations.</p></article><article><span>04</span><h3>Improve</h3><p>Review lifecycle needs, recurring issues, security cleanup, and projects that will reduce future noise.</p></article>
+    </div>
+  </section>
+
+  <section class="section faq-section simple-faq">
+
+  <div class="section-copy">
+    <h2>Questions about managed it</h2>
+
+  </div>
     <div class="faq-list">
-      <details><summary>How fast can we start?</summary><p>We start with discovery, then prioritize support paths, access, devices, cloud, backups, and urgent gaps.</p></details><details><summary>Do you support onsite work?</summary><p>Yes. Techordia is based in Alameda and supports Bay Area teams with remote and onsite help where it makes sense.</p></details><details><summary>What is included?</summary><p>Support can include help desk, Microsoft 365, endpoints, servers, network, backup, vendors, security, and documentation.</p></details>
+      <details><summary>How does Techordia take over from our current IT provider?</summary><p>We start by collecting access, documentation, vendor contacts, backup status, Microsoft 365 details, endpoint coverage, and open issues. The first goal is continuity, then cleanup.</p></details><details><summary>Will our employees contact Techordia directly?</summary><p>Most managed IT clients route users directly to Techordia for support. During onboarding, we define ticket paths, urgent escalation, onsite expectations, and who approves larger changes.</p></details><details><summary>What happens when an issue is urgent?</summary><p>Urgent issues are triaged for business impact. Ticket-based support handles normal requests, and after-hours or on-call escalation can be defined for events that stop work.</p></details><details><summary>How do you keep our environment from becoming undocumented again?</summary><p>Documentation is part of the operating rhythm: users, devices, access paths, vendors, recurring fixes, and project handoffs are captured as support work happens.</p></details>
     </div>
   </section>
 
   <section class="final-cta">
     <div>
-      <h2>Ready to quiet the IT noise?</h2>
-      <p>Talk through users, devices, Microsoft 365, security, backups, and support coverage.</p>
+      <h2>Find the right IT support relationship.</h2>
+      <p>Start with a practical conversation about your users, systems, risks, and support expectations. We will help identify whether managed, co-managed, project, or security support fits best.</p>
     </div>
     <div class="cta-actions">
-      <a class="button light" href="../../contact/">Book a Consultation</a>
-      <a class="button ghost" href="tel:+18779254785">Call 877-925-4785</a>
+      <a class="button light" href="../../contact/">Talk With Techordia</a>
     </div>
   </section>
     </main>
@@ -119,24 +157,24 @@
     <div class="footer-main">
       <div class="footer-brand">
         <img class="brand-logo" src="../../assets/techordia-logo-official.png" alt="Techordia" />
-        <p>Responsive managed IT, cybersecurity, cloud, server, backup, and project support from Alameda.</p>
+        <p>Relationship-driven managed IT, cybersecurity, and project support for Bay Area SMBs.</p>
       </div>
       <div class="footer-links">
         <div>
           <h2>Services</h2>
           <a href="../../services/">All Services</a>
-          <a href="../../services/fully-managed-it-services/">Fully Managed IT</a><a href="../../services/co-managed-it-services/">Co-Managed IT</a><a href="../../services/cybersecurity/">Cybersecurity</a><a href="../../services/short-term-it-projects/">IT Projects</a>
+          <a href="../../services/fully-managed-it-services/">Managed IT</a><a href="../../services/co-managed-it-services/">Co-Managed IT</a><a href="../../services/cybersecurity/">Cybersecurity</a><a href="../../services/short-term-it-projects/">IT Projects</a>
         </div>
         <div>
           <h2>Company</h2>
           <a href="../../approach/">Approach</a>
-          <a href="../../about/">About</a>
-          <a href="../../contact/">Contact</a>
+          <a href="../../about/#story">The Techordia Story</a>
+          <a href="../../about/#team">Team</a>
         </div>
         <div>
           <h2>Contact</h2>
           <a href="tel:+18779254785">877-925-4785</a>
-          <a href="mailto:info@techordia.com">info@techordia.com</a>
+          <a href="mailto:support@techordia.com">support@techordia.com</a>
           <span>887 Island Drive, Suite C, Alameda, CA 94502</span>
         </div>
       </div>

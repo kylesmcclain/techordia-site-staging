@@ -5,22 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex,nofollow" />
     <title>Our Approach | Techordia</title>
-    <meta name="description" content="We do not quote from a guess. We look at how your team works, what systems matter, where risk sits, and what support path your users need." />
+    <meta name="description" content="We look at how your team works, which systems matter, where risk sits, and what support path users need before recommending a model." />
+    <script>
+      try {
+        const requestedTheme = new URLSearchParams(location.search).get("theme");
+        const theme = requestedTheme === "light" || requestedTheme === "dark" ? requestedTheme : localStorage.getItem("techordia-theme");
+        if (theme === "light" || theme === "dark") document.documentElement.dataset.theme = theme;
+      } catch (error) {}
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <link rel="icon" href="../assets/techordia-logo.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="../styles.css?v=20260528-staging-dark-direction-2" />
-    <script defer src="../script.js?v=20260528-staging-dark-direction-2"></script>
+    <link rel="stylesheet" href="../styles.css?v=20260528-conversion-redesign-1" />
+    <script defer src="../script.js?v=20260528-conversion-redesign-1"></script>
   </head>
   <body data-page="approach/" data-visual="approach">
 
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header">
-    <div class="topline">
-      <span>Based in Alameda, serving Bay Area businesses</span>
-      <a href="tel:+18779254785">877-925-4785</a>
-    </div>
     <nav class="nav-shell" aria-label="Primary navigation">
       <a class="brand" href="../" aria-label="Techordia home"><img class="brand-logo" src="../assets/techordia-logo-official.png" alt="Techordia" /></a>
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-menu" aria-label="Open navigation">
@@ -31,10 +34,22 @@
           <button class="nav-trigger" type="button" aria-expanded="false">Services</button>
           <div class="mega-menu">
             <a href="../services/">All Services</a>
-            <a href="../services/fully-managed-it-services/">Fully Managed IT</a><a href="../services/co-managed-it-services/">Co-Managed IT</a><a href="../services/cybersecurity/">Cybersecurity</a><a href="../services/short-term-it-projects/">IT Projects</a>
+            <a href="../services/fully-managed-it-services/">Managed IT</a><a href="../services/co-managed-it-services/">Co-Managed IT</a><a href="../services/cybersecurity/">Cybersecurity</a><a href="../services/short-term-it-projects/">IT Projects</a>
           </div>
         </div>
-        <a class="nav-link" href="../approach/" aria-current="page">Approach</a><a class="nav-link" href="../about/">About</a><a class="nav-link" href="../contact/">Contact</a>
+        <a class="nav-link" href="../approach/" aria-current="page">Approach</a>
+        <div class="nav-group">
+          <button class="nav-trigger" type="button" aria-expanded="false">About</button>
+          <div class="mega-menu about-menu">
+            <a href="../about/#story">The Techordia Story</a>
+            <a href="../about/#team">Team</a>
+          </div>
+        </div>
+        <a class="nav-link" href="../contact/">Contact</a>
+        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch color theme" aria-pressed="false">
+          <span class="theme-toggle-track"><span class="theme-toggle-knob"></span></span>
+          <span class="theme-toggle-text">Light</span>
+        </button>
         <a class="nav-cta" href="../contact/">Book a Consultation</a>
       </div>
     </nav>
@@ -47,53 +62,39 @@
     <div class="hero-inner">
       <div class="hero-copy">
         <h1>A practical process before a proposal.</h1>
-        <p>We do not quote from a guess. We look at how your team works, what systems matter, where risk sits, and what support path your users need.</p>
-        <div class="hero-actions">
-          <a class="button primary" href="../contact/">Book a Consultation</a>
-          <a class="button secondary" href="../contact/">Talk to Techordia</a>
-        </div>
+        <p>We look at how your team works, which systems matter, where risk sits, and what support path users need before recommending a model.</p>
 
       </div>
       <div class="hero-visual-shell">
 
     <div class="visual visual-approach" data-visual="approach">
       <span style="--i:0">Discover</span><span style="--i:1">Stabilize</span><span style="--i:2">Document</span><span style="--i:3">Support</span><span style="--i:4">Improve</span>
-      <strong>Operate cleanly</strong>
+      <strong>Owned IT</strong>
     </div>
 
       </div>
     </div>
   </section>
-  <section class="section process-section large-process" data-process>
-    <div class="section-copy">
-      <span class="section-label">Operating Model</span>
-      <h2>Support should leave the environment cleaner than it found it.</h2>
-      <p>Each stage turns unclear IT into owned, documented work.</p>
-    </div>
+  <section class="section approach-detail-section">
+
+  <div class="section-copy">
+    <h2>Support should leave the environment cleaner than it found it</h2>
+    <p>The process is intentionally practical: understand the business, stabilize what interrupts work, document what matters, and keep improving the operating model.</p>
+  </div>
     <div class="process-rail">
-      <article><span>01</span><h3>Discover</h3><p>Map users, devices, cloud systems, vendors, support paths, risks, and recurring pain.</p></article><article><span>02</span><h3>Stabilize</h3><p>Fix urgent gaps, clarify escalation, check backup coverage, and get core tooling visible.</p></article><article><span>03</span><h3>Document</h3><p>Capture users, devices, vendors, access, recurring fixes, and support notes where they belong.</p></article><article><span>04</span><h3>Support</h3><p>Handle tickets, maintenance, changes, and urgent issues with clear ownership.</p></article><article><span>05</span><h3>Improve</h3><p>Review lifecycle needs, security priorities, project opportunities, and preventable noise.</p></article>
+      <article><span>01</span><h3>Discover</h3><p>Map users, devices, cloud systems, vendors, support paths, risks, and recurring pain.</p></article><article><span>02</span><h3>Stabilize</h3><p>Fix urgent gaps, clarify escalation, check backup visibility, and make core support tooling reliable.</p></article><article><span>03</span><h3>Document</h3><p>Capture users, devices, vendors, access, recurring fixes, and support notes where they belong.</p></article><article><span>04</span><h3>Support</h3><p>Handle tickets, maintenance, changes, and urgent issues with clear ownership.</p></article><article><span>05</span><h3>Improve</h3><p>Review lifecycle needs, security priorities, project opportunities, and preventable downtime.</p></article>
     </div>
   </section>
+  <section class="section approach-principles">
 
-  <section class="section pricing-section">
-    <div class="section-copy">
-      <span class="section-label">Pricing</span>
-      <h2>Pricing starts with the shape of your environment.</h2>
-      <p>Techordia scopes support around users, devices, systems, risk, and service model instead of forcing every client into the same package.</p>
-    </div>
-    <div class="pricing-factors">
-      <article><strong>Users and devices</strong><p>How many people, laptops, desktops, mobile devices, and shared systems need support.</p></article><article><strong>Support model</strong><p>Fully managed, co-managed, cybersecurity-focused, or project-based coverage.</p></article><article><strong>Risk and complexity</strong><p>Servers, backups, identity, vendors, compliance needs, and urgent cleanup.</p></article><article><strong>Project scope</strong><p>Migrations, office moves, endpoint refreshes, network changes, and cutover support.</p></article>
-    </div>
-  </section>
+  <div class="section-copy">
+    <h2>What the process protects</h2>
 
-  <section class="final-cta">
-    <div>
-      <h2>Ready to quiet the IT noise?</h2>
-      <p>Talk through users, devices, Microsoft 365, security, backups, and support coverage.</p>
-    </div>
-    <div class="cta-actions">
-      <a class="button light" href="../contact/">Book a Consultation</a>
-      <a class="button ghost" href="tel:+18779254785">Call 877-925-4785</a>
+  </div>
+    <div class="outcome-grid">
+      <article><h3>Continuity</h3><p>Support should reduce interruption, not create new dependency on one person or one undocumented workaround.</p></article>
+      <article><h3>Clarity</h3><p>Owners, users, vendors, systems, and escalation paths should be understandable before a problem becomes urgent.</p></article>
+      <article><h3>Judgment</h3><p>Good IT support uses technical depth, but the decision-making has to make sense to business operators.</p></article>
     </div>
   </section>
     </main>
@@ -102,24 +103,24 @@
     <div class="footer-main">
       <div class="footer-brand">
         <img class="brand-logo" src="../assets/techordia-logo-official.png" alt="Techordia" />
-        <p>Responsive managed IT, cybersecurity, cloud, server, backup, and project support from Alameda.</p>
+        <p>Relationship-driven managed IT, cybersecurity, and project support for Bay Area SMBs.</p>
       </div>
       <div class="footer-links">
         <div>
           <h2>Services</h2>
           <a href="../services/">All Services</a>
-          <a href="../services/fully-managed-it-services/">Fully Managed IT</a><a href="../services/co-managed-it-services/">Co-Managed IT</a><a href="../services/cybersecurity/">Cybersecurity</a><a href="../services/short-term-it-projects/">IT Projects</a>
+          <a href="../services/fully-managed-it-services/">Managed IT</a><a href="../services/co-managed-it-services/">Co-Managed IT</a><a href="../services/cybersecurity/">Cybersecurity</a><a href="../services/short-term-it-projects/">IT Projects</a>
         </div>
         <div>
           <h2>Company</h2>
           <a href="../approach/">Approach</a>
-          <a href="../about/">About</a>
-          <a href="../contact/">Contact</a>
+          <a href="../about/#story">The Techordia Story</a>
+          <a href="../about/#team">Team</a>
         </div>
         <div>
           <h2>Contact</h2>
           <a href="tel:+18779254785">877-925-4785</a>
-          <a href="mailto:info@techordia.com">info@techordia.com</a>
+          <a href="mailto:support@techordia.com">support@techordia.com</a>
           <span>887 Island Drive, Suite C, Alameda, CA 94502</span>
         </div>
       </div>

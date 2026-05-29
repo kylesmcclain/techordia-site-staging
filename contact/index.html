@@ -5,22 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex,nofollow" />
     <title>Contact Techordia | Managed IT Services</title>
-    <meta name="description" content="Use the form or call Techordia to start a practical conversation about support, security, cloud, backup, or project work." />
+    <meta name="description" content="Tell us about the support gaps, risks, projects, or recurring issues you want handled. We will help identify the right next step." />
+    <script>
+      try {
+        const requestedTheme = new URLSearchParams(location.search).get("theme");
+        const theme = requestedTheme === "light" || requestedTheme === "dark" ? requestedTheme : localStorage.getItem("techordia-theme");
+        if (theme === "light" || theme === "dark") document.documentElement.dataset.theme = theme;
+      } catch (error) {}
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <link rel="icon" href="../assets/techordia-logo.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="../styles.css?v=20260528-staging-dark-direction-2" />
-    <script defer src="../script.js?v=20260528-staging-dark-direction-2"></script>
+    <link rel="stylesheet" href="../styles.css?v=20260528-conversion-redesign-1" />
+    <script defer src="../script.js?v=20260528-conversion-redesign-1"></script>
   </head>
   <body data-page="contact/" data-visual="contact">
 
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header">
-    <div class="topline">
-      <span>Based in Alameda, serving Bay Area businesses</span>
-      <a href="tel:+18779254785">877-925-4785</a>
-    </div>
     <nav class="nav-shell" aria-label="Primary navigation">
       <a class="brand" href="../" aria-label="Techordia home"><img class="brand-logo" src="../assets/techordia-logo-official.png" alt="Techordia" /></a>
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-menu" aria-label="Open navigation">
@@ -31,10 +34,22 @@
           <button class="nav-trigger" type="button" aria-expanded="false">Services</button>
           <div class="mega-menu">
             <a href="../services/">All Services</a>
-            <a href="../services/fully-managed-it-services/">Fully Managed IT</a><a href="../services/co-managed-it-services/">Co-Managed IT</a><a href="../services/cybersecurity/">Cybersecurity</a><a href="../services/short-term-it-projects/">IT Projects</a>
+            <a href="../services/fully-managed-it-services/">Managed IT</a><a href="../services/co-managed-it-services/">Co-Managed IT</a><a href="../services/cybersecurity/">Cybersecurity</a><a href="../services/short-term-it-projects/">IT Projects</a>
           </div>
         </div>
-        <a class="nav-link" href="../approach/">Approach</a><a class="nav-link" href="../about/">About</a><a class="nav-link" href="../contact/" aria-current="page">Contact</a>
+        <a class="nav-link" href="../approach/">Approach</a>
+        <div class="nav-group">
+          <button class="nav-trigger" type="button" aria-expanded="false">About</button>
+          <div class="mega-menu about-menu">
+            <a href="../about/#story">The Techordia Story</a>
+            <a href="../about/#team">Team</a>
+          </div>
+        </div>
+        <a class="nav-link" href="../contact/" aria-current="page">Contact</a>
+        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch color theme" aria-pressed="false">
+          <span class="theme-toggle-track"><span class="theme-toggle-knob"></span></span>
+          <span class="theme-toggle-text">Light</span>
+        </button>
         <a class="nav-cta" href="../contact/">Book a Consultation</a>
       </div>
     </nav>
@@ -46,54 +61,45 @@
     <div class="hero-bg" aria-hidden="true"></div>
     <div class="hero-inner">
       <div class="hero-copy">
-        <h1>Tell us what is not working.</h1>
-        <p>Use the form or call Techordia to start a practical conversation about support, security, cloud, backup, or project work.</p>
-        <div class="hero-actions">
-          <a class="button primary" href="../contact/">Book a Consultation</a>
-          <a class="button secondary" href="tel:+18779254785">Call 877-925-4785</a>
-        </div>
+        <h1>Start with a conversation about what your team needs from IT.</h1>
+        <p>Tell us about the support gaps, risks, projects, or recurring issues you want handled. We will help identify the right next step.</p>
 
       </div>
       <div class="hero-visual-shell">
 
     <div class="visual visual-contact" data-visual="contact">
-      <div class="contact-step"><span>1</span><strong>Tell us what is happening</strong><p>Users, systems, risk, support gaps, or a project you need handled.</p></div><div class="contact-step"><span>2</span><strong>We review the environment</strong><p>Techordia looks at users, devices, Microsoft 365, security, backup, and vendors.</p></div><div class="contact-step"><span>3</span><strong>You get a support path</strong><p>We recommend the right service lane, priorities, and next steps.</p></div>
+      <div class="contact-step"><span>1</span><strong>Tell us what is happening</strong><p>Users, systems, risk, support gaps, or a project you need handled.</p></div><div class="contact-step"><span>2</span><strong>We review the operating picture</strong><p>Techordia looks at users, devices, Microsoft 365, security, backup, vendors, and support paths.</p></div><div class="contact-step"><span>3</span><strong>You get a practical next step</strong><p>We recommend the right service lane, priorities, and consultation path.</p></div>
     </div>
 
       </div>
     </div>
   </section>
   <section class="section contact-section">
-    <div class="section-copy">
-      <span class="section-label">Consultation</span>
-      <h2>What happens next.</h2>
-      <p>Techordia reviews the support need, the environment shape, and the right service lane before recommending next steps.</p>
-      <div class="contact-direct">
-        <a href="tel:+18779254785">877-925-4785</a>
-        <a href="mailto:info@techordia.com">info@techordia.com</a>
-        <span>887 Island Drive, Suite C, Alameda, CA 94502</span>
-      </div>
-    </div>
 
-  <form class="contact-form" id="contact-form" data-contact-form data-contact-email="info@techordia.com">
+  <div class="section-copy">
+    <h2>What happens next</h2>
+    <p>A useful first conversation usually covers the users you support, the systems that cannot go down, the issues that keep repeating, and the support relationship that would make the business easier to run.</p>
+  </div>
+    <div class="contact-layout">
+      <div class="contact-details">
+        <h3>Contact Techordia</h3>
+        <a href="tel:+18779254785">877-925-4785</a>
+        <a href="mailto:support@techordia.com">support@techordia.com</a>
+        <span>887 Island Drive, Suite C, Alameda, CA 94502</span>
+        <div class="contact-expectations">
+          <article><span>1</span><strong>Tell us what is happening</strong><p>Users, systems, risk, support gaps, or a project you need handled.</p></article><article><span>2</span><strong>We review the operating picture</strong><p>Techordia looks at users, devices, Microsoft 365, security, backup, vendors, and support paths.</p></article><article><span>3</span><strong>You get a practical next step</strong><p>We recommend the right service lane, priorities, and consultation path.</p></article>
+        </div>
+      </div>
+
+  <form class="contact-form" id="contact-form" data-contact-form data-contact-email="support@techordia.com">
     <label>First name<input name="First name" autocomplete="given-name" required /></label>
     <label>Last name<input name="Last name" autocomplete="family-name" required /></label>
     <label>Company<input name="Company" autocomplete="organization" required /></label>
     <label>Email<input type="email" name="Email" autocomplete="email" required /></label>
-    <label>Support need<select name="Support need" required><option value="">Select one</option><option>Fully managed IT</option><option>Co-managed IT</option><option>Cybersecurity</option><option>IT project</option><option>Not sure yet</option></select></label>
+    <label>Support need<select name="Support need" required><option value="">Select one</option><option>Managed IT</option><option>Co-managed IT</option><option>Cybersecurity</option><option>IT project</option><option>Not sure yet</option></select></label>
     <label>What should we look at first?<textarea name="Message" rows="5" required></textarea></label>
-    <button class="button primary" type="submit">Start the Conversation</button>
+    <button class="button primary" type="submit">Send Message</button>
   </form>
-  </section>
-
-  <section class="final-cta">
-    <div>
-      <h2>Ready to quiet the IT noise?</h2>
-      <p>Talk through users, devices, Microsoft 365, security, backups, and support coverage.</p>
-    </div>
-    <div class="cta-actions">
-      <a class="button light" href="../contact/">Book a Consultation</a>
-      <a class="button ghost" href="tel:+18779254785">Call 877-925-4785</a>
     </div>
   </section>
     </main>
@@ -102,24 +108,24 @@
     <div class="footer-main">
       <div class="footer-brand">
         <img class="brand-logo" src="../assets/techordia-logo-official.png" alt="Techordia" />
-        <p>Responsive managed IT, cybersecurity, cloud, server, backup, and project support from Alameda.</p>
+        <p>Relationship-driven managed IT, cybersecurity, and project support for Bay Area SMBs.</p>
       </div>
       <div class="footer-links">
         <div>
           <h2>Services</h2>
           <a href="../services/">All Services</a>
-          <a href="../services/fully-managed-it-services/">Fully Managed IT</a><a href="../services/co-managed-it-services/">Co-Managed IT</a><a href="../services/cybersecurity/">Cybersecurity</a><a href="../services/short-term-it-projects/">IT Projects</a>
+          <a href="../services/fully-managed-it-services/">Managed IT</a><a href="../services/co-managed-it-services/">Co-Managed IT</a><a href="../services/cybersecurity/">Cybersecurity</a><a href="../services/short-term-it-projects/">IT Projects</a>
         </div>
         <div>
           <h2>Company</h2>
           <a href="../approach/">Approach</a>
-          <a href="../about/">About</a>
-          <a href="../contact/">Contact</a>
+          <a href="../about/#story">The Techordia Story</a>
+          <a href="../about/#team">Team</a>
         </div>
         <div>
           <h2>Contact</h2>
           <a href="tel:+18779254785">877-925-4785</a>
-          <a href="mailto:info@techordia.com">info@techordia.com</a>
+          <a href="mailto:support@techordia.com">support@techordia.com</a>
           <span>887 Island Drive, Suite C, Alameda, CA 94502</span>
         </div>
       </div>

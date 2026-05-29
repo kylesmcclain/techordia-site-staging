@@ -2,143 +2,155 @@ export const site = {
   brand: "Techordia",
   phone: "877-925-4785",
   phoneHref: "tel:+18779254785",
-  email: "info@techordia.com",
+  email: "support@techordia.com",
   address: "887 Island Drive, Suite C, Alameda, CA 94502",
   founded: "2010",
   founder: "Wilson Lee",
-  region: "Alameda and the Bay Area",
+  region: "Bay Area",
   logo: "assets/techordia-logo-official.png",
   description:
-    "Techordia provides responsive managed IT, Microsoft 365, cybersecurity, server, backup, and project support for Bay Area SMBs."
+    "Techordia provides relationship-driven managed IT, co-managed IT, cybersecurity, and IT project support for Bay Area SMBs."
 };
 
 export const reviewWidget = {
   source: "Google reviews",
-  title: "Client Feedback on Google",
-  note: "See current public reviews from people who have worked with Techordia. Verified Google Business Profile details can be connected before launch.",
+  title: "Client feedback",
+  note: "Verified Google Business Profile rating and review count can be connected before launch.",
   status: "Rating verification pending"
 };
 
 export const servicePages = [
   {
     key: "managed",
-    title: "Fully Managed IT",
+    icon: "headset",
+    title: "Managed IT",
     path: "services/fully-managed-it-services/",
-    seoTitle: "Fully Managed IT Services | Techordia",
-    summary: "Day-to-day IT ownership for users, devices, Microsoft 365, servers, vendors, backups, and support.",
+    seoTitle: "Managed IT Services | Techordia",
+    summary: "A complete IT support lane for users, devices, Microsoft 365, vendors, backups, and daily operations.",
+    what: "Techordia becomes the primary IT partner for day-to-day support, systems management, documentation, vendor coordination, and recurring maintenance.",
+    bestFor: "SMBs with 10-200 employees that need dependable IT ownership without hiring a full internal team.",
+    how: "We map the environment, stabilize support paths, document critical systems, and operate IT with clear ticket ownership and escalation.",
     hero:
-      "Your users, devices, cloud, network, vendors, and security handled in one accountable support lane.",
+      "A dependable IT operating model for teams that need support, security, and continuity handled under one accountable partner.",
     fit: "SMBs without a full internal IT team.",
-    included: ["Help desk", "Microsoft 365", "Endpoints", "Servers", "Backups", "Vendor coordination"],
     visual: "managed",
-    cta: "Get Managed IT",
     intro:
-      "Techordia becomes the operating layer for daily IT. Users get support, systems stay documented, and recurring work has an owner.",
+      "Managed IT is built for businesses that want users supported, critical systems watched, vendors coordinated, and recurring IT work owned without adding management burden.",
     outcomes: [
-      ["Faster support", "Users know where to go and urgent issues have a clear escalation path."],
-      ["Cleaner systems", "Microsoft 365, devices, backups, and servers are tracked and maintained."],
-      ["Less vendor noise", "Carriers, software vendors, hardware partners, and cloud providers stay coordinated."]
+      ["Stay productive", "Users have a clear support path when work is blocked, and urgent issues can escalate beyond the normal ticket queue."],
+      ["Reduce downtime", "Devices, Microsoft 365, backups, servers, and vendors stay visible so preventable outages are caught earlier."],
+      ["Grow with less IT drag", "Documentation, onboarding, access, and lifecycle planning improve as the business adds people and systems."]
     ],
     steps: [
-      ["Discover", "Users, devices, vendors, licenses, access paths, and risks."],
-      ["Stabilize", "Support routes, security basics, backup checks, and endpoint coverage."],
-      ["Operate", "Help desk, recurring maintenance, vendor coordination, and documentation."],
-      ["Improve", "Roadmap, lifecycle planning, security cleanup, and project handoff."]
+      ["Discover", "Identify users, devices, cloud systems, vendors, support paths, risk areas, and recurring pain."],
+      ["Stabilize", "Clarify ticket routing, remote support access, backup visibility, endpoint coverage, and priority gaps."],
+      ["Operate", "Handle help desk, maintenance, vendor coordination, documentation, and escalation for daily operations."],
+      ["Improve", "Review lifecycle needs, recurring issues, security cleanup, and projects that will reduce future noise."]
     ],
     faqs: [
-      ["How fast can we start?", "We start with discovery, then prioritize support paths, access, devices, cloud, backups, and urgent gaps."],
-      ["Do you support onsite work?", "Yes. Techordia is based in Alameda and supports Bay Area teams with remote and onsite help where it makes sense."],
-      ["What is included?", "Support can include help desk, Microsoft 365, endpoints, servers, network, backup, vendors, security, and documentation."]
+      ["How does Techordia take over from our current IT provider?", "We start by collecting access, documentation, vendor contacts, backup status, Microsoft 365 details, endpoint coverage, and open issues. The first goal is continuity, then cleanup."],
+      ["Will our employees contact Techordia directly?", "Most managed IT clients route users directly to Techordia for support. During onboarding, we define ticket paths, urgent escalation, onsite expectations, and who approves larger changes."],
+      ["What happens when an issue is urgent?", "Urgent issues are triaged for business impact. Ticket-based support handles normal requests, and after-hours or on-call escalation can be defined for events that stop work."],
+      ["How do you keep our environment from becoming undocumented again?", "Documentation is part of the operating rhythm: users, devices, access paths, vendors, recurring fixes, and project handoffs are captured as support work happens."]
     ]
   },
   {
     key: "co-managed",
+    icon: "lanes",
     title: "Co-Managed IT",
     path: "services/co-managed-it-services/",
     seoTitle: "Co-Managed IT Services | Techordia",
-    summary: "Extra capacity, tooling, documentation, and escalation support for internal IT teams.",
-    hero: "Keep control of IT while Techordia adds capacity where your team needs backup.",
+    summary: "Extra capacity, escalation, documentation, tooling, and project support for internal IT teams.",
+    what: "Techordia works beside your internal IT lead or small IT team with explicit ownership lanes for overflow, escalation, maintenance, and projects.",
+    bestFor: "Businesses with internal IT that need more capacity, better documentation, or a dependable escalation partner.",
+    how: "We define shared lanes, connect support tooling, absorb agreed work, and review recurring issues so internal IT is not carrying everything alone.",
+    hero: "Support your internal IT team with a practical partner that can absorb tickets, projects, escalation, and operational follow-through.",
     fit: "Internal IT teams that need overflow, projects, or specialist depth.",
-    included: ["Overflow support", "Escalation", "Monitoring", "Projects", "Security support", "Documentation"],
     visual: "co-managed",
-    cta: "Extend Your Team",
     intro:
-      "Techordia works beside your IT lead. The model is explicit: your team keeps the lanes it owns, and Techordia handles the pressure points.",
+      "Co-managed IT is strongest when ownership is explicit. Your team keeps the lanes it should own, and Techordia handles the pressure points that need more capacity or specialized follow-through.",
     outcomes: [
-      ["More capacity", "Tickets, onboarding, maintenance, and projects do not all bottleneck on one person."],
-      ["Cleaner escalation", "Users and internal IT know when work moves to Techordia."],
-      ["Better continuity", "Documentation, monitoring, and handoff notes make support less fragile."]
+      ["Protect internal focus", "Your IT lead is not forced to choose between urgent tickets, projects, documentation, and strategic work every day."],
+      ["Create clean handoffs", "Users and internal IT know what goes to Techordia, what stays internal, and when issues should escalate."],
+      ["Reduce single-person risk", "Documentation, monitoring, and shared support history make the environment less dependent on one person."]
     ],
     steps: [
-      ["Map lanes", "Define what internal IT owns and what Techordia owns."],
-      ["Connect tools", "Set support paths, access, monitoring, and documentation expectations."],
-      ["Absorb work", "Take overflow, maintenance, escalations, and project tasks."],
-      ["Review", "Track recurring issues, risk, lifecycle needs, and next projects."]
+      ["Map lanes", "Define what internal IT owns, what Techordia owns, and what needs joint approval."],
+      ["Connect tools", "Set support paths, remote access, monitoring, documentation locations, and escalation expectations."],
+      ["Absorb work", "Take agreed tickets, maintenance, onboarding, security cleanup, and project tasks."],
+      ["Review", "Use recurring reviews to adjust ownership, reduce repeat issues, and plan the next operational improvements."]
     ],
     faqs: [
-      ["Can you work under our IT manager?", "Yes. Co-managed support is built around shared ownership and clear handoffs."],
-      ["Can you handle projects only?", "Yes. Co-managed support can include scoped project work and escalation coverage."],
-      ["Do users contact Techordia directly?", "That is decided during onboarding. Some clients route users directly; others route through internal IT first."]
+      ["Can Techordia work under our IT manager?", "Yes. Co-managed IT is built around internal leadership, clear ownership lanes, and practical escalation instead of replacing the team by default."],
+      ["Can our users still go to internal IT first?", "Yes. Some clients route users through internal IT first; others allow direct Techordia tickets for agreed categories. The model is defined during onboarding."],
+      ["Can you help with projects while we keep daily support internal?", "Yes. Co-managed support can focus on projects, overflow, documentation, monitoring, or escalations depending on where the internal team needs relief."],
+      ["How do you avoid stepping on internal processes?", "We document the operating lanes, approval points, ticket routing, and communication rhythm before taking over work."]
     ]
   },
   {
     key: "cybersecurity",
+    icon: "shield",
     title: "Cybersecurity",
     path: "services/cybersecurity/",
     seoTitle: "Cybersecurity Services | Techordia",
-    summary: "Practical controls for identity, endpoints, email, backup, admin access, and risk cleanup.",
-    hero: "Security work that protects daily operations without turning into theater.",
+    summary: "Practical security controls for identity, endpoints, email, backups, admin access, and recovery readiness.",
+    what: "Techordia helps SMBs strengthen the controls that matter most to daily operations: identity, endpoints, email, backup, access, and recovery.",
+    bestFor: "Teams that need stronger protection and better recovery readiness without turning security into a confusing side project.",
+    how: "We assess practical risk, prioritize the most important gaps, implement controls, and fold security maintenance into normal IT operations.",
+    hero: "Security that protects the business without burying your team in jargon or one-time reports.",
     fit: "SMBs that need stronger controls, cleaner access, and better recovery readiness.",
-    included: ["MFA", "Endpoint care", "Email security", "Backup review", "Access reviews", "Risk cleanup"],
     visual: "cybersecurity",
-    cta: "Improve Security",
     intro:
-      "Techordia focuses on controls your team can actually maintain: identity, devices, email, backup, admin access, and documentation.",
+      "Cybersecurity should make the business more resilient. Techordia focuses on controls your team can actually maintain and understand.",
     outcomes: [
-      ["Reduce obvious risk", "Lock down access, endpoints, email, and administrative paths first."],
-      ["Improve recovery", "Backups, restore expectations, and continuity notes are checked and documented."],
-      ["Make security operational", "Security work becomes part of normal support, not a one-time report."]
+      ["Reduce obvious risk", "Identity, admin access, endpoint health, email security, and backup gaps are prioritized first."],
+      ["Improve continuity", "Recovery expectations, backup visibility, and critical-system dependencies become clearer."],
+      ["Make security operational", "Security improvements become part of the support model instead of a separate annual panic."]
     ],
     steps: [
-      ["Assess", "Review identity, endpoints, email, backup, admins, and exposed gaps."],
-      ["Prioritize", "Separate urgent risk from nice-to-have cleanup."],
-      ["Remediate", "Apply controls and document what changed."],
-      ["Maintain", "Fold reviews, updates, and recurring checks into support rhythm."]
+      ["Assess", "Review identity, endpoints, email, backup, admin access, exposed gaps, and business-critical systems."],
+      ["Prioritize", "Separate urgent risk from cleanup that can be sequenced over time."],
+      ["Remediate", "Apply controls, clean up access, improve visibility, and document what changed."],
+      ["Maintain", "Fold recurring checks, updates, and review items into the IT support rhythm."]
     ],
     faqs: [
-      ["Do you provide compliance certification?", "No fake certification claims. Techordia helps with practical controls and documentation that support reviews."],
-      ["What comes first?", "Identity, admin access, endpoints, email, backup coverage, and recovery expectations."],
-      ["Can security be part of managed IT?", "Yes. Security should be built into daily IT operations, not treated as a separate mystery project."]
+      ["Do you provide fake compliance badges or certification claims?", "No. The staging site avoids fake SOC, HIPAA, or ISO claims. Techordia focuses on practical controls and documentation that support real reviews."],
+      ["What security controls usually come first?", "Identity, MFA, admin access, endpoint coverage, email protection, backup visibility, and recovery expectations usually come before low-value complexity."],
+      ["Can security be included with managed IT?", "Yes. Security works best when it is integrated into daily IT operations, onboarding, offboarding, patching, backup checks, and support work."],
+      ["How disruptive is a security cleanup?", "The goal is controlled improvement. Techordia sequences changes, communicates user impact, and avoids pushing unnecessary complexity all at once."]
     ]
   },
   {
     key: "projects",
+    icon: "timeline",
     title: "IT Projects",
     path: "services/short-term-it-projects/",
     seoTitle: "IT Projects | Techordia",
-    summary: "Focused execution for migrations, office moves, endpoint rollouts, network changes, and cleanup.",
-    hero: "Defined IT projects with scope, cutover planning, testing, and handoff.",
+    summary: "Scoped execution for migrations, office moves, endpoint rollouts, network changes, cleanup, and cutovers.",
+    what: "Techordia plans and executes defined IT projects with scope, prerequisites, vendor coordination, cutover planning, testing, and support handoff.",
+    bestFor: "Teams that have a clear change to make and need it delivered without chaos or lingering support problems.",
+    how: "We clarify goals, dependencies, owners, timing, testing, rollback considerations, and documentation before and after the work.",
+    hero: "IT projects planned around business continuity, clean cutovers, and supportable handoff.",
     fit: "Teams with a clear change to make and no room for messy execution.",
-    included: ["Scoping", "Migration", "Rollout", "Vendor coordination", "Testing", "Handoff"],
     visual: "projects",
-    cta: "Plan a Project",
     intro:
-      "Techordia scopes the work, coordinates dependencies, executes the technical pieces, tests the result, and leaves the environment easier to support.",
+      "Projects are where hidden IT gaps often surface. Techordia scopes the change, coordinates dependencies, executes the technical work, and leaves the final state easier to support.",
     outcomes: [
       ["Cleaner cutovers", "Users, vendors, timing, rollback, and support coverage are planned before go-live."],
-      ["Less project drift", "Scope, owners, prerequisites, and blockers stay visible."],
-      ["Usable handoff", "The final state is documented so support does not collapse after launch."]
+      ["Less project drift", "Scope, prerequisites, owners, and blockers stay visible."],
+      ["Better handoff", "The final state is documented so support does not collapse after launch."]
     ],
     steps: [
-      ["Scope", "Goals, systems, dependencies, owners, and timing."],
-      ["Prepare", "Access, backups, vendors, users, hardware, and change windows."],
-      ["Execute", "Migration, rollout, cutover, testing, and live support."],
-      ["Handoff", "Documentation, stabilization, open items, and next-step recommendations."]
+      ["Scope", "Define goals, systems, dependencies, stakeholders, timing, and risk."],
+      ["Prepare", "Confirm access, backups, vendors, users, hardware, licenses, and change windows."],
+      ["Execute", "Handle migration, rollout, cutover, testing, communication, and live support."],
+      ["Handoff", "Document the final state, open items, support notes, and recommendations."]
     ],
     faqs: [
-      ["Do you do project-only work?", "Yes. Projects can be scoped independently from recurring managed services."],
-      ["What projects fit?", "Microsoft 365 migrations, endpoint rollouts, office moves, network work, server changes, cleanup, and security remediation."],
-      ["How is pricing handled?", "Project pricing depends on scope, timing, dependencies, risk, and support expectations."]
+      ["Do you do project-only work?", "Yes. Projects can be scoped independently from recurring managed services when the work and handoff expectations are clear."],
+      ["What projects are a fit?", "Microsoft 365 migrations, endpoint rollouts, office moves, network work, server changes, cleanup, security remediation, and vendor-dependent cutovers."],
+      ["How do you reduce cutover risk?", "We identify dependencies, confirm access and backups, plan timing, define rollback expectations, and communicate support coverage before go-live."],
+      ["What happens after the project?", "Techordia documents the final state, reviews open items, and can either hand off support or continue under a managed/co-managed model."]
     ]
   }
 ];
@@ -148,14 +160,14 @@ export const approach = {
   title: "Our Approach | Techordia",
   h1: "A practical process before a proposal.",
   intro:
-    "We do not quote from a guess. We look at how your team works, what systems matter, where risk sits, and what support path your users need.",
+    "We look at how your team works, which systems matter, where risk sits, and what support path users need before recommending a model.",
   visual: "approach",
   steps: [
     ["Discover", "Map users, devices, cloud systems, vendors, support paths, risks, and recurring pain."],
-    ["Stabilize", "Fix urgent gaps, clarify escalation, check backup coverage, and get core tooling visible."],
+    ["Stabilize", "Fix urgent gaps, clarify escalation, check backup visibility, and make core support tooling reliable."],
     ["Document", "Capture users, devices, vendors, access, recurring fixes, and support notes where they belong."],
     ["Support", "Handle tickets, maintenance, changes, and urgent issues with clear ownership."],
-    ["Improve", "Review lifecycle needs, security priorities, project opportunities, and preventable noise."]
+    ["Improve", "Review lifecycle needs, security priorities, project opportunities, and preventable downtime."]
   ]
 };
 
@@ -165,32 +177,32 @@ export const pages = {
     title: "Techordia | Managed IT Services for Bay Area SMBs",
     h1: "IT that works. So you can.",
     intro:
-      "Proactive IT support, security, and guidance for Bay Area businesses. Less downtime. More momentum.",
+      "Responsive IT support for Bay Area businesses with 10-200 employees that need fewer interruptions, cleaner systems, and a long-term partner who learns how the business runs.",
     visual: "home"
   },
   services: {
     path: "services/",
     title: "IT Services | Techordia",
-    h1: "Managed IT, security, cloud, and project support.",
+    h1: "Choose the IT support model that fits how your business works.",
     intro:
-      "Choose the level of help your team needs now. We can run IT for you, support your internal team, tighten security, or execute a defined project.",
+      "Techordia supports Bay Area SMBs through managed IT, co-managed IT, cybersecurity, and focused IT projects.",
     visual: "services"
   },
   approach,
   about: {
     path: "about/",
     title: "About Techordia | Alameda Managed IT",
-    h1: "Techordia is a managed IT services company based in Alameda.",
+    h1: "The Techordia story starts with practical, relationship-driven IT support.",
     intro:
-      "Since 2010, Techordia has supported small and mid-sized businesses with practical IT support, management, cloud services, and infrastructure help.",
+      "Since 2010, Techordia has helped Bay Area businesses keep users supported, critical systems stable, and technology easier to manage.",
     visual: "about"
   },
   contact: {
     path: "contact/",
     title: "Contact Techordia | Managed IT Services",
-    h1: "Tell us what is not working.",
+    h1: "Start with a conversation about what your team needs from IT.",
     intro:
-      "Use the form or call Techordia to start a practical conversation about support, security, cloud, backup, or project work.",
+      "Tell us about the support gaps, risks, projects, or recurring issues you want handled. We will help identify the right next step.",
     visual: "contact"
   }
 };
@@ -202,45 +214,115 @@ export const navItems = [
   { title: "Contact", path: "contact/" }
 ];
 
-export const proof = [
-  ["Serving SMBs since 2010", "Long-running support for Bay Area business operations."],
-  ["Based in Alameda", "Local presence for Alameda, Oakland, San Francisco, San Jose, and remote teams."],
-  ["Help desk and emergency support", "Responsive user support plus escalation when work stops."],
-  ["Cloud, server, and security expertise", "Microsoft 365, endpoints, servers, backup, and risk cleanup."]
+export const whyTechordia = [
+  ["Stay productive", "Users get a clear place to go for help, so preventable IT issues do not quietly drain the workday."],
+  ["Reduce downtime", "Ticket support, escalation, monitoring, backups, and vendor coordination work together instead of living in silos."],
+  ["Keep critical systems supported", "Microsoft 365, endpoints, networks, backups, vendors, and access paths stay visible as the business grows."],
+  ["Local presence", "Bay Area availability gives clients a partner who can combine remote support with onsite help when the situation calls for it."]
 ];
 
-export const brandValues = [
-  ["Real people, real answers", "You work with humans who learn your team, your systems, and the context behind the ticket."],
-  ["White-glove IT support", "Careful support for the small details: onboarding, handoffs, vendors, access, and follow-through."],
-  ["Fast when work stops", "Urgent issues get clear ownership, practical triage, and escalation when the business is blocked."],
-  ["Can-do ownership", "Techordia looks for a path forward, coordinates the moving pieces, and stays with the problem."],
-  ["Not scripted. Not robotic.", "Support is handled with judgment, plain language, and the flexibility real environments need."],
-  ["Top-tier technical depth", "Strong troubleshooting across Microsoft 365, endpoints, servers, backups, security, and infrastructure."]
+export const clientExperience = [
+  ["IT feels owned", "Support requests, projects, security concerns, and vendor issues have a path forward instead of landing back on the owner or operations team."],
+  ["Leaders see the road ahead", "Techordia helps management understand risks, lifecycle needs, and priorities in business language."],
+  ["Work keeps moving", "The goal is not more IT activity. The goal is fewer surprises, cleaner handoffs, and a team that can stay focused."],
+  ["Technology becomes an asset", "IT moves from liability and distraction toward a managed operating function that supports growth."]
+];
+
+export const leadershipNotes = [
+  "Techordia leadership combines technical ownership with operational follow-through.",
+  "Prospects work with people who learn the business context behind the ticket, not a rotating script."
 ];
 
 export const pricing = {
-  title: "Pricing starts with the shape of your environment.",
+  title: "Pricing depends on the shape of the environment.",
   intro:
-    "Techordia scopes support around users, devices, systems, risk, and service model instead of forcing every client into the same package.",
+    "A useful proposal has to account for users, devices, business-critical systems, support expectations, security risk, and project scope.",
   factors: [
-    ["Users and devices", "How many people, laptops, desktops, mobile devices, and shared systems need support."],
-    ["Support model", "Fully managed, co-managed, cybersecurity-focused, or project-based coverage."],
-    ["Risk and complexity", "Servers, backups, identity, vendors, compliance needs, and urgent cleanup."],
-    ["Project scope", "Migrations, office moves, endpoint refreshes, network changes, and cutover support."]
+    ["Users and devices", "How many people, endpoints, mobile devices, shared systems, and locations need support."],
+    ["Support model", "Fully managed, co-managed, cybersecurity-focused, project-based, or a blend."],
+    ["Risk and complexity", "Servers, backups, identity, vendors, compliance needs, access cleanup, and urgent gaps."],
+    ["Project scope", "Migrations, office moves, endpoint refreshes, network changes, security remediation, and cutover support."]
   ]
 };
 
 export const contactFlow = [
   ["1", "Tell us what is happening", "Users, systems, risk, support gaps, or a project you need handled."],
-  ["2", "We review the environment", "Techordia looks at users, devices, Microsoft 365, security, backup, and vendors."],
-  ["3", "You get a support path", "We recommend the right service lane, priorities, and next steps."]
+  ["2", "We review the operating picture", "Techordia looks at users, devices, Microsoft 365, security, backup, vendors, and support paths."],
+  ["3", "You get a practical next step", "We recommend the right service lane, priorities, and consultation path."]
 ];
 
-export const faqs = [
-  ["Where does Techordia work?", "Techordia is based in Alameda and supports Bay Area businesses plus distributed teams."],
-  ["What does the consultation cover?", "Users, devices, Microsoft 365, support pain, security gaps, backups, vendors, and any urgent projects."],
-  ["Can Techordia replace our IT person?", "Yes for fully managed IT, or Techordia can support your existing IT lead through co-managed service."],
-  ["Do you publish standard prices?", "The staging site uses process-based pricing language because support depends on users, devices, risk, scope, and service model."]
+export const faqGroups = [
+  {
+    key: "onboarding",
+    label: "Onboarding",
+    items: [
+      ["What happens during the first few weeks with Techordia?", "We focus first on continuity: support routing, access, remote tools, documentation, backup visibility, vendor contacts, Microsoft 365, endpoints, and urgent gaps. Cleanup follows once the support path is stable."],
+      ["How much time does our team need to spend during onboarding?", "Most clients need to help with access, priorities, vendor contacts, and key business context. Techordia does the technical mapping and turns that into an operating plan."]
+    ]
+  },
+  {
+    key: "response",
+    label: "Responsiveness",
+    items: [
+      ["How do you handle urgent issues that stop work?", "Urgent issues are triaged by business impact. Ticket-based support covers normal work, while defined escalation and after-hours/on-call coverage can be used when downtime cannot wait."],
+      ["Will users know how to get help?", "Yes. A clear support path is part of onboarding so users know when to submit a ticket, what information helps, and how urgent issues escalate."]
+    ]
+  },
+  {
+    key: "risk",
+    label: "Risk",
+    items: [
+      ["How does Techordia reduce IT risk without overcomplicating everything?", "We prioritize practical controls first: identity, admin access, endpoint visibility, email protection, backup checks, recovery expectations, documentation, and vendor coordination."],
+      ["What if our current environment is messy or undocumented?", "That is common. Techordia starts by making the environment supportable, then cleans up documentation, access, devices, vendors, and recurring issues in priority order."]
+    ]
+  },
+  {
+    key: "model",
+    label: "Support model",
+    items: [
+      ["Can Techordia replace our IT person or support an internal IT lead?", "Both models are possible. Managed IT gives Techordia primary ownership; co-managed IT adds capacity and escalation while internal IT keeps defined lanes."],
+      ["How are new services or projects added after the first consultation?", "We clarify the business goal, scope, prerequisites, timing, support impact, and handoff plan before recommending implementation."]
+    ]
+  }
+];
+
+export const teamMembers = [
+  {
+    group: "Partners",
+    name: "Benjamin Schuyler",
+    role: "Partner & Operations Project Manager",
+    initials: "BS",
+    linkedin: "https://www.linkedin.com/search/results/people/?keywords=Benjamin%20Schuyler%20Techordia",
+    bio:
+      "Benjamin helps turn support needs, project work, vendor dependencies, and operations priorities into organized execution."
+  },
+  {
+    group: "Partners",
+    name: "Wilson Lee",
+    role: "CTO and Founder",
+    initials: "WL",
+    linkedin: "https://www.linkedin.com/search/results/people/?keywords=Wilson%20Lee%20Techordia",
+    bio:
+      "Wilson founded Techordia around the idea that business technology should be dependable, understandable, and actively managed."
+  },
+  {
+    group: "Management",
+    name: "Sara Schuyler",
+    role: "Accounts Specialist and Benefits Administrator",
+    initials: "SS",
+    linkedin: "https://www.linkedin.com/search/results/people/?keywords=Sara%20Schuyler%20Techordia",
+    bio:
+      "Sara supports the account and administrative side of the client relationship so operational details stay organized."
+  },
+  {
+    group: "Management",
+    name: "Gunnar De Young",
+    role: "Business Operations Manager",
+    initials: "GD",
+    linkedin: "https://www.linkedin.com/search/results/people/?keywords=Gunnar%20De%20Young%20Techordia",
+    bio:
+      "Gunnar helps keep service operations, communication, and internal follow-through aligned with the client experience."
+  }
 ];
 
 export const allPages = [

@@ -5,22 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex,nofollow" />
     <title>Co-Managed IT Services | Techordia</title>
-    <meta name="description" content="Extra capacity, tooling, documentation, and escalation support for internal IT teams." />
+    <meta name="description" content="Extra capacity, escalation, documentation, tooling, and project support for internal IT teams." />
+    <script>
+      try {
+        const requestedTheme = new URLSearchParams(location.search).get("theme");
+        const theme = requestedTheme === "light" || requestedTheme === "dark" ? requestedTheme : localStorage.getItem("techordia-theme");
+        if (theme === "light" || theme === "dark") document.documentElement.dataset.theme = theme;
+      } catch (error) {}
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <link rel="icon" href="../../assets/techordia-logo.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="../../styles.css?v=20260528-staging-dark-direction-2" />
-    <script defer src="../../script.js?v=20260528-staging-dark-direction-2"></script>
+    <link rel="stylesheet" href="../../styles.css?v=20260528-conversion-redesign-1" />
+    <script defer src="../../script.js?v=20260528-conversion-redesign-1"></script>
   </head>
   <body data-page="services/co-managed-it-services/" data-visual="co-managed">
 
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header">
-    <div class="topline">
-      <span>Based in Alameda, serving Bay Area businesses</span>
-      <a href="tel:+18779254785">877-925-4785</a>
-    </div>
     <nav class="nav-shell" aria-label="Primary navigation">
       <a class="brand" href="../../" aria-label="Techordia home"><img class="brand-logo" src="../../assets/techordia-logo-official.png" alt="Techordia" /></a>
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-menu" aria-label="Open navigation">
@@ -31,10 +34,22 @@
           <button class="nav-trigger" type="button" aria-expanded="false">Services</button>
           <div class="mega-menu">
             <a href="../../services/">All Services</a>
-            <a href="../../services/fully-managed-it-services/">Fully Managed IT</a><a href="../../services/co-managed-it-services/" aria-current="page">Co-Managed IT</a><a href="../../services/cybersecurity/">Cybersecurity</a><a href="../../services/short-term-it-projects/">IT Projects</a>
+            <a href="../../services/fully-managed-it-services/">Managed IT</a><a href="../../services/co-managed-it-services/" aria-current="page">Co-Managed IT</a><a href="../../services/cybersecurity/">Cybersecurity</a><a href="../../services/short-term-it-projects/">IT Projects</a>
           </div>
         </div>
-        <a class="nav-link" href="../../approach/">Approach</a><a class="nav-link" href="../../about/">About</a><a class="nav-link" href="../../contact/">Contact</a>
+        <a class="nav-link" href="../../approach/">Approach</a>
+        <div class="nav-group">
+          <button class="nav-trigger" type="button" aria-expanded="false">About</button>
+          <div class="mega-menu about-menu">
+            <a href="../../about/#story">The Techordia Story</a>
+            <a href="../../about/#team">Team</a>
+          </div>
+        </div>
+        <a class="nav-link" href="../../contact/">Contact</a>
+        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch color theme" aria-pressed="false">
+          <span class="theme-toggle-track"><span class="theme-toggle-knob"></span></span>
+          <span class="theme-toggle-text">Light</span>
+        </button>
         <a class="nav-cta" href="../../contact/">Book a Consultation</a>
       </div>
     </nav>
@@ -42,76 +57,99 @@
     <main id="main">
 
 
-  <section class="hero sub-hero" data-page-visual="co-managed">
+  <section class="hero service-hero" data-page-visual="co-managed">
     <div class="hero-bg" aria-hidden="true"></div>
     <div class="hero-inner">
       <div class="hero-copy">
         <h1>Co-Managed IT</h1>
-        <p>Techordia works beside your IT lead. The model is explicit: your team keeps the lanes it owns, and Techordia handles the pressure points.</p>
+        <p>Co-managed IT is strongest when ownership is explicit. Your team keeps the lanes it should own, and Techordia handles the pressure points that need more capacity or specialized follow-through.</p>
+
         <div class="hero-actions">
           <a class="button primary" href="../../contact/">Book a Consultation</a>
-          <a class="button secondary" href="#included">What's Included</a>
+          <a class="button secondary" href="#model">See the Service Model</a>
         </div>
-
       </div>
       <div class="hero-visual-shell">
 
     <div class="visual visual-co" data-visual="co-managed">
-      <div class="team-lane internal"><span>Internal IT</span><strong>Control</strong></div>
-      <div class="handoff-line"><i></i><i></i><i></i></div>
-      <div class="team-lane techordia"><span>Techordia</span><strong>Capacity</strong></div>
+      <div class="lane-card internal"><span>Internal IT owns</span><strong>Strategy, approvals, business context</strong></div>
+      <div class="lane-bridge"><i></i><i></i><i></i></div>
+      <div class="lane-card techordia"><span>Techordia owns</span><strong>Overflow, escalation, projects, documentation</strong></div>
     </div>
 
       </div>
     </div>
   </section>
-  <section class="section split-section" id="included">
-    <div class="section-copy">
-      <span class="section-label">Co-Managed IT</span>
-      <h2>Keep control of IT while Techordia adds capacity where your team needs backup.</h2>
-      <p>Techordia works beside your IT lead. The model is explicit: your team keeps the lanes it owns, and Techordia handles the pressure points.</p>
-    </div>
-    <div class="included-list">
-      <span>Overflow support</span><span>Escalation</span><span>Monitoring</span><span>Projects</span><span>Security support</span><span>Documentation</span>
-    </div>
-  </section>
-  <section class="section outcomes-section">
-    <div class="section-copy">
-      <span class="section-label">Outcomes</span>
-      <h2>What gets better.</h2>
-    </div>
-    <div class="outcome-grid">
-      <article><h3>More capacity</h3><p>Tickets, onboarding, maintenance, and projects do not all bottleneck on one person.</p></article><article><h3>Cleaner escalation</h3><p>Users and internal IT know when work moves to Techordia.</p></article><article><h3>Better continuity</h3><p>Documentation, monitoring, and handoff notes make support less fragile.</p></article>
-    </div>
-  </section>
-  <section class="section process-section" data-process>
-    <div class="section-copy">
-      <span class="section-label">How it works</span>
-      <h2>Clear steps, clean handoff.</h2>
-    </div>
-    <div class="process-rail">
-      <article><span>01</span><h3>Map lanes</h3><p>Define what internal IT owns and what Techordia owns.</p></article><article><span>02</span><h3>Connect tools</h3><p>Set support paths, access, monitoring, and documentation expectations.</p></article><article><span>03</span><h3>Absorb work</h3><p>Take overflow, maintenance, escalations, and project tasks.</p></article><article><span>04</span><h3>Review</h3><p>Track recurring issues, risk, lifecycle needs, and next projects.</p></article>
+  <section class="section service-model-section" id="model">
+
+  <div class="section-copy">
+    <h2>What Techordia owns</h2>
+    <p>Co-managed IT is strongest when ownership is explicit. Your team keeps the lanes it should own, and Techordia handles the pressure points that need more capacity or specialized follow-through.</p>
+  </div>
+    <div class="service-model-card">
+      <div>
+        <span class="tile-icon"><svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M8 14h14" /><path d="M26 14h14" /><path d="M15 14v20" /><path d="M33 14v20" /><path d="M8 34h14" /><path d="M26 34h14" /><circle cx="15" cy="14" r="4" /><circle cx="33" cy="34" r="4" /></svg></span>
+        <h3>Co-Managed IT</h3>
+      </div>
+      <dl>
+        <div><dt>What it is</dt><dd>Techordia works beside your internal IT lead or small IT team with explicit ownership lanes for overflow, escalation, maintenance, and projects.</dd></div>
+        <div><dt>Best for</dt><dd>Businesses with internal IT that need more capacity, better documentation, or a dependable escalation partner.</dd></div>
+        <div><dt>How it works</dt><dd>We define shared lanes, connect support tooling, absorb agreed work, and review recurring issues so internal IT is not carrying everything alone.</dd></div>
+      </dl>
     </div>
   </section>
 
-  <section class="section faq-section">
-    <div class="section-copy">
-      <span class="section-label">FAQ</span>
-      <h2>Questions decision-makers ask first.</h2>
+  <section class="section service-specific co-specific">
+
+  <div class="section-copy">
+    <h2>Shared lanes prevent dropped work</h2>
+
+  </div>
+    <div class="lane-compare">
+      <article><h3>Internal team</h3><p>Business context, priorities, approvals, internal communication, and systems the company wants to keep close.</p></article>
+      <div class="lane-center">Shared visibility</div>
+      <article><h3>Techordia</h3><p>Overflow tickets, escalation, monitoring, documentation, project execution, security cleanup, and vendor follow-through.</p></article>
     </div>
+  </section>
+  <section class="section outcomes-section">
+
+  <div class="section-copy">
+    <h2>Business outcomes</h2>
+
+  </div>
+    <div class="outcome-grid">
+      <article><h3>Protect internal focus</h3><p>Your IT lead is not forced to choose between urgent tickets, projects, documentation, and strategic work every day.</p></article><article><h3>Create clean handoffs</h3><p>Users and internal IT know what goes to Techordia, what stays internal, and when issues should escalate.</p></article><article><h3>Reduce single-person risk</h3><p>Documentation, monitoring, and shared support history make the environment less dependent on one person.</p></article>
+    </div>
+  </section>
+  <section class="section process-section" data-process>
+
+  <div class="section-copy">
+    <h2>How shared support gets defined</h2>
+
+  </div>
+    <div class="process-rail">
+      <article><span>01</span><h3>Map lanes</h3><p>Define what internal IT owns, what Techordia owns, and what needs joint approval.</p></article><article><span>02</span><h3>Connect tools</h3><p>Set support paths, remote access, monitoring, documentation locations, and escalation expectations.</p></article><article><span>03</span><h3>Absorb work</h3><p>Take agreed tickets, maintenance, onboarding, security cleanup, and project tasks.</p></article><article><span>04</span><h3>Review</h3><p>Use recurring reviews to adjust ownership, reduce repeat issues, and plan the next operational improvements.</p></article>
+    </div>
+  </section>
+
+  <section class="section faq-section simple-faq">
+
+  <div class="section-copy">
+    <h2>Questions about co-managed it</h2>
+
+  </div>
     <div class="faq-list">
-      <details><summary>Can you work under our IT manager?</summary><p>Yes. Co-managed support is built around shared ownership and clear handoffs.</p></details><details><summary>Can you handle projects only?</summary><p>Yes. Co-managed support can include scoped project work and escalation coverage.</p></details><details><summary>Do users contact Techordia directly?</summary><p>That is decided during onboarding. Some clients route users directly; others route through internal IT first.</p></details>
+      <details><summary>Can Techordia work under our IT manager?</summary><p>Yes. Co-managed IT is built around internal leadership, clear ownership lanes, and practical escalation instead of replacing the team by default.</p></details><details><summary>Can our users still go to internal IT first?</summary><p>Yes. Some clients route users through internal IT first; others allow direct Techordia tickets for agreed categories. The model is defined during onboarding.</p></details><details><summary>Can you help with projects while we keep daily support internal?</summary><p>Yes. Co-managed support can focus on projects, overflow, documentation, monitoring, or escalations depending on where the internal team needs relief.</p></details><details><summary>How do you avoid stepping on internal processes?</summary><p>We document the operating lanes, approval points, ticket routing, and communication rhythm before taking over work.</p></details>
     </div>
   </section>
 
   <section class="final-cta">
     <div>
-      <h2>Ready to quiet the IT noise?</h2>
-      <p>Talk through users, devices, Microsoft 365, security, backups, and support coverage.</p>
+      <h2>Find the right IT support relationship.</h2>
+      <p>Start with a practical conversation about your users, systems, risks, and support expectations. We will help identify whether managed, co-managed, project, or security support fits best.</p>
     </div>
     <div class="cta-actions">
-      <a class="button light" href="../../contact/">Book a Consultation</a>
-      <a class="button ghost" href="tel:+18779254785">Call 877-925-4785</a>
+      <a class="button light" href="../../contact/">Talk With Techordia</a>
     </div>
   </section>
     </main>
@@ -120,24 +158,24 @@
     <div class="footer-main">
       <div class="footer-brand">
         <img class="brand-logo" src="../../assets/techordia-logo-official.png" alt="Techordia" />
-        <p>Responsive managed IT, cybersecurity, cloud, server, backup, and project support from Alameda.</p>
+        <p>Relationship-driven managed IT, cybersecurity, and project support for Bay Area SMBs.</p>
       </div>
       <div class="footer-links">
         <div>
           <h2>Services</h2>
           <a href="../../services/">All Services</a>
-          <a href="../../services/fully-managed-it-services/">Fully Managed IT</a><a href="../../services/co-managed-it-services/">Co-Managed IT</a><a href="../../services/cybersecurity/">Cybersecurity</a><a href="../../services/short-term-it-projects/">IT Projects</a>
+          <a href="../../services/fully-managed-it-services/">Managed IT</a><a href="../../services/co-managed-it-services/">Co-Managed IT</a><a href="../../services/cybersecurity/">Cybersecurity</a><a href="../../services/short-term-it-projects/">IT Projects</a>
         </div>
         <div>
           <h2>Company</h2>
           <a href="../../approach/">Approach</a>
-          <a href="../../about/">About</a>
-          <a href="../../contact/">Contact</a>
+          <a href="../../about/#story">The Techordia Story</a>
+          <a href="../../about/#team">Team</a>
         </div>
         <div>
           <h2>Contact</h2>
           <a href="tel:+18779254785">877-925-4785</a>
-          <a href="mailto:info@techordia.com">info@techordia.com</a>
+          <a href="mailto:support@techordia.com">support@techordia.com</a>
           <span>887 Island Drive, Suite C, Alameda, CA 94502</span>
         </div>
       </div>
