@@ -16,7 +16,8 @@ export const reviewWidget = {
   source: "Google reviews",
   title: "Client feedback",
   note: "Verified Google Business Profile rating and review count can be connected before launch.",
-  status: "Rating verification pending"
+  status: "Rating pending",
+  url: "https://www.google.com/search?q=Techordia+Google+reviews"
 };
 
 export const servicePages = [

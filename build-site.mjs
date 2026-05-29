@@ -17,7 +17,7 @@ import {
 } from "./site-data.mjs";
 
 const outDir = process.cwd();
-const assetVersion = "20260528-conversion-redesign-1";
+const assetVersion = "20260529-jones-review-placement-1";
 const generatedDirs = [
   "about",
   "approach",
@@ -83,6 +83,7 @@ const renderReviewWidget = () => `
       <strong>${esc(reviewWidget.title)}</strong>
       <p>${esc(reviewWidget.status)}</p>
     </div>
+    <a href="${esc(reviewWidget.url)}" target="_blank" rel="noopener">Open reviews</a>
   </aside>`;
 
 const renderHeader = (root, page) => `
@@ -236,6 +237,16 @@ const renderHero = (root, page, options = {}) => {
         ${isHome ? renderReviewWidget() : ""}
       </div>
     </div>
+    ${
+      isHome
+        ? `<div class="hero-trust-line" aria-label="Techordia service values">
+      <span>Real people</span>
+      <span>White-glove IT</span>
+      <span>Fast support</span>
+      <span>Can-do ownership</span>
+    </div>`
+        : ""
+    }
   </section>`;
 };
 
