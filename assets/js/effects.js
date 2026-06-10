@@ -148,7 +148,7 @@
         svg.appendChild(txt(midX, 60, "SHARED VISIBILITY & ESCALATION", "fx-cap"));
       }
       var midNode = node({ x: midX, y: 270, hub: true, r: 30, glyph: ICON.hub, label: managed ? "TECHORDIA" : "Shared layer", sub: managed ? "one accountable owner" : "tickets · reporting · roadmap", depth: 1 });
-      var leftLabels = [["Day-to-day requests", ICON.user], ["Local knowledge", ICON.device], ["Business context", ICON.project]];
+      var leftLabels = [["Day-to-day requests", ICON.user], ["Known environment", ICON.device], ["Business context", ICON.project]];
       var rightLabels = [["Monitoring & patching", ICON.support], ["Security & backup", ICON.shield], ["Escalation & projects", ICON.m365]];
       var paths = [];
       for (var j = 0; j < 3; j++) {
@@ -230,7 +230,7 @@
     else if (mode === "selector") {
       mk(520, 520);
       var sx2 = 260, sy2 = 262, SR = 158;
-      var svc = [["managed", "Managed IT", ICON.hub], ["projects", "IT Projects", ICON.project]];
+      var svc = [["connection", "Connection", ICON.hub], ["protection", "Protection", ICON.shield]];
       var hub2 = node({ x: sx2, y: sy2, hub: true, r: 30, glyph: ICON.support, label: "Techordia", depth: 1 });
       var sn = [];
       for (var q = 0; q < svc.length; q++) {
@@ -267,8 +267,8 @@
 
   /* ---- Techordia globe via globe.gl (real 3D WebGL Earth) ----------------
      Built on the open-source globe.gl library with public-domain Natural
-     Earth country data (dotted continents) and Techordia's own home base in
-     Alameda + arcs to client cities, in brand colours. Falls back to the
+     Earth country data (dotted continents) and a Techordia service hub with
+     arcs to client environments, in brand colours. Falls back to the
      canvas globe below if WebGL or the CDN is unavailable.
      ----------------------------------------------------------------------- */
   var _ggl = { loading: false, ready: false, cbs: [] };
@@ -367,7 +367,7 @@
     canvas.className = "fx-globe";
     canvas.setAttribute("role", "img");
     canvas.setAttribute("aria-label", box.getAttribute("data-label") ||
-      "A rotating globe with Techordia in Alameda, California and lines reaching out to client locations across the world");
+      "A rotating globe with Techordia service lines reaching client environments across the world");
     box.appendChild(canvas);
     var ctx = canvas.getContext("2d");
     var DEG = Math.PI / 180;
@@ -384,7 +384,7 @@
       /* Asia */[[40,28],[45,35],[44,50],[37,49],[30,48],[26,56],[25,62],[23,67],[16,73],[8,77],[12,80],[19,85],[22,92],[16,95],[9,99],[10,105],[14,109],[21,108],[23,117],[30,122],[37,122],[40,124],[43,130],[47,138],[52,141],[59,150],[62,160],[66,170],[70,178],[73,140],[77,110],[79,95],[80,75],[75,68],[68,55],[64,48],[57,38],[50,32],[44,30],[40,28]],
       /* Australia */[[-11,131],[-12,137],[-15,141],[-13,143],[-18,146],[-25,153],[-34,151],[-38,146],[-38,140],[-35,137],[-32,131],[-33,123],[-32,116],[-26,114],[-20,117],[-15,124],[-12,130],[-11,131]],
       /* Japan */[[31,131],[34,135],[36,140],[40,142],[42,140],[37,137],[34,132],[31,131]],
-      /* UK + Ireland */[[50,-5],[53,-3],[56,-6],[58,-4],[57,-1],[53,1],[51,1],[50,-5]],
+      /* Northwest Europe islands */[[50,-5],[53,-3],[56,-6],[58,-4],[57,-1],[53,1],[51,1],[50,-5]],
       /* New Zealand */[[-35,173],[-39,177],[-42,174],[-46,168],[-44,170],[-40,172],[-35,173]],
       /* Madagascar */[[-12,49],[-16,50],[-23,47],[-25,45],[-20,44],[-14,47],[-12,49]]
     ];
@@ -404,7 +404,7 @@
       for (var dlng = -180; dlng < 180; dlng += stepLng) if (onLand(dlat, dlng)) LAND.push(ll(dlat, dlng));
     }
 
-    // Techordia home (Alameda, CA) + client locations worldwide ----------
+    // Techordia service hub + client environments worldwide ----------
     var HOME = ll(37.77, -122.24);
     var CLIENTS = [
       [40.7, -74.0], [51.5, -0.12], [-23.5, -46.6], [-33.9, 18.4],
@@ -469,7 +469,7 @@
       return [a[0] * w1 + b[0] * w2, a[1] * w1 + b[1] * w2, a[2] * w1 + b[2] * w2];
     }
 
-    var ANG0 = 2.5, ang = 2.5;                  // ANG0 centres Alameda's longitude on the front
+    var ANG0 = 2.5, ang = 2.5;                  // ANG0 keeps the service hub framed
     function draw(now) {
       ctx.clearRect(0, 0, W, H);
       var cosY = Math.cos(ang + curY), sinY = Math.sin(ang + curY), cosX = Math.cos(curX), sinX = Math.sin(curX);
@@ -501,7 +501,7 @@
       ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2);
       ctx.strokeStyle = "rgba(" + P.rim + ",0.34)"; ctx.lineWidth = 1.1; ctx.stroke();
 
-      // --- highlighted arcs: Alameda -> each client location ---
+      // --- highlighted arcs: service hub -> each client site ---
       var hp = project(HOME);
       for (var i = 0; i < CLIENTS.length; i++) {
         var cl = CLIENTS[i], SEG = 30, pr = null, prF = 0;
@@ -533,7 +533,7 @@
         }
       }
 
-      // --- Techordia home base (Alameda) ---
+      // --- Techordia service hub ---
       var hf = (hp.z + 1) / 2;
       if (hf > 0.42) {
         if (!reduce) {
@@ -547,7 +547,7 @@
         ctx.beginPath(); ctx.fillStyle = "rgba(" + P.core + ",0.98)"; ctx.arc(hp.sx, hp.sy, nodeR, 0, Math.PI * 2); ctx.fill();
         glyph(ICON.hub, hp.sx, hp.sy, nodeR * 1.4, P.coreGlyph);
         // label pill
-        var lbl = "TECHORDIA · ALAMEDA";
+        var lbl = "TECHORDIA";
         ctx.font = "700 " + (fs * 0.86).toFixed(1) + "px 'Space Grotesk', system-ui, sans-serif";
         ctx.textAlign = "center"; ctx.textBaseline = "middle";
         var lw = ctx.measureText(lbl).width, ph = fs + 8, py = hp.sy + nodeR + ph * 0.85;
@@ -560,7 +560,7 @@
 
     var raf = null, running = false;
     function frame(now) {
-      ang = ANG0 + 0.22 * Math.sin(now / 9000);   // gentle sway, keeps Alameda framed
+      ang = ANG0 + 0.22 * Math.sin(now / 9000);   // gentle sway keeps the hub framed
       curX += (tiltX - curX) * .06; curY += (tiltY - curY) * .06;
       draw(now || 0);
       if (!reduce && !document.hidden) { running = true; raf = requestAnimationFrame(frame); }
